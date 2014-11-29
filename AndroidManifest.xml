@@ -3,7 +3,9 @@
       package="com.crankworks.crankanonymous"
       android:versionCode="1"
       android:versionName="1.0">
+
     <application android:label="@string/app_name" android:icon="@drawable/ic_launcher">
+
         <activity android:name="MainActivity"
                   android:label="@string/app_name">
             <intent-filter>
@@ -11,5 +13,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name="TrackingActivity"
+                  android:label="@string/tracking_name"
+                  android:parentActivityName="com.example.myfirstapp.MainActivity">
+                  <meta-data
+                      android:name="android.support.PARENT_ACTIVITY"
+                      android:value="com.crankworks.crankanonymous.MainActivity" />
+        </activity>
+
     </application>
 </manifest>

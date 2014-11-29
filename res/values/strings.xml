@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MainActivity</string>
+    <string name="tracking_name">TrackingActivity</string>
+    <string name="tracking_title">Tracking...</string>
+    <string name="hello_world">Hello, from Crank</string>
+    <string name="button_track">Track</string>
+    <string name="button_cancel">Cancel</string>
 </resources>
