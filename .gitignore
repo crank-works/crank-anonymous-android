@@ -15,3 +15,6 @@ out
 
 # ctag files
 .tag*
+
+# ant files
+local.properties
