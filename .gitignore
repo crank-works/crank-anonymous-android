@@ -18,3 +18,8 @@ out
 
 # ant files
 local.properties
+
+
+.gradle
+build
+

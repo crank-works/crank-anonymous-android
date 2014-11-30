@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/mnt/data/repositories/AndroidStudioProjects/crank-anonymous-android/app/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="app_name">MainActivity</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="button_track">Track</string>
+    <string name="hello_world">Hello, from Crank</string>
+    <string name="tracking_name">TrackingActivity</string>
+    <string name="tracking_title">Tracking...</string>
+</resources>

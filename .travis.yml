@@ -1,11 +1,11 @@
 language: android
 
-script: "./build.sh"
+script: "./gradlew build"
 
 android:
 
     components:
-        - build-tools-18.1.1
-        - android-18
+        - build-tools-21.1.1
+        - android-21
         - extra
         - addon-google_apis-google-16
