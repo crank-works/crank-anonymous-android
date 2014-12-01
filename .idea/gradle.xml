@@ -7,8 +7,8 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="/mnt/data/repositories/AndroidStudioProjects/crank-anonymous-android" />
-            <option value="/mnt/data/repositories/AndroidStudioProjects/crank-anonymous-android/app" />
+            <option value="/mnt/data/repositories/crankworks/crank-anonymous-android" />
+            <option value="/mnt/data/repositories/crankworks/crank-anonymous-android/app" />
           </set>
         </option>
       </GradleProjectSettings>
