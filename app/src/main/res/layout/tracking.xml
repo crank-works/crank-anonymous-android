@@ -91,4 +91,85 @@
             android:layout_marginRight="5dip"
             />
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:paddingTop="8dp"
+        android:paddingLeft="8dp"
+        >
+        <TextView
+            android:id="@+id/tracking_speed_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="5dip"
+            android:text="@string/tracking_speed_label"
+            android:textSize="20sp"
+            />
+        <TextView
+            android:id="@+id/tracking_speed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="5dip"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:paddingTop="8dp"
+        android:paddingLeft="8dp"
+        >
+        <TextView
+            android:id="@+id/tracking_bearing_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="5dip"
+            android:text="@string/tracking_bearing_label"
+            android:textSize="20sp"
+            />
+        <TextView
+            android:id="@+id/tracking_bearing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="5dip"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:paddingTop="8dp"
+        android:paddingLeft="8dp"
+        >
+        <TextView
+            android:id="@+id/tracking_accuracy_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="5dip"
+            android:text="@string/tracking_accuracy_label"
+            android:textSize="20sp"
+            />
+        <TextView
+            android:id="@+id/tracking_accuracy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="5dip"
+            />
+    </LinearLayout>
 </LinearLayout>

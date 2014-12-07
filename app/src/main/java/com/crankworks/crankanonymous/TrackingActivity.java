@@ -24,6 +24,9 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
 
     private TextView fieldLatitude;
     private TextView fieldLongitude;
+    private TextView fieldSpeed;
+    private TextView fieldAccuracy;
+    private TextView fieldBearing;
 
     private Button mButtonRecord;
     private Button mButtonPause;
@@ -58,6 +61,9 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
 
         fieldLatitude = (TextView) findViewById(R.id.tracking_latitude);
         fieldLongitude = (TextView) findViewById(R.id.tracking_longitude);
+        fieldSpeed = (TextView) findViewById(R.id.tracking_speed);
+        fieldAccuracy = (TextView) findViewById(R.id.tracking_accuracy);
+        fieldBearing = (TextView) findViewById(R.id.tracking_bearing);
 
         mButtonRecord = (Button) findViewById(R.id.button_record);
         mButtonPause = (Button) findViewById(R.id.button_pause);
@@ -130,10 +136,26 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
     {
         double lat = location.getLatitude();
         double lon = location.getLongitude();
+        float speed = location.getSpeed();
+        float bearing = location.getBearing();
+        float accuracy = location.getAccuracy();
 
-        Log.v(TAG, "onLocationChanged: " + lat + ", " + lon);
+        if (Log.isLoggable(TAG, Log.VERBOSE))
+            Log.v(TAG, "onLocationChanged: " + lat + ", " + lon +
+                       ", speed: " + toMph(speed) +
+                       ", bearing: " + bearing +
+                       ", accuracy: " + accuracy);
+
         fieldLatitude.setText(toDms(lat));
         fieldLongitude.setText(toDms(lon));
+        fieldSpeed.setText(String.valueOf(toMph(speed)));
+        fieldBearing.setText(String.valueOf(bearing));
+        fieldAccuracy.setText(String.valueOf(accuracy));
+    }
+
+    private String toMph(float mps)
+    {
+        return String.valueOf(mps * 3600.0 / 1609.334);
     }
 
     private String toDms(double value)

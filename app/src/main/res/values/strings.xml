@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Crank</string>
     <string name="tracking_name">Tracking Activity</string>
-    <string name="tracking_title">Tracking...</string>
+    <string name="tracking_title">Tracking&#8230;</string>
     <string name="tracking_service_name">Tracking Service</string>
 
     <string name="hello_world">Hello, from Crank</string>
@@ -16,4 +16,7 @@
     <string name="button_cancel">Cancel</string>
     <string name="tracking_latitude_label">Latitude</string>
     <string name="tracking_longitude_label">Longitude</string>
+    <string name="tracking_speed_label">Speed</string>
+    <string name="tracking_accuracy_label">Accuracy</string>
+    <string name="tracking_bearing_label">Bearing</string>
 </resources>
