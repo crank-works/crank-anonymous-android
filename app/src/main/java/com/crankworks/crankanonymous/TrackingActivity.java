@@ -7,18 +7,20 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
-import android.content.DialogInterface;
+import android.widget.TextView;
 import android.widget.Toast;
-
+import java.lang.Math;
 
 public class TrackingActivity extends Activity implements LocationListener
 {
     private static final String TAG = TrackingActivity.class.getSimpleName();
     private LocationManager mLocationManager;
     private String mProvider;
+
+    private TextView fieldLatitude;
+    private TextView fieldLongitude;
 
     /** Called when the activity is first created. */
     @Override
@@ -27,6 +29,10 @@ public class TrackingActivity extends Activity implements LocationListener
         Log.v(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tracking);
+
+        fieldLatitude = (TextView) findViewById(R.id.tracking_latitude);
+        fieldLongitude = (TextView) findViewById(R.id.tracking_longitude);
+
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         boolean enabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         if (enabled)
@@ -76,9 +82,28 @@ public class TrackingActivity extends Activity implements LocationListener
     @Override
     public void onLocationChanged(Location location)
     {
-        int lat = (int) location.getLatitude();
-        int lon = (int) location.getLongitude();
+        double lat = location.getLatitude();
+        double lon = location.getLongitude();
+
         Log.v(TAG, "onLocationChanged: " + lat + ", " + lon);
+        fieldLatitude.setText(toDms(lat));
+        fieldLongitude.setText(toDms(lon));
+    }
+
+    private String toDms(double value)
+    {
+        double degFrac = value % 1;
+        int degWhole = (int) (value - degFrac);
+
+        double minutes = 60 * degFrac;
+        double minFrac = minutes % 1;
+        int minWhole = (int) Math.abs(minutes - minFrac);
+
+        double seconds = 60 * minFrac;
+        double secFrac = seconds % 1;
+        int secWhole = (int) Math.abs(seconds - secFrac);
+
+        return String.format("%02d:%02d:%02d", degWhole, minWhole, secWhole);
     }
 
     @Override
