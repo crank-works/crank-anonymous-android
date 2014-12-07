@@ -27,5 +27,9 @@
                       android:value="com.crankworks.crankanonymous.MainActivity" />
         </activity>
 
+        <service android:name="TrackingService"
+                 android:label="@string/tracking_service_name"
+                 android:icon="@drawable/ic_crankworks" />
+
     </application>
 </manifest>

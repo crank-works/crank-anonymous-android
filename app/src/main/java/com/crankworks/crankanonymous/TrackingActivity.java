@@ -1,26 +1,52 @@
 package com.crankworks.crankanonymous;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.lang.Math;
 
-public class TrackingActivity extends Activity implements LocationListener
+public class TrackingActivity extends Activity implements IRecorderStateListener
 {
     private static final String TAG = TrackingActivity.class.getSimpleName();
-    private LocationManager mLocationManager;
-    private String mProvider;
 
     private TextView fieldLatitude;
     private TextView fieldLongitude;
+
+    private Button mButtonRecord;
+    private Button mButtonPause;
+    private Button mButtonStop;
+    private Button mButtonCancel;
+
+    private IRecorder mRecorder;
+
+    private ServiceConnection mConnection = new ServiceConnection() {
+        public void onServiceConnected(ComponentName className, IBinder service) {
+            Log.v(TAG, "onServiceConnected");
+            mRecorder = (IRecorder) service;
+            if (mRecorder == null)
+                Log.d(TAG, "mRecorder is null");
+            else
+                mRecorder.setListener(TrackingActivity.this);
+        }
+
+        public void onServiceDisconnected(ComponentName className) {
+            Log.v(TAG, "onServiceDisconnected");
+            mRecorder = null;
+        }
+    };
 
     /** Called when the activity is first created. */
     @Override
@@ -33,28 +59,52 @@ public class TrackingActivity extends Activity implements LocationListener
         fieldLatitude = (TextView) findViewById(R.id.tracking_latitude);
         fieldLongitude = (TextView) findViewById(R.id.tracking_longitude);
 
-        mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        boolean enabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        if (enabled)
-        {
-            Log.i(TAG, "GPS is enabled");
-            Criteria criteria = createCriteria();
-            mProvider = mLocationManager.getBestProvider(criteria, false);
-            Log.v(TAG, "Provider: " + mProvider);
-            Location location = mLocationManager.getLastKnownLocation(mProvider);
-            if (location != null)
-                onLocationChanged(location);
-        }
+        mButtonRecord = (Button) findViewById(R.id.button_record);
+        mButtonPause = (Button) findViewById(R.id.button_pause);
+        mButtonStop = (Button) findViewById(R.id.button_stop);
+        mButtonCancel = (Button) findViewById(R.id.button_cancel);
+
+        Intent i= new Intent(getApplicationContext(), TrackingService.class);
+        getApplicationContext().bindService(i, mConnection, 0);
+        getApplicationContext().startService(i);
     }
 
-    private Criteria createCriteria()
+    public void onRecordClicked(View view)
     {
-        Log.v(TAG, "createCriteria");
-        Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
-        criteria.setAltitudeRequired(false);
-        criteria.setSpeedRequired(false);
-        return criteria;
+        Log.v(TAG, "onRecordClicked");
+        if (mRecorder != null)
+        {
+            Log.v(TAG, "Start recording");
+            mRecorder.startRecording();
+        }
+        else
+            Log.v(TAG, "mRecorder is null");
+    }
+
+    public void onPauseClicked(View view)
+    {
+        Log.v(TAG, "onPauseClicked");
+        if (mRecorder != null)
+        {
+            Log.v(TAG, "Pause recording");
+            mRecorder.pauseRecording();
+        }
+        else
+            Log.v(TAG, "mRecorder is null");
+    }
+
+    public void onStopClicked(View view)
+    {
+        Log.v(TAG, "onStopClicked");
+        if (mRecorder != null)
+            mRecorder.finishRecording();
+    }
+
+    public void onCancelClicked(View view)
+    {
+        Log.v(TAG, "onCancelClicked");
+        if (mRecorder != null)
+            mRecorder.cancelRecording();
     }
 
     private void showUserGpsDisabled()
@@ -65,22 +115,18 @@ public class TrackingActivity extends Activity implements LocationListener
     @Override
     protected void onResume() {
         super.onResume();
-        mLocationManager.requestLocationUpdates(mProvider, 400, 1, this);
+        if (mRecorder != null)
+            mRecorder.setListener(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mLocationManager.removeUpdates(this);
+        if (mRecorder != null)
+            mRecorder.setListener(null);
     }
 
-    public void onCancelClicked(View view)
-    {
-        finish();
-    }
-
-    @Override
-    public void onLocationChanged(Location location)
+    public void recorderLocation(Location location)
     {
         double lat = location.getLatitude();
         double lon = location.getLongitude();
@@ -106,21 +152,30 @@ public class TrackingActivity extends Activity implements LocationListener
         return String.format("%02d:%02d:%02d", degWhole, minWhole, secWhole);
     }
 
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras)
+    public void recorderIdle()
     {
-        Log.v(TAG, "onStatusChanged: " + provider + ", status: " + status);
+        Log.v(TAG, "recorderIdle");
+        mButtonRecord.setEnabled(true);
+        mButtonPause.setEnabled(false);
+        mButtonStop.setEnabled(true);
+        mButtonCancel.setEnabled(true);
     }
 
-    @Override
-    public void onProviderEnabled(String provider)
+    public void recorderRecording()
     {
-        Log.v(TAG, "onProviderEnabled: " + provider);
+        Log.v(TAG, "recorderRecording");
+        mButtonRecord.setEnabled(false);
+        mButtonPause.setEnabled(true);
+        mButtonStop.setEnabled(true);
+        mButtonCancel.setEnabled(true);
     }
 
-    @Override
-    public void onProviderDisabled(String provider)
+    public void recorderPaused()
     {
-        Log.v(TAG, "onProviderDisabled: " + provider);
+        Log.v(TAG, "recorderPaused");
+        mButtonRecord.setEnabled(true);
+        mButtonPause.setEnabled(false);
+        mButtonStop.setEnabled(true);
+        mButtonCancel.setEnabled(true);
     }
 }

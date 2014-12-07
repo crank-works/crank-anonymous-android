@@ -47,10 +47,6 @@ public class MainActivity extends Activity
         }
     }
 
-    public void onTrackClicked(View view) {
-        openTracker();
-    }
-
     private void openTracker() {
         Intent intent = new Intent(this, TrackingActivity.class);
         startActivity(intent);

@@ -1,46 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        >
-    <TextView
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/tracking_title"
-        />
+        >
+
     <Button
+        android:id="@+id/button_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_record"
+        android:onClick="onRecordClicked"
+        />
+
+    <Button
+        android:id="@+id/button_pause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_pause"
+        android:onClick="onPauseClicked"
+        />
+
+    <Button
+        android:id="@+id/button_stop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_stop"
+        android:onClick="onStopClicked"
+        />
+
+    <Button
+        android:id="@+id/button_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/button_cancel"
         android:onClick="onCancelClicked"
         />
-    <TextView
-        android:id="@+id/tracking_latitude_label"
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="5dip"
-        android:text="@string/tracking_latitude_label"
-        android:textSize="20dip"
-        />
-    <TextView
-        android:id="@+id/tracking_latitude"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        />
-    <TextView
-        android:id="@+id/tracking_longitude_label"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:paddingTop="8dp"
+        android:paddingLeft="8dp"
+        >
+        <TextView
+            android:id="@+id/tracking_latitude_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="5dip"
+            android:text="@string/tracking_latitude_label"
+            android:textSize="20sp"
+            />
+        <TextView
+            android:id="@+id/tracking_latitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="5dip"
+            />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="5dip"
-        android:text="@string/tracking_longitude_label"
-        android:textSize="20dip"
-        />
-    <TextView
-        android:id="@+id/tracking_longitude"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        />
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:paddingTop="8dp"
+        android:paddingLeft="8dp"
+        >
+        <TextView
+            android:id="@+id/tracking_longitude_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="5dip"
+            android:text="@string/tracking_longitude_label"
+            android:textSize="20sp"
+            />
+        <TextView
+            android:id="@+id/tracking_longitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="5dip"
+            />
+    </LinearLayout>
 </LinearLayout>
