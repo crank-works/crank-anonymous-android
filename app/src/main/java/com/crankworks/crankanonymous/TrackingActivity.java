@@ -3,18 +3,22 @@ package com.crankworks.crankanonymous;
 import android.app.Activity;
 import android.content.Context;
 import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.content.DialogInterface;
+import android.widget.Toast;
 
 
-public class TrackingActivity extends Activity
+public class TrackingActivity extends Activity implements LocationListener
 {
     private static final String TAG = TrackingActivity.class.getSimpleName();
     private LocationManager mLocationManager;
+    private String mProvider;
 
     /** Called when the activity is first created. */
     @Override
@@ -29,12 +33,11 @@ public class TrackingActivity extends Activity
         {
             Log.i(TAG, "GPS is enabled");
             Criteria criteria = createCriteria();
-        }
-        else
-        {
-            Log.i(TAG, "GPS is disabled");
-            AlertDialog.Builder dlgAlert  = createGpsDisabledAlertDialog();
-            dlgAlert.create().show();
+            mProvider = mLocationManager.getBestProvider(criteria, false);
+            Log.v(TAG, "Provider: " + mProvider);
+            Location location = mLocationManager.getLastKnownLocation(mProvider);
+            if (location != null)
+                onLocationChanged(location);
         }
     }
 
@@ -48,40 +51,51 @@ public class TrackingActivity extends Activity
         return criteria;
     }
 
+    private void showUserGpsDisabled()
+    {
+        Toast.makeText(this, "GPS is Disabled", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mLocationManager.requestLocationUpdates(mProvider, 400, 1, this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mLocationManager.removeUpdates(this);
+    }
+
     public void onCancelClicked(View view)
     {
-        Log.v(TAG, "onCancelClicked");
-        AlertDialog.Builder dlgAlert  = createAlertDialog();
-        dlgAlert.create().show();
+        finish();
     }
 
-    private AlertDialog.Builder createAlertDialog()
+    @Override
+    public void onLocationChanged(Location location)
     {
-        Log.v(TAG, "createAlertDialog");
-        AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
-        dlgAlert.setTitle("Cancel");
-        dlgAlert.setMessage("You clicked the cancel button");
-        dlgAlert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                finish();
-            }
-        });
-        dlgAlert.setCancelable(true);
-        return dlgAlert;
+        int lat = (int) location.getLatitude();
+        int lon = (int) location.getLongitude();
+        Log.v(TAG, "onLocationChanged: " + lat + ", " + lon);
     }
 
-    private AlertDialog.Builder createGpsDisabledAlertDialog()
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras)
     {
-        Log.v(TAG, "createGpsDisabledAlertDialog");
-        AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
-        dlgAlert.setTitle("GPS Disabled");
-        dlgAlert.setMessage("GPS is Disabled");
-        dlgAlert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                finish();
-            }
-        });
-        dlgAlert.setCancelable(false);
-        return dlgAlert;
+        Log.v(TAG, "onStatusChanged: " + provider + ", status: " + status);
+    }
+
+    @Override
+    public void onProviderEnabled(String provider)
+    {
+        Log.v(TAG, "onProviderEnabled: " + provider);
+    }
+
+    @Override
+    public void onProviderDisabled(String provider)
+    {
+        Log.v(TAG, "onProviderDisabled: " + provider);
     }
 }
