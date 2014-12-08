@@ -151,6 +151,13 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
         float accuracy = location.getAccuracy();
 
         if (Log.isLoggable(TAG, Log.VERBOSE))
+        {
+            Log.v(TAG, "onLocationChanged: " + lat + ", " + lon);
+            Log.v(TAG, "            speed: " + toMph(speed));
+            Log.v(TAG, "          bearing: " + bearing);
+            Log.v(TAG, "         accuracy: " + accuracy);
+        }
+
             Log.v(TAG, "onLocationChanged: " + lat + ", " + lon +
                        ", speed: " + toMph(speed) +
                        ", bearing: " + bearing +
@@ -189,7 +196,7 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
         Log.v(TAG, "recorderIdle");
         mButtonRecord.setEnabled(true);
         mButtonPause.setEnabled(false);
-        mButtonStop.setEnabled(true);
+        mButtonStop.setEnabled(false);
         mButtonCancel.setEnabled(true);
     }
 
