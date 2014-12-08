@@ -2,13 +2,10 @@ package com.crankworks.crankanonymous;
 
 import android.app.Activity;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.location.Criteria;
+import android.content.res.Configuration;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -57,8 +54,31 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
     {
         Log.v(TAG, "onCreate");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tracking);
+        setContentViewFromOrientation();
+        findChildViews();
+        bindTrackingService();
+    }
 
+    private void setContentViewFromOrientation()
+    {
+        switch (getResources().getConfiguration().orientation)
+        {
+            case Configuration.ORIENTATION_LANDSCAPE:
+                setContentView(R.layout.tracking_landscape);
+                break;
+
+            case Configuration.ORIENTATION_PORTRAIT:
+                setContentView(R.layout.tracking_portrait);
+                break;
+
+            default:
+                setContentView(R.layout.tracking_portrait);
+                break;
+        }
+    }
+
+    private void findChildViews()
+    {
         fieldLatitude = (TextView) findViewById(R.id.tracking_latitude);
         fieldLongitude = (TextView) findViewById(R.id.tracking_longitude);
         fieldSpeed = (TextView) findViewById(R.id.tracking_speed);
@@ -69,7 +89,10 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
         mButtonPause = (Button) findViewById(R.id.button_pause);
         mButtonStop = (Button) findViewById(R.id.button_stop);
         mButtonCancel = (Button) findViewById(R.id.button_cancel);
+    }
 
+    private void bindTrackingService()
+    {
         Intent i= new Intent(getApplicationContext(), TrackingService.class);
         getApplicationContext().bindService(i, mConnection, 0);
         getApplicationContext().startService(i);
