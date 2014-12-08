@@ -31,7 +31,7 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
     private Button mButtonCancel;
 
     private final static IRecorder mDummyRecorder = new DummyRecorder();
-    private IRecorder mRecorder = new DummyRecorder();
+    private IRecorder mRecorder;
 
     private IRecorder getRecorder()
     {
@@ -123,6 +123,7 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
     {
         Log.v(TAG, "onCancelClicked");
         getRecorder().cancelRecording();
+        finish();
     }
 
     private void showUserGpsDisabled()
