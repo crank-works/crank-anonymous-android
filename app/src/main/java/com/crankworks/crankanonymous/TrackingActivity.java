@@ -30,21 +30,24 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
     private Button mButtonStop;
     private Button mButtonCancel;
 
-    private IRecorder mRecorder;
+    private IRecorder mRecorder = new DummyRecorder();
 
     private ServiceConnection mConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
             Log.v(TAG, "onServiceConnected");
             mRecorder = (IRecorder) service;
             if (mRecorder == null)
-                Log.d(TAG, "mRecorder is null");
+            {
+                Log.d(TAG, "mRecorder is null, creating dummy recorder");
+                mRecorder = new DummyRecorder();
+            }
             else
                 mRecorder.setListener(TrackingActivity.this);
         }
 
         public void onServiceDisconnected(ComponentName className) {
             Log.v(TAG, "onServiceDisconnected");
-            mRecorder = null;
+            mRecorder = new DummyRecorder();
         }
     };
 
@@ -101,39 +104,25 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
     public void onRecordClicked(View view)
     {
         Log.v(TAG, "onRecordClicked");
-        if (mRecorder != null)
-        {
-            Log.v(TAG, "Start recording");
-            mRecorder.startRecording();
-        }
-        else
-            Log.v(TAG, "mRecorder is null");
+        mRecorder.startRecording();
     }
 
     public void onPauseClicked(View view)
     {
         Log.v(TAG, "onPauseClicked");
-        if (mRecorder != null)
-        {
-            Log.v(TAG, "Pause recording");
-            mRecorder.pauseRecording();
-        }
-        else
-            Log.v(TAG, "mRecorder is null");
+        mRecorder.pauseRecording();
     }
 
     public void onStopClicked(View view)
     {
         Log.v(TAG, "onStopClicked");
-        if (mRecorder != null)
-            mRecorder.finishRecording();
+        mRecorder.finishRecording();
     }
 
     public void onCancelClicked(View view)
     {
         Log.v(TAG, "onCancelClicked");
-        if (mRecorder != null)
-            mRecorder.cancelRecording();
+        mRecorder.cancelRecording();
     }
 
     private void showUserGpsDisabled()
@@ -144,15 +133,13 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
     @Override
     protected void onResume() {
         super.onResume();
-        if (mRecorder != null)
-            mRecorder.setListener(this);
+        mRecorder.setListener(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (mRecorder != null)
-            mRecorder.setListener(null);
+        mRecorder.setListener(null);
     }
 
     public void recorderLocation(Location location)
