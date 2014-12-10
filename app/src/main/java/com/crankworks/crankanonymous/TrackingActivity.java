@@ -195,7 +195,7 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
         mButtonRecord.setEnabled(true);
         mButtonPause.setEnabled(false);
         mButtonStop.setEnabled(false);
-        mButtonCancel.setEnabled(true);
+        mButtonCancel.setEnabled(false);
     }
 
     public void recorderRecording()

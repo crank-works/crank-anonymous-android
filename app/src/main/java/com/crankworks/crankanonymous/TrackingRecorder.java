@@ -15,22 +15,26 @@ public class TrackingRecorder
 {
     private static final String TAG = TrackingRecorder.class.getSimpleName();
 
-    private Context mContext;
+    private TrackingService mTrackingService;
     private IRecorderStateListener mListener;
-    private LocationManager mLocationManager;
+    private TrackingServiceBinder mBinder;
 
-    public TrackingRecorder(Context context)
+    private RecorderStateIdle stateIdle;
+    private RecorderStateRecord stateRecord;
+    private RecorderStatePause statePause;
+
+    public TrackingRecorder(TrackingService trackingService, TrackingServiceBinder binder)
     {
-        mContext = context;
-        mLocationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
-        boolean enabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        if (enabled)
-        {
-            Log.i(TAG, "GPS is enabled");
+        mTrackingService = trackingService;
+        mBinder = binder;
 
-            String provider = mLocationManager.getBestProvider(createCriteria(), false);
-            Log.v(TAG, "Provider: " + provider);
-        }
+        LocationManager locationManager = (LocationManager) mTrackingService.getSystemService(Context.LOCATION_SERVICE);
+
+        stateIdle = new RecorderStateIdle(this);
+        stateRecord = new RecorderStateRecord(this, locationManager);
+        statePause = new RecorderStatePause(this);
+
+        setState(stateIdle);
     }
 
 
@@ -52,5 +56,10 @@ public class TrackingRecorder
     public IRecorderStateListener getListener()
     {
         return mListener;
+    }
+
+    public void setState(IRecorder state)
+    {
+        mBinder.setRecorder(state);
     }
 }

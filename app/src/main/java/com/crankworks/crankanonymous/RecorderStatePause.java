@@ -12,13 +12,16 @@ public class RecorderStatePause extends RecorderStateBase implements IRecorder
 
     public void startRecording()
     {
+        getListener().recorderRecording();
     }
 
     public void finishRecording()
     {
+        getListener().recorderIdle();
     }
 
     public void cancelRecording()
     {
+        getListener().recorderIdle();
     }
 }
