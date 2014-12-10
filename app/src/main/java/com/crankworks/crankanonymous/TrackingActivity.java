@@ -13,6 +13,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.crankworks.trackingservice.DummyRecorder;
+import com.crankworks.trackingservice.IRecorder;
+import com.crankworks.trackingservice.IRecorderStateListener;
+import com.crankworks.trackingservice.TrackingService;
+
 import java.lang.Math;
 
 public class TrackingActivity extends Activity implements IRecorderStateListener

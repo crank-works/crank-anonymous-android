@@ -1,4 +1,4 @@
-package com.crankworks.crankanonymous;
+package com.crankworks.trackingservice;
 
 import android.location.Location;
 import android.location.LocationListener;

@@ -1,11 +1,11 @@
-package com.crankworks.crankanonymous;
+package com.crankworks.trackingservice;
 
 /**
  * Created by marcus on 12/8/14.
  */
-public class RecorderStateIdle extends RecorderStateBase implements IRecorder
+public class RecorderStatePause extends RecorderStateBase implements IRecorder
 {
-    public RecorderStateIdle(TrackingRecorder stateContext)
+    public RecorderStatePause(TrackingRecorder stateContext)
     {
         super(stateContext);
     }
@@ -17,9 +17,11 @@ public class RecorderStateIdle extends RecorderStateBase implements IRecorder
 
     public void finishRecording()
     {
+        getListener().recorderIdle();
     }
 
     public void cancelRecording()
     {
+        getListener().recorderIdle();
     }
 }
