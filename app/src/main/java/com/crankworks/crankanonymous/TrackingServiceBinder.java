@@ -8,40 +8,48 @@ import android.os.Binder;
 
 public class TrackingServiceBinder extends Binder implements IRecorder
 {
-    private TrackingService mTrackingService;
+    private IRecorder mRecorder;
 
-    public TrackingServiceBinder(TrackingService trackingService)
+    public TrackingServiceBinder()
     {
-        mTrackingService = trackingService;
+        setRecorder(null);
+    }
+
+    public void setRecorder(IRecorder recorder)
+    {
+        if (recorder != null)
+            mRecorder = recorder;
+        else
+            mRecorder = new DummyRecorder();
     }
 
     public void setListener(IRecorderStateListener listener)
     {
-        mTrackingService.setListener(listener);
+        mRecorder.setListener(listener);
     }
 
     public void startRecording()
     {
-        mTrackingService.startRecording();
+        mRecorder.startRecording();
     }
 
     public void pauseRecording()
     {
-        mTrackingService.pauseRecording();
+        mRecorder.pauseRecording();
     }
 
     public void finishRecording()
     {
-        mTrackingService.finishRecording();
+        mRecorder.finishRecording();
     }
 
     public void cancelRecording()
     {
-        mTrackingService.cancelRecording();
+        mRecorder.cancelRecording();
     }
 
     public void notifyState()
     {
-        mTrackingService.notifyState();
+        mRecorder.notifyState();
     }
 }
