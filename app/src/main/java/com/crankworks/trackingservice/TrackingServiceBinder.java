@@ -19,7 +19,7 @@ public class TrackingServiceBinder extends Binder implements IRecorder
     RecorderStateRecord stateRecord;
     RecorderStatePause statePause;
 
-    private IRecorder mState;
+    private IRecorderState mState;
 
     public TrackingServiceBinder(TrackingService trackingService)
     {
@@ -47,7 +47,7 @@ public class TrackingServiceBinder extends Binder implements IRecorder
         return mListener;
     }
 
-    public void setState(IRecorder recorder)
+    public void setState(IRecorderState recorder)
     {
         mState = recorder;
         mState.notifyState();

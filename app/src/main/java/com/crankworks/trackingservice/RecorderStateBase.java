@@ -3,7 +3,7 @@ package com.crankworks.trackingservice;
 /**
  * Created by marcus on 12/9/14.
  */
-public class RecorderStateBase implements IRecorder
+public class RecorderStateBase implements IRecorderState
 {
     private static final String TAG = RecorderStateBase.class.getSimpleName();
     private TrackingServiceBinder mStateContext;
@@ -36,10 +36,6 @@ public class RecorderStateBase implements IRecorder
     protected IRecorderStateListener getListener()
     {
         return mStateContext.getListener();
-    }
-
-    public void setListener(IRecorderStateListener listener)
-    {
     }
 
     public void startRecording()

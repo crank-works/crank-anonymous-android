@@ -10,7 +10,7 @@ import android.util.Log;
 /**
  * Created by marcus on 12/8/14.
  */
-public class RecorderStateRecord extends RecorderStateBase implements LocationListener, IRecorder
+public class RecorderStateRecord extends RecorderStateBase implements LocationListener
 {
     private static final String TAG = RecorderStateRecord.class.getSimpleName();
 

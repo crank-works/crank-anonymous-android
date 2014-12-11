@@ -3,7 +3,7 @@ package com.crankworks.trackingservice;
 /**
  * Created by marcus on 12/8/14.
  */
-public class RecorderStatePause extends RecorderStateBase implements IRecorder
+public class RecorderStatePause extends RecorderStateBase
 {
     private static final String TAG = RecorderStatePause.class.getSimpleName();
 
