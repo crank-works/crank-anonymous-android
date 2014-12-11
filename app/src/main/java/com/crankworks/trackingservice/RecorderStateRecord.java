@@ -7,6 +7,8 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 /**
  * Created by marcus on 12/8/14.
  */
@@ -17,11 +19,15 @@ public class RecorderStateRecord extends RecorderStateBase implements LocationLi
     private LocationManager mLocationManager;
     private String mProvider;
 
+    private ArrayList<Location> listLocation;
+
     public RecorderStateRecord(TrackingServiceBinder stateContext, LocationManager locationManager)
     {
         super(stateContext);
+        Log.v(TAG, "RecorderStateRecord");
         mLocationManager = locationManager;
         mProvider = mLocationManager.getBestProvider(createCriteria(), true);
+        Log.v(TAG, "mProvider: " + mProvider);
     }
 
     private Criteria createCriteria()
@@ -37,6 +43,7 @@ public class RecorderStateRecord extends RecorderStateBase implements LocationLi
     public void onLocationChanged(Location location)
     {
         Log.v(TAG, "onLocationChanged");
+        listLocation.add(location);
         getListener().recorderLocation(location);
     }
 
@@ -82,6 +89,7 @@ public class RecorderStateRecord extends RecorderStateBase implements LocationLi
     {
         Log.v(TAG, "stateCancelRecording");
         mLocationManager.removeUpdates(this);
+        listLocation.clear();
     }
 
     /* IRecorder interface */
