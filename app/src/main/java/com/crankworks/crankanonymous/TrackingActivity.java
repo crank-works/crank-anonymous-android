@@ -13,6 +13,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.crankworks.trackingservice.DummyRecorder;
+import com.crankworks.trackingservice.IRecorder;
+import com.crankworks.trackingservice.IRecorderStateListener;
+import com.crankworks.trackingservice.TrackingService;
+
 import java.lang.Math;
 
 public class TrackingActivity extends Activity implements IRecorderStateListener
@@ -145,6 +151,15 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
         getRecorder().setListener(null);
     }
 
+    public void resetFields()
+    {
+        mFieldLatitude.setText("");
+        mFieldLongitude.setText("");
+        mFieldSpeed.setText("");
+        mFieldBearing.setText("");
+        mFieldAccuracy.setText("");
+    }
+
     public void recorderLocation(Location location)
     {
         double lat = location.getLatitude();
@@ -153,7 +168,7 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
         float bearing = location.getBearing();
         float accuracy = location.getAccuracy();
 
-        if (Log.isLoggable(TAG, Log.VERBOSE))
+        //if (Log.isLoggable(TAG, Log.VERBOSE))
         {
             Log.v(TAG, "onLocationChanged: " + lat + ", " + lon);
             Log.v(TAG, "            speed: " + toMph(speed));
@@ -195,7 +210,8 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
         mButtonRecord.setEnabled(true);
         mButtonPause.setEnabled(false);
         mButtonStop.setEnabled(false);
-        mButtonCancel.setEnabled(true);
+        mButtonCancel.setEnabled(false);
+        resetFields();
     }
 
     public void recorderRecording()
