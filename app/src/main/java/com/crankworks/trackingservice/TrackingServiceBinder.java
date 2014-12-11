@@ -12,8 +12,7 @@ public class TrackingServiceBinder extends Binder implements IRecorder
 {
 
     private TrackingService mTrackingService;
-    private IRecorderStateListener mListener;
-    private TrackingServiceBinder mBinder;
+    private IRecorderStateListener mListener = new DummyRecorderStateListener();
 
     RecorderStateIdle stateIdle;
     RecorderStateRecord stateRecord;
@@ -36,7 +35,10 @@ public class TrackingServiceBinder extends Binder implements IRecorder
 
     public void setListener(IRecorderStateListener listener)
     {
-        mListener = listener;
+        if (listener != null)
+            mListener = listener;
+        else
+            mListener = new DummyRecorderStateListener();
     }
 
     public IRecorderStateListener getListener()
@@ -46,10 +48,8 @@ public class TrackingServiceBinder extends Binder implements IRecorder
 
     public void setState(IRecorder recorder)
     {
-        if (recorder != null)
-            mState = recorder;
-        else
-            mState = new DummyRecorder();
+        mState = recorder;
+        mState.notifyState();
     }
 
     public void startRecording()
