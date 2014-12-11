@@ -5,6 +5,7 @@ package com.crankworks.trackingservice;
  */
 public class RecorderStateBase implements IRecorder
 {
+    private static final String TAG = RecorderStateBase.class.getSimpleName();
     private TrackingServiceBinder mStateContext;
 
     public RecorderStateBase(TrackingServiceBinder stateContext)

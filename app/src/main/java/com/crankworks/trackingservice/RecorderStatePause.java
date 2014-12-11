@@ -5,6 +5,8 @@ package com.crankworks.trackingservice;
  */
 public class RecorderStatePause extends RecorderStateBase implements IRecorder
 {
+    private static final String TAG = RecorderStatePause.class.getSimpleName();
+
     public RecorderStatePause(TrackingServiceBinder stateContext)
     {
         super(stateContext);

@@ -36,6 +36,7 @@ public class RecorderStateRecord extends RecorderStateBase implements LocationLi
     @Override
     public void onLocationChanged(Location location)
     {
+        Log.v(TAG, "onLocationChanged");
         getListener().recorderLocation(location);
     }
 

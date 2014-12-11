@@ -10,6 +10,7 @@ import android.os.Binder;
 
 public class TrackingServiceBinder extends Binder implements IRecorder
 {
+    private static final String TAG = TrackingServiceBinder.class.getSimpleName();
 
     private TrackingService mTrackingService;
     private IRecorderStateListener mListener = new DummyRecorderStateListener();

@@ -5,6 +5,8 @@ package com.crankworks.trackingservice;
  */
 public class RecorderStateIdle extends RecorderStateBase implements IRecorder
 {
+    private static final String TAG = RecorderStateIdle.class.getSimpleName();
+
     public RecorderStateIdle(TrackingServiceBinder stateContext)
     {
         super(stateContext);
@@ -14,6 +16,7 @@ public class RecorderStateIdle extends RecorderStateBase implements IRecorder
     {
         getListener().recorderRecording();
         RecorderStateRecord recorder = getStateContext().stateRecord;
+        recorder.stateBeginRecording();
         getStateContext().setState(recorder);
     }
 
