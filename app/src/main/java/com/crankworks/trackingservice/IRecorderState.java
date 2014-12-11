@@ -5,9 +5,9 @@ package com.crankworks.trackingservice;
  */
 public interface IRecorderState
 {
-    public void startRecording();
-    public void pauseRecording();
-    public void finishRecording();
-    public void cancelRecording();
-    public void notifyState();
+    public IRecorderState startRecording();
+    public IRecorderState pauseRecording();
+    public IRecorderState finishRecording();
+    public IRecorderState cancelRecording();
+    public void notifyState(IRecorderStateListener listener);
 }

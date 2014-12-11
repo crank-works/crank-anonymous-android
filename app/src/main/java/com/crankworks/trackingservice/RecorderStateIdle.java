@@ -1,5 +1,7 @@
 package com.crankworks.trackingservice;
 
+import android.util.Log;
+
 /**
  * Created by marcus on 12/8/14.
  */
@@ -12,17 +14,17 @@ public class RecorderStateIdle extends RecorderStateBase
         super(stateContext);
     }
 
-    public void startRecording()
+    public IRecorderState startRecording()
     {
-        getListener().recorderRecording();
-        RecorderStateRecord recorder = getStateContext().stateRecord;
-        recorder.stateBeginRecording();
-        getStateContext().setState(recorder);
+        Log.v(TAG, "startRecording");
+        getStateRecorder().stateBeginRecording();
+        return getStateRecorder();
     }
 
     @Override
-    public void notifyState()
+    public void notifyState(IRecorderStateListener listener)
     {
-        getListener().recorderIdle();
+        Log.v(TAG, "notifyState");
+        listener.recorderIdle();
     }
 }

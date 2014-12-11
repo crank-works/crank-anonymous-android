@@ -62,53 +62,58 @@ public class RecorderStateRecord extends RecorderStateBase implements LocationLi
 
     void stateBeginRecording()
     {
+        Log.v(TAG, "stateBeginRecording");
         mLocationManager.requestLocationUpdates(mProvider, 5000, 10, this);
     }
 
     void stateResumeRecording()
     {
+        Log.v(TAG, "stateResumeRecording");
         mLocationManager.requestLocationUpdates(mProvider, 5000, 10, this);
     }
 
     void stateFinishRecording()
     {
+        Log.v(TAG, "stateFinishRecording");
         mLocationManager.removeUpdates(this);
     }
 
     void stateCancelRecording()
     {
+        Log.v(TAG, "stateCancelRecording");
         mLocationManager.removeUpdates(this);
     }
 
     /* IRecorder interface */
 
     @Override
-    public void pauseRecording()
+    public IRecorderState pauseRecording()
     {
+        Log.v(TAG, "pauseRecording");
         mLocationManager.removeUpdates(this);
-        getListener().recorderPaused();
-        getStateContext().setState(getStateContext().statePause);
+        return getStatePause();
     }
 
     @Override
-    public void finishRecording()
+    public IRecorderState finishRecording()
     {
+        Log.v(TAG, "finishRecording");
         stateFinishRecording();
-        getListener().recorderIdle();
-        getStateContext().setState(getStateContext().stateIdle);
+        return getStateIdle();
     }
 
     @Override
-    public void cancelRecording()
+    public IRecorderState cancelRecording()
     {
+        Log.v(TAG, "cancelRecording");
         stateCancelRecording();
-        getListener().recorderIdle();
-        getStateContext().setState(getStateContext().stateIdle);
+        return getStateIdle();
     }
 
     @Override
-    public void notifyState()
+    public void notifyState(IRecorderStateListener listener)
     {
-        getListener().recorderRecording();
+        Log.v(TAG, "notifyState");
+        listener.recorderRecording();
     }
 }

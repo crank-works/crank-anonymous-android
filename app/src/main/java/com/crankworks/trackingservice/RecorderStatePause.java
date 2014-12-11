@@ -1,5 +1,7 @@
 package com.crankworks.trackingservice;
 
+import android.util.Log;
+
 /**
  * Created by marcus on 12/8/14.
  */
@@ -12,30 +14,31 @@ public class RecorderStatePause extends RecorderStateBase
         super(stateContext);
     }
 
-    public void startRecording()
+    public IRecorderState startRecording()
     {
+        Log.v(TAG, "startRecording");
         getStateRecorder().stateResumeRecording();
-        getStateContext().setState(getStateRecorder());
-        getListener().recorderRecording();
+        return getStateRecorder();
     }
 
-    public void finishRecording()
+    public IRecorderState finishRecording()
     {
+        Log.v(TAG, "finishRecording");
         getStateRecorder().stateFinishRecording();
-        getStateContext().setState(getStateIdle());
-        getListener().recorderIdle();
+        return getStateIdle();
     }
 
-    public void cancelRecording()
+    public IRecorderState cancelRecording()
     {
+        Log.v(TAG, "cancelRecording");
         getStateRecorder().stateCancelRecording();
-        getStateContext().setState(getStateIdle());
-        getListener().recorderIdle();
+        return getStateIdle();
     }
 
     @Override
-    public void notifyState()
+    public void notifyState(IRecorderStateListener listener)
     {
-        getListener().recorderPaused();
+        Log.v(TAG, "notifyState");
+        listener.recorderPaused();
     }
 }

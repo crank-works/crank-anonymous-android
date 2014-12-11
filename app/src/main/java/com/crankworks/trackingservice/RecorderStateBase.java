@@ -38,23 +38,27 @@ public class RecorderStateBase implements IRecorderState
         return mStateContext.getListener();
     }
 
-    public void startRecording()
+    public IRecorderState startRecording()
     {
+        return null;
     }
 
-    public void pauseRecording()
+    public IRecorderState pauseRecording()
     {
+        return null;
     }
 
-    public void finishRecording()
+    public IRecorderState finishRecording()
     {
+        return null;
     }
 
-    public void cancelRecording()
+    public IRecorderState cancelRecording()
     {
+        return null;
     }
 
-    public void notifyState()
+    public void notifyState(IRecorderStateListener listener)
     {
     }
 }
