@@ -13,41 +13,47 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.crankworks.trackingservice.DummyRecorder;
+import com.crankworks.trackingservice.IRecorder;
+import com.crankworks.trackingservice.IRecorderStateListener;
+import com.crankworks.trackingservice.TrackingService;
+
 import java.lang.Math;
 
 public class TrackingActivity extends Activity implements IRecorderStateListener
 {
     private static final String TAG = TrackingActivity.class.getSimpleName();
 
-    private TextView fieldLatitude;
-    private TextView fieldLongitude;
-    private TextView fieldSpeed;
-    private TextView fieldAccuracy;
-    private TextView fieldBearing;
+    private TextView mFieldLatitude;
+    private TextView mFieldLongitude;
+    private TextView mFieldSpeed;
+    private TextView mFieldAccuracy;
+    private TextView mFieldBearing;
 
     private Button mButtonRecord;
     private Button mButtonPause;
     private Button mButtonStop;
     private Button mButtonCancel;
 
-    private IRecorder mRecorder = new DummyRecorder();
+    private final static IRecorder mDummyRecorder = new DummyRecorder();
+    private IRecorder mRecorder;
+
+    private IRecorder getRecorder()
+    {
+        return mRecorder != null ? mRecorder : mDummyRecorder;
+    }
 
     private ServiceConnection mConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
             Log.v(TAG, "onServiceConnected");
             mRecorder = (IRecorder) service;
-            if (mRecorder == null)
-            {
-                Log.d(TAG, "mRecorder is null, creating dummy recorder");
-                mRecorder = new DummyRecorder();
-            }
-            else
-                mRecorder.setListener(TrackingActivity.this);
+            getRecorder().setListener(TrackingActivity.this);
         }
 
         public void onServiceDisconnected(ComponentName className) {
             Log.v(TAG, "onServiceDisconnected");
-            mRecorder = new DummyRecorder();
+            mRecorder = null;
         }
     };
 
@@ -82,11 +88,11 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
 
     private void findChildViews()
     {
-        fieldLatitude = (TextView) findViewById(R.id.tracking_latitude);
-        fieldLongitude = (TextView) findViewById(R.id.tracking_longitude);
-        fieldSpeed = (TextView) findViewById(R.id.tracking_speed);
-        fieldAccuracy = (TextView) findViewById(R.id.tracking_accuracy);
-        fieldBearing = (TextView) findViewById(R.id.tracking_bearing);
+        mFieldLatitude = (TextView) findViewById(R.id.tracking_latitude);
+        mFieldLongitude = (TextView) findViewById(R.id.tracking_longitude);
+        mFieldSpeed = (TextView) findViewById(R.id.tracking_speed);
+        mFieldAccuracy = (TextView) findViewById(R.id.tracking_accuracy);
+        mFieldBearing = (TextView) findViewById(R.id.tracking_bearing);
 
         mButtonRecord = (Button) findViewById(R.id.button_record);
         mButtonPause = (Button) findViewById(R.id.button_pause);
@@ -104,25 +110,26 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
     public void onRecordClicked(View view)
     {
         Log.v(TAG, "onRecordClicked");
-        mRecorder.startRecording();
+        getRecorder().startRecording();
     }
 
     public void onPauseClicked(View view)
     {
         Log.v(TAG, "onPauseClicked");
-        mRecorder.pauseRecording();
+        getRecorder().pauseRecording();
     }
 
     public void onStopClicked(View view)
     {
         Log.v(TAG, "onStopClicked");
-        mRecorder.finishRecording();
+        getRecorder().finishRecording();
     }
 
     public void onCancelClicked(View view)
     {
         Log.v(TAG, "onCancelClicked");
-        mRecorder.cancelRecording();
+        getRecorder().cancelRecording();
+        finish();
     }
 
     private void showUserGpsDisabled()
@@ -132,14 +139,25 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
 
     @Override
     protected void onResume() {
+        Log.v(TAG, "onResume");
         super.onResume();
-        mRecorder.setListener(this);
+        getRecorder().setListener(this);
     }
 
     @Override
     protected void onPause() {
+        Log.v(TAG, "onPause");
         super.onPause();
-        mRecorder.setListener(null);
+        getRecorder().setListener(null);
+    }
+
+    public void resetFields()
+    {
+        mFieldLatitude.setText("");
+        mFieldLongitude.setText("");
+        mFieldSpeed.setText("");
+        mFieldBearing.setText("");
+        mFieldAccuracy.setText("");
     }
 
     public void recorderLocation(Location location)
@@ -150,7 +168,7 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
         float bearing = location.getBearing();
         float accuracy = location.getAccuracy();
 
-        if (Log.isLoggable(TAG, Log.VERBOSE))
+        //if (Log.isLoggable(TAG, Log.VERBOSE))
         {
             Log.v(TAG, "onLocationChanged: " + lat + ", " + lon);
             Log.v(TAG, "            speed: " + toMph(speed));
@@ -158,16 +176,11 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
             Log.v(TAG, "         accuracy: " + accuracy);
         }
 
-            Log.v(TAG, "onLocationChanged: " + lat + ", " + lon +
-                       ", speed: " + toMph(speed) +
-                       ", bearing: " + bearing +
-                       ", accuracy: " + accuracy);
-
-        fieldLatitude.setText(toDms(lat));
-        fieldLongitude.setText(toDms(lon));
-        fieldSpeed.setText(String.valueOf(toMph(speed)));
-        fieldBearing.setText(String.valueOf(bearing));
-        fieldAccuracy.setText(String.valueOf(accuracy));
+        mFieldLatitude.setText(toDms(lat));
+        mFieldLongitude.setText(toDms(lon));
+        mFieldSpeed.setText(String.valueOf(toMph(speed)));
+        mFieldBearing.setText(String.valueOf(bearing));
+        mFieldAccuracy.setText(String.valueOf(accuracy));
     }
 
     private String toMph(float mps)
@@ -197,7 +210,8 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
         mButtonRecord.setEnabled(true);
         mButtonPause.setEnabled(false);
         mButtonStop.setEnabled(false);
-        mButtonCancel.setEnabled(true);
+        mButtonCancel.setEnabled(false);
+        resetFields();
     }
 
     public void recorderRecording()
