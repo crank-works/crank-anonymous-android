@@ -20,7 +20,6 @@ public class RecorderStateRecord extends RecorderStateBase implements LocationLi
     {
         super(stateContext);
         mLocationManager = locationManager;
-        mLocationManager.requestLocationUpdates(mProvider, 5000, 10, this);
     }
 
     @Override
@@ -47,21 +46,51 @@ public class RecorderStateRecord extends RecorderStateBase implements LocationLi
         Log.v(TAG, "onProviderDisabled: " + provider);
     }
 
+    /* interstate interface */
+
+    void stateBeginRecording()
+    {
+        mLocationManager.requestLocationUpdates(mProvider, 5000, 10, this);
+    }
+
+    void stateResumeRecording()
+    {
+        mLocationManager.requestLocationUpdates(mProvider, 5000, 10, this);
+    }
+
+    void stateFinishRecording()
+    {
+        mLocationManager.removeUpdates(this);
+    }
+
+    void stateCancelRecording()
+    {
+        mLocationManager.removeUpdates(this);
+    }
+
+    /* IRecorder interface */
+
+    @Override
     public void pauseRecording()
     {
         mLocationManager.removeUpdates(this);
         getListener().recorderPaused();
+        getStateContext().setState(getStateContext().statePause);
     }
 
+    @Override
     public void finishRecording()
     {
-        mLocationManager.removeUpdates(this);
+        stateFinishRecording();
         getListener().recorderIdle();
+        getStateContext().setState(getStateContext().stateIdle);
     }
 
+    @Override
     public void cancelRecording()
     {
-        mLocationManager.removeUpdates(this);
+        stateCancelRecording();
         getListener().recorderIdle();
+        getStateContext().setState(getStateContext().stateIdle);
     }
 }

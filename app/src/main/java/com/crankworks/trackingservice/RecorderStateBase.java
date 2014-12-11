@@ -17,6 +17,21 @@ public class RecorderStateBase implements IRecorder
         return mStateContext;
     }
 
+    protected RecorderStateIdle getStateIdle()
+    {
+        return getStateContext().stateIdle;
+    }
+
+    protected RecorderStateRecord getStateRecorder()
+    {
+        return getStateContext().stateRecord;
+    }
+
+    protected RecorderStatePause getStatePause()
+    {
+        return getStateContext().statePause;
+    }
+
     protected IRecorderStateListener getListener()
     {
         return mStateContext.getListener();

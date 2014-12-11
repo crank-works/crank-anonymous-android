@@ -8,7 +8,7 @@ import android.util.Log;
 /**
  * Created by marcus on 12/9/14.
  */
-public class TrackingRecorder
+class TrackingRecorder
 {
     private static final String TAG = TrackingRecorder.class.getSimpleName();
 
@@ -16,9 +16,9 @@ public class TrackingRecorder
     private IRecorderStateListener mListener;
     private TrackingServiceBinder mBinder;
 
-    private RecorderStateIdle stateIdle;
-    private RecorderStateRecord stateRecord;
-    private RecorderStatePause statePause;
+    RecorderStateIdle stateIdle;
+    RecorderStateRecord stateRecord;
+    RecorderStatePause statePause;
 
     public TrackingRecorder(TrackingService trackingService, TrackingServiceBinder binder)
     {

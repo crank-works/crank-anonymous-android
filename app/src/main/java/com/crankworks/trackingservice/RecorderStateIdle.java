@@ -13,13 +13,7 @@ public class RecorderStateIdle extends RecorderStateBase implements IRecorder
     public void startRecording()
     {
         getListener().recorderRecording();
-    }
-
-    public void finishRecording()
-    {
-    }
-
-    public void cancelRecording()
-    {
+        RecorderStateRecord recorder = getStateContext().stateRecord;
+        getStateContext().setState(recorder);
     }
 }
