@@ -1,5 +1,6 @@
 package com.crankworks.trackingservice;
 
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -16,10 +17,20 @@ public class RecorderStateRecord extends RecorderStateBase implements LocationLi
     private LocationManager mLocationManager;
     private String mProvider;
 
-    public RecorderStateRecord(TrackingRecorder stateContext, LocationManager locationManager)
+    public RecorderStateRecord(TrackingServiceBinder stateContext, LocationManager locationManager)
     {
         super(stateContext);
         mLocationManager = locationManager;
+        mProvider = mLocationManager.getBestProvider(createCriteria(), true);
+    }
+
+    private Criteria createCriteria()
+    {
+        Criteria criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        criteria.setAltitudeRequired(false);
+        criteria.setSpeedRequired(true);
+        return criteria;
     }
 
     @Override
@@ -92,5 +103,11 @@ public class RecorderStateRecord extends RecorderStateBase implements LocationLi
         stateCancelRecording();
         getListener().recorderIdle();
         getStateContext().setState(getStateContext().stateIdle);
+    }
+
+    @Override
+    public void notifyState()
+    {
+        getListener().recorderRecording();
     }
 }

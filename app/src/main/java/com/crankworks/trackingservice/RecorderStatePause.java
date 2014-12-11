@@ -5,7 +5,7 @@ package com.crankworks.trackingservice;
  */
 public class RecorderStatePause extends RecorderStateBase implements IRecorder
 {
-    public RecorderStatePause(TrackingRecorder stateContext)
+    public RecorderStatePause(TrackingServiceBinder stateContext)
     {
         super(stateContext);
     }
@@ -29,5 +29,11 @@ public class RecorderStatePause extends RecorderStateBase implements IRecorder
         getStateRecorder().stateCancelRecording();
         getStateContext().setState(getStateIdle());
         getListener().recorderIdle();
+    }
+
+    @Override
+    public void notifyState()
+    {
+        getListener().recorderPaused();
     }
 }

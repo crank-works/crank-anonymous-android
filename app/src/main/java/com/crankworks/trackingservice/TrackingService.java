@@ -7,8 +7,7 @@ import android.os.IBinder;
 public class TrackingService extends Service
 {
     private static final String TAG = TrackingService.class.getSimpleName();
-    private final TrackingServiceBinder mBinder = new TrackingServiceBinder();
-    private final TrackingRecorder mTrackingRecorder = new TrackingRecorder(this, mBinder);
+    private final TrackingServiceBinder mBinder = new TrackingServiceBinder(this);
 
     @Override
     public void onCreate()

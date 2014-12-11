@@ -5,14 +5,14 @@ package com.crankworks.trackingservice;
  */
 public class RecorderStateBase implements IRecorder
 {
-    private TrackingRecorder mStateContext;
+    private TrackingServiceBinder mStateContext;
 
-    public RecorderStateBase(TrackingRecorder stateContext)
+    public RecorderStateBase(TrackingServiceBinder stateContext)
     {
         mStateContext = stateContext;
     }
 
-    protected TrackingRecorder getStateContext()
+    protected TrackingServiceBinder getStateContext()
     {
         return mStateContext;
     }
@@ -39,7 +39,6 @@ public class RecorderStateBase implements IRecorder
 
     public void setListener(IRecorderStateListener listener)
     {
-        mStateContext.setListener(listener);
     }
 
     public void startRecording()

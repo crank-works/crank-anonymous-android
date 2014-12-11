@@ -1,5 +1,7 @@
 package com.crankworks.trackingservice;
 
+import android.content.Context;
+import android.location.LocationManager;
 import android.os.Binder;
 
 /**
@@ -8,48 +10,70 @@ import android.os.Binder;
 
 public class TrackingServiceBinder extends Binder implements IRecorder
 {
-    private IRecorder mRecorder;
 
-    public TrackingServiceBinder()
-    {
-        setRecorder(null);
-    }
+    private TrackingService mTrackingService;
+    private IRecorderStateListener mListener;
+    private TrackingServiceBinder mBinder;
 
-    public void setRecorder(IRecorder recorder)
+    RecorderStateIdle stateIdle;
+    RecorderStateRecord stateRecord;
+    RecorderStatePause statePause;
+
+    private IRecorder mState;
+
+    public TrackingServiceBinder(TrackingService trackingService)
     {
-        if (recorder != null)
-            mRecorder = recorder;
-        else
-            mRecorder = new DummyRecorder();
+        mTrackingService = trackingService;
+
+        LocationManager locationManager = (LocationManager) mTrackingService.getSystemService(Context.LOCATION_SERVICE);
+
+        stateIdle = new RecorderStateIdle(this);
+        stateRecord = new RecorderStateRecord(this, locationManager);
+        statePause = new RecorderStatePause(this);
+
+        setState(stateIdle);
     }
 
     public void setListener(IRecorderStateListener listener)
     {
-        mRecorder.setListener(listener);
+        mListener = listener;
+    }
+
+    public IRecorderStateListener getListener()
+    {
+        return mListener;
+    }
+
+    public void setState(IRecorder recorder)
+    {
+        if (recorder != null)
+            mState = recorder;
+        else
+            mState = new DummyRecorder();
     }
 
     public void startRecording()
     {
-        mRecorder.startRecording();
+        mState.startRecording();
     }
 
     public void pauseRecording()
     {
-        mRecorder.pauseRecording();
+        mState.pauseRecording();
     }
 
     public void finishRecording()
     {
-        mRecorder.finishRecording();
+        mState.finishRecording();
     }
 
     public void cancelRecording()
     {
-        mRecorder.cancelRecording();
+        mState.cancelRecording();
     }
 
     public void notifyState()
     {
-        mRecorder.notifyState();
+        mState.notifyState();
     }
 }
