@@ -171,9 +171,9 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
         String timestamp = DateUtils.formatDateTime(this, location.getTime(), DateUtils.FORMAT_SHOW_DATE |
                                                                               DateUtils.FORMAT_SHOW_TIME);
 
-        double lat = location.getLatitude();
-        double lon = location.getLongitude();
-        float speed = location.getSpeed();
+        String lat = toDms(location.getLatitude());
+        String lon = toDms(location.getLongitude());
+        String speed = toMph(location.getSpeed());
         float bearing = location.getBearing();
         float accuracy = location.getAccuracy();
 
@@ -181,15 +181,15 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
         {
             Log.v(TAG, "timestamp: " + timestamp);
             Log.v(TAG, " position: " + lat + ", " + lon);
-            Log.v(TAG, "    speed: " + toMph(speed));
+            Log.v(TAG, "    speed: " + speed);
             Log.v(TAG, "  bearing: " + bearing);
             Log.v(TAG, " accuracy: " + accuracy);
         }
 
         mFieldTimestamp.setText(timestamp);
-        mFieldLatitude.setText(toDms(lat));
-        mFieldLongitude.setText(toDms(lon));
-        mFieldSpeed.setText(String.valueOf(toMph(speed)));
+        mFieldLatitude.setText(lat);
+        mFieldLongitude.setText(lon);
+        mFieldSpeed.setText(speed);
         mFieldBearing.setText(String.valueOf(bearing));
         mFieldAccuracy.setText(String.valueOf(accuracy));
     }
