@@ -8,6 +8,7 @@ import android.content.res.Configuration;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +26,7 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
 {
     private static final String TAG = TrackingActivity.class.getSimpleName();
 
+    private TextView mFieldTimestamp;
     private TextView mFieldLatitude;
     private TextView mFieldLongitude;
     private TextView mFieldSpeed;
@@ -88,6 +90,7 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
 
     private void findChildViews()
     {
+        mFieldTimestamp = (TextView) findViewById(R.id.tracking_timestamp);
         mFieldLatitude = (TextView) findViewById(R.id.tracking_latitude);
         mFieldLongitude = (TextView) findViewById(R.id.tracking_longitude);
         mFieldSpeed = (TextView) findViewById(R.id.tracking_speed);
@@ -138,14 +141,16 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
     }
 
     @Override
-    protected void onResume() {
+    protected void onResume()
+    {
         Log.v(TAG, "onResume");
         super.onResume();
         getRecorder().setListener(this);
     }
 
     @Override
-    protected void onPause() {
+    protected void onPause()
+    {
         Log.v(TAG, "onPause");
         super.onPause();
         getRecorder().setListener(null);
@@ -153,6 +158,7 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
 
     public void resetFields()
     {
+        mFieldTimestamp.setText("");
         mFieldLatitude.setText("");
         mFieldLongitude.setText("");
         mFieldSpeed.setText("");
@@ -162,6 +168,9 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
 
     public void recorderLocation(Location location)
     {
+        String timestamp = DateUtils.formatDateTime(this, location.getTime(), DateUtils.FORMAT_SHOW_DATE |
+                                                                              DateUtils.FORMAT_SHOW_TIME);
+
         double lat = location.getLatitude();
         double lon = location.getLongitude();
         float speed = location.getSpeed();
@@ -170,12 +179,14 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
 
         //if (Log.isLoggable(TAG, Log.VERBOSE))
         {
-            Log.v(TAG, "onLocationChanged: " + lat + ", " + lon);
-            Log.v(TAG, "            speed: " + toMph(speed));
-            Log.v(TAG, "          bearing: " + bearing);
-            Log.v(TAG, "         accuracy: " + accuracy);
+            Log.v(TAG, "timestamp: " + timestamp);
+            Log.v(TAG, " position: " + lat + ", " + lon);
+            Log.v(TAG, "    speed: " + toMph(speed));
+            Log.v(TAG, "  bearing: " + bearing);
+            Log.v(TAG, " accuracy: " + accuracy);
         }
 
+        mFieldTimestamp.setText(timestamp);
         mFieldLatitude.setText(toDms(lat));
         mFieldLongitude.setText(toDms(lon));
         mFieldSpeed.setText(String.valueOf(toMph(speed)));
