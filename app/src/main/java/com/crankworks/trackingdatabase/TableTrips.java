@@ -11,15 +11,15 @@ public class TableTrips
 
     static final String TABLE_NAME = "trips";
 
-    public static final String FIELD_ID             = "_id";
-    public static final String FIELD_START_TIME     = "start_time";
-    public static final String FIELD_END_TIME       = "end_time";
-    public static final String FIELD_OBJECTIVE      = "objective";
-    public static final String FIELD_LATITUDE_HIGH  = "latitude_high";
-    public static final String FIELD_LATITUDE_LOW   = "latitude_low";
-    public static final String FIELD_LONGITUDE_HIGH = "longitude_high";
-    public static final String FIELD_LONGITUDE_LOW  = "longitude_low";
-    public static final String FIELD_DISTANCE       = "distance";
+    public static final String COLUMN_ID             = "_id";
+    public static final String COLUMN_START_TIME     = "start_time";
+    public static final String COLUMN_END_TIME       = "end_time";
+    public static final String COLUMN_OBJECTIVE      = "objective";
+    public static final String COLUMN_LATITUDE_HIGH  = "latitude_high";
+    public static final String COLUMN_LATITUDE_LOW   = "latitude_low";
+    public static final String COLUMN_LONGITUDE_HIGH = "longitude_high";
+    public static final String COLUMN_LONGITUDE_LOW  = "longitude_low";
+    public static final String COLUMN_DISTANCE       = "distance";
 
     private Database mDb;
 
