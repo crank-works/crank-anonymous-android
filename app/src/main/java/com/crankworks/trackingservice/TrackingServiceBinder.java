@@ -51,7 +51,10 @@ public class TrackingServiceBinder extends Binder implements ITracker
 
     public void detachObserver(ITrackObserver observer)
     {
-        mObservers.remove(observer);
+        if (observer == null)
+            mObservers.clear();
+        else
+            mObservers.remove(observer);
     }
 
     public void setState(IRecorderState recorder)

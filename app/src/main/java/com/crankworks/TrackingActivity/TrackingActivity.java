@@ -1,4 +1,4 @@
-package com.crankworks.crankanonymous;
+package com.crankworks.TrackingActivity;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crankworks.crankanonymous.R;
 import com.crankworks.trackingservice.BaseTracker;
 import com.crankworks.trackingservice.ITracker;
 import com.crankworks.trackingservice.ITrackObserver;
@@ -51,6 +52,7 @@ public class TrackingActivity extends Activity implements ITrackObserver
             Log.v(TAG, "onServiceConnected");
             mRecorder = (ITracker) service;
             getRecorder().attachObserver(TrackingActivity.this);
+            getRecorder().attachObserver(new DatabaseConnector(TrackingActivity.this));
         }
 
         public void onServiceDisconnected(ComponentName className) {
@@ -60,15 +62,39 @@ public class TrackingActivity extends Activity implements ITrackObserver
         }
     };
 
-    /** Called when the activity is first created. */
     @Override
-    public void onCreate(Bundle savedInstanceState)
+    protected void onCreate(Bundle savedInstanceState)
     {
         Log.v(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentViewFromOrientation();
         findChildViews();
         bindTrackingService();
+    }
+
+    @Override
+    protected void onResume()
+    {
+        Log.v(TAG, "onResume");
+        super.onResume();
+        getRecorder().attachObserver(this);
+    }
+
+    @Override
+    protected void onPause()
+    {
+        Log.v(TAG, "onPause");
+        super.onPause();
+        getRecorder().detachObserver(this);
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        Log.v(TAG, "onDestroy");
+        super.onDestroy();
+        if (isFinishing())
+            mRecorder.detachObserver(null);
     }
 
     private void setContentViewFromOrientation()
@@ -139,22 +165,6 @@ public class TrackingActivity extends Activity implements ITrackObserver
     private void showUserGpsDisabled()
     {
         Toast.makeText(this, "GPS is Disabled", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    protected void onResume()
-    {
-        Log.v(TAG, "onResume");
-        super.onResume();
-        getRecorder().attachObserver(this);
-    }
-
-    @Override
-    protected void onPause()
-    {
-        Log.v(TAG, "onPause");
-        super.onPause();
-        getRecorder().detachObserver(this);
     }
 
     public void resetFields()

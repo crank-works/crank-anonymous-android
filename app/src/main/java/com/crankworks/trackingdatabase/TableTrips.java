@@ -3,6 +3,7 @@ package com.crankworks.trackingdatabase;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.location.Location;
 
 /**
  * Created by marcus on 12/12/14.

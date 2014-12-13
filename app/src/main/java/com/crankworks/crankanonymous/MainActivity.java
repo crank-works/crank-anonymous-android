@@ -10,8 +10,9 @@ import android.view.MenuInflater;
 
 // Launch Separate Activity
 import android.view.MenuItem;
-import android.view.View;
 import android.content.Intent;
+
+import com.crankworks.TrackingActivity.TrackingActivity;
 
 public class MainActivity extends Activity
 {

@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="TrackingActivity"
+        <activity android:name="com.crankworks.TrackingActivity.TrackingActivity"
                   android:label="@string/tracking_name"
                   android:theme="@android:style/Theme.Holo.Light"
                   android:parentActivityName="com.crankworks.crankanonymous.MainActivity">

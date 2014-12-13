@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.location.Location;
 import android.util.Log;
 
 /**
@@ -49,6 +50,8 @@ public class Database
         }
     }
 
+    TableTrips.Row tripRow = new TableTrips.Row();
+
     public Database(Context context)
     {
         mContext = context;
@@ -65,5 +68,17 @@ public class Database
     {
         mDb.close();
         mDbHelper.close();
+    }
+
+    public Database newTrip(Location location)
+    {
+        Log.v(TAG, "newTrip");
+        return this;
+    }
+
+    public Database newPosition(Location location)
+    {
+        Log.v(TAG, "newPosition");
+        return this;
     }
 }
