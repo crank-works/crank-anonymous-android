@@ -15,14 +15,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.crankworks.trackingservice.DummyRecorder;
-import com.crankworks.trackingservice.IRecorder;
-import com.crankworks.trackingservice.IRecorderStateListener;
+import com.crankworks.trackingservice.BaseTracker;
+import com.crankworks.trackingservice.ITracker;
+import com.crankworks.trackingservice.ITrackObserver;
 import com.crankworks.trackingservice.TrackingService;
 
 import java.lang.Math;
 
-public class TrackingActivity extends Activity implements IRecorderStateListener
+public class TrackingActivity extends Activity implements ITrackObserver
 {
     private static final String TAG = TrackingActivity.class.getSimpleName();
 
@@ -38,10 +38,10 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
     private Button mButtonStop;
     private Button mButtonCancel;
 
-    private final static IRecorder mDummyRecorder = new DummyRecorder();
-    private IRecorder mRecorder;
+    private final static ITracker mDummyRecorder = new BaseTracker();
+    private ITracker mRecorder;
 
-    private IRecorder getRecorder()
+    private ITracker getRecorder()
     {
         return mRecorder != null ? mRecorder : mDummyRecorder;
     }
@@ -49,12 +49,13 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
     private ServiceConnection mConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
             Log.v(TAG, "onServiceConnected");
-            mRecorder = (IRecorder) service;
-            getRecorder().setListener(TrackingActivity.this);
+            mRecorder = (ITracker) service;
+            getRecorder().attachObserver(TrackingActivity.this);
         }
 
         public void onServiceDisconnected(ComponentName className) {
             Log.v(TAG, "onServiceDisconnected");
+            getRecorder().detachObserver(TrackingActivity.this);
             mRecorder = null;
         }
     };
@@ -145,7 +146,7 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
     {
         Log.v(TAG, "onResume");
         super.onResume();
-        getRecorder().setListener(this);
+        getRecorder().attachObserver(this);
     }
 
     @Override
@@ -153,7 +154,7 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
     {
         Log.v(TAG, "onPause");
         super.onPause();
-        getRecorder().setListener(null);
+        getRecorder().detachObserver(this);
     }
 
     public void resetFields()
@@ -166,7 +167,7 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
         mFieldAccuracy.setText("");
     }
 
-    public void recorderLocation(Location location)
+    public void trackerLocation(Location location)
     {
         String timestamp = DateUtils.formatDateTime(this, location.getTime(), DateUtils.FORMAT_SHOW_DATE |
                                                                               DateUtils.FORMAT_SHOW_TIME);
@@ -215,9 +216,9 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
         return String.format("%02d:%02d:%02d", degWhole, minWhole, secWhole);
     }
 
-    public void recorderIdle()
+    public void trackerIdle()
     {
-        Log.v(TAG, "recorderIdle");
+        Log.v(TAG, "trackerIdle");
         mButtonRecord.setEnabled(true);
         mButtonPause.setEnabled(false);
         mButtonStop.setEnabled(false);
@@ -225,18 +226,18 @@ public class TrackingActivity extends Activity implements IRecorderStateListener
         resetFields();
     }
 
-    public void recorderRecording()
+    public void trackerRecording()
     {
-        Log.v(TAG, "recorderRecording");
+        Log.v(TAG, "trackerRecording");
         mButtonRecord.setEnabled(false);
         mButtonPause.setEnabled(true);
         mButtonStop.setEnabled(true);
         mButtonCancel.setEnabled(true);
     }
 
-    public void recorderPaused()
+    public void trackerPaused()
     {
-        Log.v(TAG, "recorderPaused");
+        Log.v(TAG, "trackerPaused");
         mButtonRecord.setEnabled(true);
         mButtonPause.setEnabled(false);
         mButtonStop.setEnabled(true);

@@ -3,9 +3,13 @@ package com.crankworks.trackingservice;
 /**
  * Created by marcus on 12/7/14.
  */
-public class DummyRecorder implements IRecorder
+public class BaseTracker implements ITracker
 {
-    public void setListener(IRecorderStateListener listener)
+    public void attachObserver(ITrackObserver observer)
+    {
+    }
+
+    public void detachObserver(ITrackObserver observer)
     {
     }
 

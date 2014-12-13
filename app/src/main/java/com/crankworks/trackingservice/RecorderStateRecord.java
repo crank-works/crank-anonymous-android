@@ -12,16 +12,15 @@ import java.util.ArrayList;
 /**
  * Created by marcus on 12/8/14.
  */
-public class RecorderStateRecord extends RecorderStateBase implements LocationListener
+class RecorderStateRecord extends RecorderStateBase implements LocationListener
 {
     private static final String TAG = RecorderStateRecord.class.getSimpleName();
 
     private LocationManager mLocationManager;
     private String mProvider;
 
-    private ArrayList<Location> listLocation;
-
-    public RecorderStateRecord(TrackingServiceBinder stateContext, LocationManager locationManager)
+    public RecorderStateRecord(TrackingServiceBinder stateContext,
+                               LocationManager locationManager)
     {
         super(stateContext);
         Log.v(TAG, "RecorderStateRecord");
@@ -39,12 +38,15 @@ public class RecorderStateRecord extends RecorderStateBase implements LocationLi
         return criteria;
     }
 
+    /* LocationListener interface */
+
     @Override
     public void onLocationChanged(Location location)
     {
         Log.v(TAG, "onLocationChanged");
-        listLocation.add(location);
-        getListener().recorderLocation(location);
+
+        for (ITrackObserver observers : getObservers())
+            observers.trackerLocation(location);
     }
 
     @Override
@@ -89,10 +91,9 @@ public class RecorderStateRecord extends RecorderStateBase implements LocationLi
     {
         Log.v(TAG, "stateCancelRecording");
         mLocationManager.removeUpdates(this);
-        listLocation.clear();
     }
 
-    /* IRecorder interface */
+    /* IRecorderState interface */
 
     @Override
     public IRecorderState pauseRecording()
@@ -119,9 +120,11 @@ public class RecorderStateRecord extends RecorderStateBase implements LocationLi
     }
 
     @Override
-    public void notifyState(IRecorderStateListener listener)
+    public void notifyState(ArrayList<ITrackObserver> observers)
     {
         Log.v(TAG, "notifyState");
-        listener.recorderRecording();
+
+        for (ITrackObserver observer : observers)
+            observer.trackerRecording();
     }
 }

@@ -1,9 +1,11 @@
 package com.crankworks.trackingservice;
 
+import java.util.ArrayList;
+
 /**
  * Created by marcus on 12/9/14.
  */
-public class RecorderStateBase implements IRecorderState
+class RecorderStateBase implements IRecorderState
 {
     private static final String TAG = RecorderStateBase.class.getSimpleName();
     private TrackingServiceBinder mStateContext;
@@ -33,32 +35,34 @@ public class RecorderStateBase implements IRecorderState
         return getStateContext().statePause;
     }
 
-    protected IRecorderStateListener getListener()
+    protected ArrayList<ITrackObserver> getObservers()
     {
-        return mStateContext.getListener();
+        return mStateContext.getObservers();
     }
+
+    /* IRecorderState interface */
 
     public IRecorderState startRecording()
     {
-        return null;
+        return this;
     }
 
     public IRecorderState pauseRecording()
     {
-        return null;
+        return this;
     }
 
     public IRecorderState finishRecording()
     {
-        return null;
+        return this;
     }
 
     public IRecorderState cancelRecording()
     {
-        return null;
+        return this;
     }
 
-    public void notifyState(IRecorderStateListener listener)
+    public void notifyState(ArrayList<ITrackObserver> observers)
     {
     }
 }

@@ -20,9 +20,6 @@ public class Database
     DatabaseHelper mDbHelper;
     SQLiteDatabase mDb;
 
-    public TableTrips trips_table;
-    public TableCoordinates coordinates_table;
-
 //    private static final String TABLE_CREATE_TRIPS = "create table " + DATABASE_TABLE_TRIPS
 //            + ""
 
@@ -55,8 +52,6 @@ public class Database
     public Database(Context context)
     {
         mContext = context;
-        trips_table = new TableTrips(this);
-        coordinates_table = new TableCoordinates(this);
     }
 
     public Database open() throws SQLException

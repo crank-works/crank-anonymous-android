@@ -4,16 +4,18 @@ import android.content.Context;
 import android.location.LocationManager;
 import android.os.Binder;
 
+import java.util.ArrayList;
+
 /**
  * Created by marcus on 12/7/14.
  */
 
-public class TrackingServiceBinder extends Binder implements IRecorder
+public class TrackingServiceBinder extends Binder implements ITracker
 {
     private static final String TAG = TrackingServiceBinder.class.getSimpleName();
 
     private TrackingService mTrackingService;
-    private IRecorderStateListener mListener = new DummyRecorderStateListener();
+    private ArrayList<ITrackObserver> mObservers = new ArrayList<ITrackObserver>();
 
     RecorderStateIdle stateIdle;
     RecorderStateRecord stateRecord;
@@ -34,19 +36,20 @@ public class TrackingServiceBinder extends Binder implements IRecorder
         setState(stateIdle);
     }
 
-    public void setListener(IRecorderStateListener listener)
+    ArrayList<ITrackObserver> getObservers()
     {
-        if (listener != null)
-            mListener = listener;
-        else
-            mListener = new DummyRecorderStateListener();
+        return mObservers;
+    }
 
+    public void attachObserver(ITrackObserver observer)
+    {
+        mObservers.add(observer);
         notifyState();
     }
 
-    public IRecorderStateListener getListener()
+    public void detachObserver(ITrackObserver observer)
     {
-        return mListener;
+        mObservers.remove(observer);
     }
 
     public void setState(IRecorderState recorder)
@@ -81,6 +84,6 @@ public class TrackingServiceBinder extends Binder implements IRecorder
 
     public void notifyState()
     {
-        mState.notifyState(getListener());
+        mState.notifyState(mObservers);
     }
 }

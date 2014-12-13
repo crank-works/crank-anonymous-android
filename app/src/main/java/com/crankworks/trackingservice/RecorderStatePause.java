@@ -2,10 +2,12 @@ package com.crankworks.trackingservice;
 
 import android.util.Log;
 
+import java.util.ArrayList;
+
 /**
  * Created by marcus on 12/8/14.
  */
-public class RecorderStatePause extends RecorderStateBase
+class RecorderStatePause extends RecorderStateBase
 {
     private static final String TAG = RecorderStatePause.class.getSimpleName();
 
@@ -13,6 +15,8 @@ public class RecorderStatePause extends RecorderStateBase
     {
         super(stateContext);
     }
+
+    /* IRecorderState interface */
 
     public IRecorderState startRecording()
     {
@@ -36,9 +40,11 @@ public class RecorderStatePause extends RecorderStateBase
     }
 
     @Override
-    public void notifyState(IRecorderStateListener listener)
+    public void notifyState(ArrayList<ITrackObserver> observers)
     {
         Log.v(TAG, "notifyState");
-        listener.recorderPaused();
+
+        for (ITrackObserver observer : observers)
+            observer.trackerPaused();
     }
 }

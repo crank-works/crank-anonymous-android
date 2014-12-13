@@ -2,12 +2,16 @@ package com.crankworks.trackingservice;
 
 import android.util.Log;
 
+import java.util.ArrayList;
+
 /**
  * Created by marcus on 12/8/14.
  */
-public class RecorderStateIdle extends RecorderStateBase
+class RecorderStateIdle extends RecorderStateBase
 {
     private static final String TAG = RecorderStateIdle.class.getSimpleName();
+
+    /* IRecorderState interface */
 
     public RecorderStateIdle(TrackingServiceBinder stateContext)
     {
@@ -22,9 +26,11 @@ public class RecorderStateIdle extends RecorderStateBase
     }
 
     @Override
-    public void notifyState(IRecorderStateListener listener)
+    public void notifyState(ArrayList<ITrackObserver> observers)
     {
         Log.v(TAG, "notifyState");
-        listener.recorderIdle();
+
+        for (ITrackObserver observer : observers)
+            observer.trackerIdle();
     }
 }
