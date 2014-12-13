@@ -41,6 +41,8 @@ public class TrackingServiceBinder extends Binder implements ITracker
         return mObservers;
     }
 
+    /* ITracker interface */
+
     public void attachObserver(ITrackObserver observer)
     {
         mObservers.add(observer);

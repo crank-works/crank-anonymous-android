@@ -14,19 +14,4 @@ public class DataTrip
     public double    longitude_high;
     public double    longitude_low;
     public double    distance;
-
-    public static DataTrip first(IDb db)
-    {
-        return db.firstTrip();
-    }
-
-    public static DataTrip next(IDb db)
-    {
-        return db.nextTrip();
-    }
-
-    public boolean write(IDb db)
-    {
-        return db.writeTrip(this);
-    }
 }

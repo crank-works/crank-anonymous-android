@@ -45,8 +45,8 @@ class RecorderStateRecord extends RecorderStateBase implements LocationListener
     {
         Log.v(TAG, "onLocationChanged");
 
-        for (ITrackObserver observers : getObservers())
-            observers.trackerLocation(location);
+        for (ITrackObserver observer : getObservers())
+            observer.trackerLocation(location);
     }
 
     @Override
