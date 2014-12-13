@@ -52,7 +52,7 @@ public class TrackingActivity extends Activity implements ITrackObserver
             Log.v(TAG, "onServiceConnected");
             mRecorder = (ITracker) service;
             getRecorder().attachObserver(TrackingActivity.this);
-            getRecorder().attachObserver(new DatabaseConnector(TrackingActivity.this));
+            getRecorder().attachObserver(DatabaseConnector.connectorInstance(TrackingActivity.this));
         }
 
         public void onServiceDisconnected(ComponentName className) {

@@ -15,10 +15,20 @@ public class DatabaseConnector extends BaseTrackObserver implements ITrackObserv
 {
     private static final String TAG = DatabaseConnector.class.getSimpleName();
 
+    private static DatabaseConnector mInstance;
+
     private Context mContext;
     private Database mDatabase;
 
-    public DatabaseConnector(Context context)
+    public static DatabaseConnector connectorInstance(Context context)
+    {
+        if (mInstance == null)
+            mInstance = new DatabaseConnector(context);
+
+        return mInstance;
+    }
+
+    private DatabaseConnector(Context context)
     {
         mContext = context;
     }
