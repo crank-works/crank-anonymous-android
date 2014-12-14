@@ -36,6 +36,19 @@ public class TableCoordinates
         public String    provider;
         public double    speed;
         public long      time;
+
+        public Row(TableTrips.Row trip, Location location)
+        {
+            trip_id     = trip._id;
+            accuracy    = location.getAccuracy();
+            altitude    = location.getAltitude();
+            bearing     = location.getBearing();
+            latitude    = location.getLatitude();
+            longitude   = location.getLongitude();
+            provider    = location.getProvider();
+            speed       = location.getSpeed();
+            time        = location.getTime();
+        }
     }
 
     static void createTable(SQLiteDatabase db)
@@ -54,11 +67,8 @@ public class TableCoordinates
         db.execSQL(sqlString);
     }
 
-    static boolean addPosition(SQLiteDatabase mDb, Row row)
+    static long addPosition(SQLiteDatabase mDb, Row row)
     {
-        boolean success = true;
-
-        // Add the latest point
         ContentValues rowValues = new ContentValues();
         rowValues.put(COLUMN_TRIP_ID, row.trip_id);
         rowValues.put(COLUMN_ACCURACY, row.accuracy);
@@ -70,24 +80,6 @@ public class TableCoordinates
         rowValues.put(COLUMN_SPEED, row.speed);
         rowValues.put(COLUMN_TIME, row.time);
 
-        success = success && (mDb.insert(TABLE_NAME, null, rowValues) > 0);
-
-        return success;
-    }
-
-    static boolean addPosition(SQLiteDatabase mDb, long trip_id, Location location)
-    {
-        Row row = new Row();
-        row.trip_id     = trip_id;
-        row.accuracy    = location.getAccuracy();
-        row.altitude    = location.getAltitude();
-        row.bearing     = location.getBearing();
-        row.latitude    = location.getLatitude();
-        row.longitude   = location.getLongitude();
-        row.provider    = location.getProvider();
-        row.speed       = location.getSpeed();
-        row.time        = location.getTime();
-
-        return addPosition(mDb, row);
+        return mDb.insert(TABLE_NAME, null, rowValues);
     }
 }

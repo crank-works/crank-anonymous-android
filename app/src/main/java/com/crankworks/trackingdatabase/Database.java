@@ -50,35 +50,51 @@ public class Database
         }
     }
 
-    TableTrips.Row tripRow = new TableTrips.Row();
+    TableTrips.Row currentTrip;
 
     public Database(Context context)
     {
         mContext = context;
     }
 
-    public Database open() throws SQLException
+    private void open() throws SQLException
     {
         mDbHelper = new DatabaseHelper(mContext);
         mDb = mDbHelper.getWritableDatabase();
-        return this;
     }
 
-    public void close()
+    private void close()
     {
         mDb.close();
         mDbHelper.close();
     }
 
-    public Database newTrip(Location location)
+    public void newTrip(Location location) throws SQLException
     {
         Log.v(TAG, "newTrip");
-        return this;
+
+        currentTrip = new TableTrips.Row(location);
+        TableCoordinates.Row currentPosition = new TableCoordinates.Row(currentTrip, location);
+
+        open();
+        TableTrips.addRow(mDb, currentTrip);
+        TableCoordinates.addPosition(mDb, currentPosition);
+        close();
     }
 
-    public Database newPosition(Location location)
+    public void newPosition(Location location) throws SQLException
     {
         Log.v(TAG, "newPosition");
-        return this;
+
+        if (currentTrip == null)
+            return;
+
+        currentTrip.update(location);
+        TableCoordinates.Row currentPosition = new TableCoordinates.Row(currentTrip, location);
+
+        open();
+        TableTrips.updateRow(mDb, currentTrip);
+        TableCoordinates.addPosition(mDb, currentPosition);
+        close();
     }
 }
