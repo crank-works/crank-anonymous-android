@@ -56,6 +56,7 @@ public class TableCoordinates
         final String sqlString = "create table " + TABLE_NAME + " ("
                 + COLUMN_ID         + " integer primary key autoincrement, "
                 + COLUMN_TRIP_ID    + " integer, "
+                + COLUMN_ACCURACY   + " double, "
                 + COLUMN_ALTITUDE   + " double, "
                 + COLUMN_BEARING    + " double, "
                 + COLUMN_LATITUDE   + " double, "
