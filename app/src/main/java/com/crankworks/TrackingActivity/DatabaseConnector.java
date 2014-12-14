@@ -47,4 +47,9 @@ public class DatabaseConnector extends BaseTrackObserver implements ITrackObserv
             mDatabase.newPosition(location);
         }
     }
+
+    public void trackerIdle()
+    {
+        mDatabase = null;
+    }
 }

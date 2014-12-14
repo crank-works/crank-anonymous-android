@@ -18,6 +18,7 @@ class RecorderStatePause extends RecorderStateBase
 
     /* IRecorderState interface */
 
+    @Override
     public IRecorderState startRecording()
     {
         Log.v(TAG, "startRecording");
@@ -25,6 +26,7 @@ class RecorderStatePause extends RecorderStateBase
         return getStateRecorder();
     }
 
+    @Override
     public IRecorderState finishRecording()
     {
         Log.v(TAG, "finishRecording");
@@ -32,6 +34,7 @@ class RecorderStatePause extends RecorderStateBase
         return getStateIdle();
     }
 
+    @Override
     public IRecorderState cancelRecording()
     {
         Log.v(TAG, "cancelRecording");

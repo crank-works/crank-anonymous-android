@@ -34,10 +34,20 @@ public class MainActivity extends Activity
     private void setDatabaseTrips()
     {
         TextView viewTrips = (TextView) findViewById(R.id.database_trips);
-        Database db = new Database(this).open();
-        Cursor cursor = db.getTrips();
-        viewTrips.setText("Number of trips: " + cursor.getCount());
-        db.close();
+        Database db = null;
+
+        try
+        {
+            db = new Database(this).open();
+            Cursor cursor = db.getTrips();
+            viewTrips.setText("Number of trips: " + cursor.getCount());
+        }
+
+        finally
+        {
+            if (db != null)
+                db.close();
+        }
     }
 
     private void setActionBar()

@@ -45,7 +45,9 @@ public class TrackingServiceBinder extends Binder implements ITracker
 
     public void attachObserver(ITrackObserver observer)
     {
-        mObservers.add(observer);
+        if (!mObservers.contains(observer))
+            mObservers.add(observer);
+
         notifyState();
     }
 

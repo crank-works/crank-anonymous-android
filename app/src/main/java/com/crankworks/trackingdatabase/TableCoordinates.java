@@ -25,7 +25,7 @@ public class TableCoordinates
     public static final String COLUMN_SPEED          = "speed";
     public static final String COLUMN_TIME           = "time";
 
-    static class Row
+    public static class Row
     {
         public long      _id;
         public long      trip_id;

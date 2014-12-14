@@ -26,7 +26,7 @@ public class TableTrips
     public static final String COLUMN_LONGITUDE_LOW  = "longitude_low";
     public static final String COLUMN_DISTANCE       = "distance";
 
-    static class Row
+    public static class Row
     {
         public long      _id;
         public long      start_time;
