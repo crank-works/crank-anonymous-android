@@ -1,6 +1,7 @@
 package com.crankworks.trackingdatabase;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 
@@ -36,6 +37,20 @@ public class TableCoordinates
         public String    provider;
         public double    speed;
         public long      time;
+
+        public Row(Cursor cursor)
+        {
+            _id         = cursor.getLong(   cursor.getColumnIndex(COLUMN_ID)        );
+            trip_id     = cursor.getLong(   cursor.getColumnIndex(COLUMN_TRIP_ID)   );
+            accuracy    = cursor.getDouble( cursor.getColumnIndex(COLUMN_ACCURACY)  );
+            altitude    = cursor.getDouble( cursor.getColumnIndex(COLUMN_ALTITUDE)  );
+            bearing     = cursor.getDouble( cursor.getColumnIndex(COLUMN_BEARING)   );
+            latitude    = cursor.getDouble( cursor.getColumnIndex(COLUMN_LATITUDE)  );
+            longitude   = cursor.getDouble( cursor.getColumnIndex(COLUMN_LONGITUDE) );
+            provider    = cursor.getString( cursor.getColumnIndex(COLUMN_PROVIDER)  );
+            speed       = cursor.getDouble( cursor.getColumnIndex(COLUMN_SPEED)     );
+            time        = cursor.getLong(   cursor.getColumnIndex(COLUMN_TIME)      );
+        }
 
         public Row(TableTrips.Row trip, Location location)
         {

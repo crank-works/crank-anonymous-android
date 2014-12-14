@@ -1,6 +1,7 @@
 package com.crankworks.trackingdatabase;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -51,50 +52,93 @@ public class Database
     }
 
     TableTrips.Row currentTrip;
+    Location lastLocation;
+
+    public static Database createInstance(Context context)
+    {
+        return new Database(context);
+    }
 
     public Database(Context context)
     {
         mContext = context;
     }
 
-    private void open() throws SQLException
+    public Database open() throws SQLException
     {
         mDbHelper = new DatabaseHelper(mContext);
         mDb = mDbHelper.getWritableDatabase();
+        return this;
     }
 
-    private void close()
+    public void close()
     {
-        mDb.close();
-        mDbHelper.close();
+        if (mDb != null)
+            mDb.close();
+
+        if (mDbHelper != null)
+            mDbHelper.close();
     }
 
-    public void newTrip(Location location) throws SQLException
+    public void newTrip(Location location)
     {
         Log.v(TAG, "newTrip");
 
-        currentTrip = new TableTrips.Row(location);
-        TableCoordinates.Row currentPosition = new TableCoordinates.Row(currentTrip, location);
+        try
+        {
+            open();
 
-        open();
-        TableTrips.addRow(mDb, currentTrip);
-        TableCoordinates.addPosition(mDb, currentPosition);
-        close();
+            currentTrip = new TableTrips.Row(location);
+            currentTrip._id = TableTrips.addRow(mDb, currentTrip);
+            lastLocation = location;
+
+            TableCoordinates.Row currentPosition = new TableCoordinates.Row(currentTrip, location);
+            TableCoordinates.addPosition(mDb, currentPosition);
+        }
+
+        catch (SQLException e)
+        {
+            Log.e(TAG, "newTrip", e);
+        }
+
+        finally
+        {
+            close();
+        }
     }
 
-    public void newPosition(Location location) throws SQLException
+    public void newPosition(Location location)
     {
         Log.v(TAG, "newPosition");
 
         if (currentTrip == null)
             return;
 
-        currentTrip.update(location);
-        TableCoordinates.Row currentPosition = new TableCoordinates.Row(currentTrip, location);
+        try
+        {
+            open();
 
-        open();
-        TableTrips.updateRow(mDb, currentTrip);
-        TableCoordinates.addPosition(mDb, currentPosition);
-        close();
+            currentTrip.update(location, lastLocation);
+            TableTrips.updateRow(mDb, currentTrip);
+            lastLocation = location;
+
+            TableCoordinates.Row currentPosition = new TableCoordinates.Row(currentTrip, location);
+            TableCoordinates.addPosition(mDb, currentPosition);
+        }
+
+        catch (SQLException e)
+        {
+            Log.e(TAG, "newPosition", e);
+        }
+
+        finally
+        {
+            close();
+        }
+    }
+
+    public Cursor getTrips()
+    {
+        return TableTrips.getCursor(mDb);
     }
 }

@@ -2,6 +2,7 @@ package com.crankworks.trackingdatabase;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.location.LocationManager;
@@ -37,7 +38,18 @@ public class TableTrips
         public double    longitude_low;
         public double    distance;
 
-        private Location previousLocation;
+        Row(Cursor data)
+        {
+            _id             = data.getLong(     data.getColumnIndex(COLUMN_ID)              );
+            start_time      = data.getLong(     data.getColumnIndex(COLUMN_START_TIME)      );
+            end_time        = data.getLong(     data.getColumnIndex(COLUMN_END_TIME)        );
+            objective       = data.getString(   data.getColumnIndex(COLUMN_OBJECTIVE)       );
+            latitude_high   = data.getDouble(   data.getColumnIndex(COLUMN_LATITUDE_HIGH)   );
+            latitude_low    = data.getDouble(   data.getColumnIndex(COLUMN_LATITUDE_LOW)    );
+            longitude_high  = data.getDouble(   data.getColumnIndex(COLUMN_LONGITUDE_HIGH)  );
+            longitude_low   = data.getDouble(   data.getColumnIndex(COLUMN_LONGITUDE_LOW)   );
+            distance        = data.getDouble(   data.getColumnIndex(COLUMN_DISTANCE)        );
+        }
 
         Row(Location location)
         {
@@ -47,11 +59,9 @@ public class TableTrips
             latitude_low = location.getLatitude();
             longitude_high = location.getLongitude();
             longitude_low = location.getLongitude();
-
-            previousLocation = location;
         }
 
-        void update(Location location)
+        void update(Location location, Location fromLocation)
         {
             double t;
 
@@ -69,9 +79,8 @@ public class TableTrips
             else if (t > longitude_high)
                 longitude_high = t;
 
-            distance += location.distanceTo(previousLocation);
-
-            previousLocation = location;
+            if (fromLocation != null)
+                distance += location.distanceTo(fromLocation);
         }
     }
 
@@ -120,5 +129,11 @@ public class TableTrips
         rowValues.put(COLUMN_DISTANCE, row.distance);
 
         return mDb.update(TABLE_NAME, rowValues, COLUMN_ID + "=" + row._id, null);
+    }
+
+    static Cursor getCursor(SQLiteDatabase mDb)
+    {
+        Cursor cursor = mDb.query(TABLE_NAME, null, null, null, null, null, null);
+        return cursor;
     }
 }
