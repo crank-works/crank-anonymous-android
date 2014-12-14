@@ -1,6 +1,8 @@
 package com.crankworks.crankanonymous;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.database.Cursor;
 import android.os.Bundle;
 //import android.support.v7.app.ActionBarActivity;
 
@@ -10,8 +12,12 @@ import android.view.MenuInflater;
 
 // Launch Separate Activity
 import android.view.MenuItem;
-import android.view.View;
 import android.content.Intent;
+import android.widget.TextView;
+
+import com.crankworks.TrackingActivity.TrackingActivity;
+import com.crankworks.trackingdatabase.Database;
+import com.crankworks.trackingdatabase.TableTrips;
 
 public class MainActivity extends Activity
 {
@@ -21,7 +27,34 @@ public class MainActivity extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        setDatabaseTrips();
+        setActionBar();
+    }
+
+    private void setDatabaseTrips()
+    {
+        TextView viewTrips = (TextView) findViewById(R.id.database_trips);
+        Database db = null;
+
+        try
+        {
+            db = new Database(this).open();
+            Cursor cursor = db.getTrips();
+            viewTrips.setText("Number of trips: " + cursor.getCount());
+        }
+
+        finally
+        {
+            if (db != null)
+                db.close();
+        }
+    }
+
+    private void setActionBar()
+    {
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null)
+            actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
