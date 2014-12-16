@@ -33,7 +33,8 @@ public class TrackingServiceBinder extends Binder implements ITracker
         stateRecord = new RecorderStateRecord(this, locationManager);
         statePause = new RecorderStatePause(this);
 
-        setState(stateIdle);
+        mState = stateIdle;
+        notifyState();
     }
 
     ArrayList<ITrackObserver> getObservers()
@@ -57,12 +58,6 @@ public class TrackingServiceBinder extends Binder implements ITracker
             mObservers.clear();
         else
             mObservers.remove(observer);
-    }
-
-    public void setState(IRecorderState recorder)
-    {
-        mState = recorder;
-        notifyState();
     }
 
     public void startRecording()

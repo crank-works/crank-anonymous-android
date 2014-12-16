@@ -1,4 +1,4 @@
-package com.crankworks.TrackingActivity;
+package com.crankworks.trackingactivity;
 
 import android.content.Context;
 import android.location.Location;

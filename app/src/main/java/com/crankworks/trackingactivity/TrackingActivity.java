@@ -1,4 +1,4 @@
-package com.crankworks.TrackingActivity;
+package com.crankworks.trackingactivity;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -16,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crankworks.crankanonymous.R;
-import com.crankworks.trackingservice.BaseTracker;
 import com.crankworks.trackingservice.ITracker;
 import com.crankworks.trackingservice.ITrackObserver;
 import com.crankworks.trackingservice.TrackingService;
@@ -39,12 +38,14 @@ public class TrackingActivity extends Activity implements ITrackObserver
     private Button mButtonStop;
     private Button mButtonCancel;
 
-    private final static ITracker mDummyRecorder = new BaseTracker();
     private ITracker mRecorder;
 
     private ITracker getRecorder()
     {
-        return mRecorder != null ? mRecorder : mDummyRecorder;
+        if (mRecorder == null)
+            Log.e(TAG, "getRecorder: mRecorder is null");
+
+        return mRecorder;
     }
 
     private ServiceConnection mConnection = new ServiceConnection() {
