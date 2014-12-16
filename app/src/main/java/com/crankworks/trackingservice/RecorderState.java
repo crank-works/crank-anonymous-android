@@ -5,12 +5,12 @@ import java.util.ArrayList;
 /**
  * Created by marcus on 12/9/14.
  */
-class RecorderStateBase implements IRecorderState
+class RecorderState
 {
-    private static final String TAG = RecorderStateBase.class.getSimpleName();
+    private static final String TAG = RecorderState.class.getSimpleName();
     private TrackingServiceBinder mStateContext;
 
-    public RecorderStateBase(TrackingServiceBinder stateContext)
+    public RecorderState(TrackingServiceBinder stateContext)
     {
         mStateContext = stateContext;
     }
@@ -40,24 +40,24 @@ class RecorderStateBase implements IRecorderState
         return mStateContext.getObservers();
     }
 
-    /* IRecorderState interface */
+    /* RecorderState interface */
 
-    public IRecorderState startRecording()
+    public RecorderState startRecording()
     {
         return this;
     }
 
-    public IRecorderState pauseRecording()
+    public RecorderState pauseRecording()
     {
         return this;
     }
 
-    public IRecorderState finishRecording()
+    public RecorderState finishRecording()
     {
         return this;
     }
 
-    public IRecorderState cancelRecording()
+    public RecorderState cancelRecording()
     {
         return this;
     }

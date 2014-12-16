@@ -7,7 +7,7 @@ import java.util.ArrayList;
 /**
  * Created by marcus on 12/8/14.
  */
-class RecorderStatePause extends RecorderStateBase
+class RecorderStatePause extends RecorderState
 {
     private static final String TAG = RecorderStatePause.class.getSimpleName();
 
@@ -16,10 +16,10 @@ class RecorderStatePause extends RecorderStateBase
         super(stateContext);
     }
 
-    /* IRecorderState interface */
+    /* RecorderState interface */
 
     @Override
-    public IRecorderState startRecording()
+    public RecorderState startRecording()
     {
         Log.v(TAG, "startRecording");
         getStateRecorder().stateResumeRecording();
@@ -27,7 +27,7 @@ class RecorderStatePause extends RecorderStateBase
     }
 
     @Override
-    public IRecorderState finishRecording()
+    public RecorderState finishRecording()
     {
         Log.v(TAG, "finishRecording");
         getStateRecorder().stateFinishRecording();
@@ -35,7 +35,7 @@ class RecorderStatePause extends RecorderStateBase
     }
 
     @Override
-    public IRecorderState cancelRecording()
+    public RecorderState cancelRecording()
     {
         Log.v(TAG, "cancelRecording");
         getStateRecorder().stateCancelRecording();

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 /**
  * Created by marcus on 12/8/14.
  */
-class RecorderStateIdle extends RecorderStateBase
+class RecorderStateIdle extends RecorderState
 {
     private static final String TAG = RecorderStateIdle.class.getSimpleName();
 
@@ -18,7 +18,7 @@ class RecorderStateIdle extends RecorderStateBase
         super(stateContext);
     }
 
-    public IRecorderState startRecording()
+    public RecorderState startRecording()
     {
         Log.v(TAG, "startRecording");
         getStateRecorder().stateBeginRecording();

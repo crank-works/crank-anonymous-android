@@ -21,7 +21,7 @@ public class TrackingServiceBinder extends Binder implements ITracker
     RecorderStateRecord stateRecord;
     RecorderStatePause statePause;
 
-    private IRecorderState mState;
+    private RecorderState mState;
 
     public TrackingServiceBinder(TrackingService trackingService)
     {

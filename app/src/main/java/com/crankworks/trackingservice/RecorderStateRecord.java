@@ -12,7 +12,7 @@ import java.util.ArrayList;
 /**
  * Created by marcus on 12/8/14.
  */
-class RecorderStateRecord extends RecorderStateBase implements LocationListener
+class RecorderStateRecord extends RecorderState implements LocationListener
 {
     private static final String TAG = RecorderStateRecord.class.getSimpleName();
 
@@ -93,10 +93,10 @@ class RecorderStateRecord extends RecorderStateBase implements LocationListener
         mLocationManager.removeUpdates(this);
     }
 
-    /* IRecorderState interface */
+    /* RecorderState interface */
 
     @Override
-    public IRecorderState pauseRecording()
+    public RecorderState pauseRecording()
     {
         Log.v(TAG, "pauseRecording");
         mLocationManager.removeUpdates(this);
@@ -104,7 +104,7 @@ class RecorderStateRecord extends RecorderStateBase implements LocationListener
     }
 
     @Override
-    public IRecorderState finishRecording()
+    public RecorderState finishRecording()
     {
         Log.v(TAG, "finishRecording");
         stateFinishRecording();
@@ -112,7 +112,7 @@ class RecorderStateRecord extends RecorderStateBase implements LocationListener
     }
 
     @Override
-    public IRecorderState cancelRecording()
+    public RecorderState cancelRecording()
     {
         Log.v(TAG, "cancelRecording");
         stateCancelRecording();
