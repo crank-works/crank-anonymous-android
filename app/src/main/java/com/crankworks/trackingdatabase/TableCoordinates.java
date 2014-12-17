@@ -16,6 +16,7 @@ public class TableCoordinates
 
     public static final String COLUMN_ID             = "_id";
     public static final String COLUMN_TRIP_ID        = "trip_id";
+    public static final String COLUMN_SEQUENCE       = "sequence";
     public static final String COLUMN_ACCURACY       = "accuracy";
     public static final String COLUMN_ALTITUDE       = "altitude";
     public static final String COLUMN_BEARING        = "bearing";
@@ -29,6 +30,7 @@ public class TableCoordinates
     {
         public long      _id;
         public long      trip_id;
+        public long      sequence;
         public double    accuracy;
         public double    altitude;
         public double    bearing;
@@ -38,10 +40,13 @@ public class TableCoordinates
         public double    speed;
         public long      time;
 
+        private long mSequence = 0;
+
         public Row(Cursor cursor)
         {
             _id         = cursor.getLong(   cursor.getColumnIndex(COLUMN_ID)        );
             trip_id     = cursor.getLong(   cursor.getColumnIndex(COLUMN_TRIP_ID)   );
+            sequence    = cursor.getLong(   cursor.getColumnIndex(COLUMN_SEQUENCE)  );
             accuracy    = cursor.getDouble( cursor.getColumnIndex(COLUMN_ACCURACY)  );
             altitude    = cursor.getDouble( cursor.getColumnIndex(COLUMN_ALTITUDE)  );
             bearing     = cursor.getDouble( cursor.getColumnIndex(COLUMN_BEARING)   );
@@ -55,6 +60,7 @@ public class TableCoordinates
         public Row(TableTrips.Row trip, Location location)
         {
             trip_id     = trip._id;
+            sequence    = ++mSequence;
             accuracy    = location.getAccuracy();
             altitude    = location.getAltitude();
             bearing     = location.getBearing();
@@ -71,6 +77,7 @@ public class TableCoordinates
         final String sqlString = "create table " + TABLE_NAME + " ("
                 + COLUMN_ID         + " integer primary key autoincrement, "
                 + COLUMN_TRIP_ID    + " integer, "
+                + COLUMN_SEQUENCE   + " integer, "
                 + COLUMN_ACCURACY   + " double, "
                 + COLUMN_ALTITUDE   + " double, "
                 + COLUMN_BEARING    + " double, "

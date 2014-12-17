@@ -2,6 +2,7 @@ package com.crankworks.trackingactivity;
 
 import android.app.Activity;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.res.Configuration;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crankworks.crankanonymous.R;
+import com.crankworks.trackingservice.DummyTracker;
 import com.crankworks.trackingservice.ITracker;
 import com.crankworks.trackingservice.ITrackObserver;
 import com.crankworks.trackingservice.TrackingService;
@@ -43,9 +45,9 @@ public class TrackingActivity extends Activity implements ITrackObserver
     private ITracker getRecorder()
     {
         if (mRecorder == null)
-            Log.e(TAG, "getRecorder: mRecorder is null");
+            Log.i(TAG, "getRecorder: mRecorder is null");
 
-        return mRecorder;
+        return mRecorder != null ? mRecorder : DummyTracker.instance();
     }
 
     private ServiceConnection mConnection = new ServiceConnection() {
@@ -53,7 +55,7 @@ public class TrackingActivity extends Activity implements ITrackObserver
             Log.v(TAG, "onServiceConnected");
             mRecorder = (ITracker) service;
             getRecorder().attachObserver(TrackingActivity.this);
-            getRecorder().attachObserver(DatabaseConnector.connectorInstance(TrackingActivity.this));
+            getRecorder().attachObserver(DatabaseConnector.connectorInstance());
         }
 
         public void onServiceDisconnected(ComponentName className) {
@@ -176,6 +178,14 @@ public class TrackingActivity extends Activity implements ITrackObserver
         mFieldSpeed.setText("");
         mFieldBearing.setText("");
         mFieldAccuracy.setText("");
+    }
+
+    public void trackerAttach(Context context)
+    {
+    }
+
+    public void trackerDetach()
+    {
     }
 
     public void trackerLocation(Location location)
