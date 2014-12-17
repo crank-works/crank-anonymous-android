@@ -1,17 +1,16 @@
-package com.crankworks.TrackingActivity;
+package com.crankworks.trackingactivity;
 
 import android.content.Context;
 import android.location.Location;
 import android.util.Log;
 
 import com.crankworks.trackingdatabase.Database;
-import com.crankworks.trackingservice.BaseTrackObserver;
 import com.crankworks.trackingservice.ITrackObserver;
 
 /**
  * Created by marcus on 12/13/14.
  */
-public class DatabaseConnector extends BaseTrackObserver implements ITrackObserver
+public class DatabaseConnector implements ITrackObserver
 {
     private static final String TAG = DatabaseConnector.class.getSimpleName();
 
@@ -52,4 +51,10 @@ public class DatabaseConnector extends BaseTrackObserver implements ITrackObserv
     {
         mDatabase = null;
     }
+
+    public void trackerRecording()
+    {}
+
+    public void trackerPaused()
+    {}
 }

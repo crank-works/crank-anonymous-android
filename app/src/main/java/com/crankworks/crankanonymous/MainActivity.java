@@ -15,9 +15,8 @@ import android.view.MenuItem;
 import android.content.Intent;
 import android.widget.TextView;
 
-import com.crankworks.TrackingActivity.TrackingActivity;
+import com.crankworks.trackingactivity.TrackingActivity;
 import com.crankworks.trackingdatabase.Database;
-import com.crankworks.trackingdatabase.TableTrips;
 
 public class MainActivity extends Activity
 {
