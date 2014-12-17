@@ -19,17 +19,26 @@ public class DatabaseConnector implements ITrackObserver
     private Context mContext;
     private Database mDatabase;
 
-    public static DatabaseConnector connectorInstance(Context context)
+    public static DatabaseConnector connectorInstance()
     {
         if (mInstance == null)
-            mInstance = new DatabaseConnector(context);
+            mInstance = new DatabaseConnector();
 
         return mInstance;
     }
 
-    private DatabaseConnector(Context context)
+    private DatabaseConnector()
+    {
+    }
+
+    public void trackerAttach(Context context)
     {
         mContext = context;
+    }
+
+    public void trackerDetach()
+    {
+        mDatabase = null;
     }
 
     public void trackerLocation(Location location)

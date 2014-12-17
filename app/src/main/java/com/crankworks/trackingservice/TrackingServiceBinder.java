@@ -3,6 +3,7 @@ package com.crankworks.trackingservice;
 import android.content.Context;
 import android.location.LocationManager;
 import android.os.Binder;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -46,8 +47,13 @@ public class TrackingServiceBinder extends Binder implements ITracker
 
     public void attachObserver(ITrackObserver observer)
     {
-        if (!mObservers.contains(observer))
+        Log.v(TAG, "attachObserver: is null? " + (observer == null ? "true" : "false"));
+
+        if (observer != null && !mObservers.contains(observer))
+        {
             mObservers.add(observer);
+            observer.trackerAttach(mTrackingService);
+        }
 
         notifyState();
     }
@@ -55,9 +61,17 @@ public class TrackingServiceBinder extends Binder implements ITracker
     public void detachObserver(ITrackObserver observer)
     {
         if (observer == null)
+        {
+            for (ITrackObserver o : mObservers)
+                o.trackerDetach();
+
             mObservers.clear();
+        }
         else
+        {
+            observer.trackerDetach();
             mObservers.remove(observer);
+        }
     }
 
     public void startRecording()

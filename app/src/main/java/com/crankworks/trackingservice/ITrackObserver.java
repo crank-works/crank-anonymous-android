@@ -1,5 +1,6 @@
 package com.crankworks.trackingservice;
 
+import android.content.Context;
 import android.location.Location;
 
 /**
@@ -7,6 +8,8 @@ import android.location.Location;
  */
 public interface ITrackObserver
 {
+    public void trackerAttach(Context context);
+    public void trackerDetach();
     public void trackerLocation(Location location);
     public void trackerIdle();
     public void trackerRecording();
