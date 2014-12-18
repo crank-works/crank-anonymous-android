@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.location.LocationManager;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by marcus on 12/12/14.
  */
@@ -82,6 +85,34 @@ public class TableTrips
             if (fromLocation != null)
                 distance += location.distanceTo(fromLocation);
         }
+
+        public ContentValues toContentValues()
+        {
+            ContentValues content = new ContentValues();
+            content.put(COLUMN_START_TIME,      start_time);
+            content.put(COLUMN_END_TIME,        end_time);
+            content.put(COLUMN_OBJECTIVE,       objective);
+            content.put(COLUMN_LATITUDE_HIGH,   latitude_high);
+            content.put(COLUMN_LATITUDE_LOW,    latitude_low);
+            content.put(COLUMN_LONGITUDE_HIGH,  longitude_high);
+            content.put(COLUMN_LONGITUDE_LOW,   longitude_low);
+            content.put(COLUMN_DISTANCE,        distance);
+            return content;
+        }
+
+        public JSONObject toJson() throws JSONException
+        {
+            JSONObject json = new JSONObject();
+            json.put(COLUMN_START_TIME,     start_time);
+            json.put(COLUMN_END_TIME,       end_time);
+            json.put(COLUMN_OBJECTIVE,      objective);
+            json.put(COLUMN_LATITUDE_HIGH,  latitude_high);
+            json.put(COLUMN_LATITUDE_LOW,   latitude_low);
+            json.put(COLUMN_LONGITUDE_HIGH, longitude_high);
+            json.put(COLUMN_LONGITUDE_LOW,  longitude_low);
+            json.put(COLUMN_DISTANCE,       distance);
+            return json;
+        }
     }
 
     static void createTable(SQLiteDatabase db)
@@ -100,40 +131,19 @@ public class TableTrips
         db.execSQL(sqlString);
     }
 
-    static long addRow(SQLiteDatabase mDb, Row row)
+    static long addRow(SQLiteDatabase db, Row row)
     {
-        ContentValues rowValues = new ContentValues();
-        rowValues.put(COLUMN_START_TIME, row.start_time);
-        rowValues.put(COLUMN_END_TIME, row.end_time);
-        rowValues.put(COLUMN_OBJECTIVE, row.objective);
-        rowValues.put(COLUMN_LATITUDE_HIGH, row.latitude_high);
-        rowValues.put(COLUMN_LATITUDE_LOW, row.latitude_low);
-        rowValues.put(COLUMN_LONGITUDE_HIGH, row.longitude_high);
-        rowValues.put(COLUMN_LONGITUDE_LOW, row.longitude_low);
-        rowValues.put(COLUMN_DISTANCE, row.distance);
-
-        return mDb.insert(TABLE_NAME, null, rowValues);
+        return db.insert(TABLE_NAME, null, row.toContentValues());
     }
 
-    static long updateRow(SQLiteDatabase mDb, Row row)
+    static long updateRow(SQLiteDatabase db, Row row)
     {
-        ContentValues rowValues = new ContentValues();
-        rowValues.put(COLUMN_ID, row._id);
-        rowValues.put(COLUMN_START_TIME, row.start_time);
-        rowValues.put(COLUMN_END_TIME, row.end_time);
-        rowValues.put(COLUMN_OBJECTIVE, row.objective);
-        rowValues.put(COLUMN_LATITUDE_HIGH, row.latitude_high);
-        rowValues.put(COLUMN_LATITUDE_LOW, row.latitude_low);
-        rowValues.put(COLUMN_LONGITUDE_HIGH, row.longitude_high);
-        rowValues.put(COLUMN_LONGITUDE_LOW, row.longitude_low);
-        rowValues.put(COLUMN_DISTANCE, row.distance);
-
-        return mDb.update(TABLE_NAME, rowValues, COLUMN_ID + "=" + row._id, null);
+        return db.update(TABLE_NAME, row.toContentValues(), COLUMN_ID + "=" + row._id, null);
     }
 
-    static Cursor getCursor(SQLiteDatabase mDb)
+    static Cursor getCursor(SQLiteDatabase db)
     {
-        Cursor cursor = mDb.query(TABLE_NAME, null, null, null, null, null, null);
+        Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
         return cursor;
     }
 }
