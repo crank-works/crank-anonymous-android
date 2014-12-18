@@ -86,6 +86,20 @@ public class TableTrips
                 distance += location.distanceTo(fromLocation);
         }
 
+        public ContentValues toContentValues()
+        {
+            ContentValues content = new ContentValues();
+            content.put(COLUMN_START_TIME,      start_time);
+            content.put(COLUMN_END_TIME,        end_time);
+            content.put(COLUMN_OBJECTIVE,       objective);
+            content.put(COLUMN_LATITUDE_HIGH,   latitude_high);
+            content.put(COLUMN_LATITUDE_LOW,    latitude_low);
+            content.put(COLUMN_LONGITUDE_HIGH,  longitude_high);
+            content.put(COLUMN_LONGITUDE_LOW,   longitude_low);
+            content.put(COLUMN_DISTANCE,        distance);
+            return content;
+        }
+
         public JSONObject toJson() throws JSONException
         {
             JSONObject json = new JSONObject();
@@ -119,33 +133,12 @@ public class TableTrips
 
     static long addRow(SQLiteDatabase mDb, Row row)
     {
-        ContentValues rowValues = new ContentValues();
-        rowValues.put(COLUMN_START_TIME, row.start_time);
-        rowValues.put(COLUMN_END_TIME, row.end_time);
-        rowValues.put(COLUMN_OBJECTIVE, row.objective);
-        rowValues.put(COLUMN_LATITUDE_HIGH, row.latitude_high);
-        rowValues.put(COLUMN_LATITUDE_LOW, row.latitude_low);
-        rowValues.put(COLUMN_LONGITUDE_HIGH, row.longitude_high);
-        rowValues.put(COLUMN_LONGITUDE_LOW, row.longitude_low);
-        rowValues.put(COLUMN_DISTANCE, row.distance);
-
-        return mDb.insert(TABLE_NAME, null, rowValues);
+        return mDb.insert(TABLE_NAME, null, row.toContentValues());
     }
 
     static long updateRow(SQLiteDatabase mDb, Row row)
     {
-        ContentValues rowValues = new ContentValues();
-        rowValues.put(COLUMN_ID, row._id);
-        rowValues.put(COLUMN_START_TIME, row.start_time);
-        rowValues.put(COLUMN_END_TIME, row.end_time);
-        rowValues.put(COLUMN_OBJECTIVE, row.objective);
-        rowValues.put(COLUMN_LATITUDE_HIGH, row.latitude_high);
-        rowValues.put(COLUMN_LATITUDE_LOW, row.latitude_low);
-        rowValues.put(COLUMN_LONGITUDE_HIGH, row.longitude_high);
-        rowValues.put(COLUMN_LONGITUDE_LOW, row.longitude_low);
-        rowValues.put(COLUMN_DISTANCE, row.distance);
-
-        return mDb.update(TABLE_NAME, rowValues, COLUMN_ID + "=" + row._id, null);
+        return mDb.update(TABLE_NAME, row.toContentValues(), COLUMN_ID + "=" + row._id, null);
     }
 
     static Cursor getCursor(SQLiteDatabase mDb)

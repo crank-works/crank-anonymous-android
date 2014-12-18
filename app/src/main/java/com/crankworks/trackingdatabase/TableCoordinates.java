@@ -73,6 +73,21 @@ public class TableCoordinates
             speed       = location.getSpeed();
             time        = location.getTime();
         }
+        
+        public ContentValues toContentValues()
+        {
+            ContentValues content = new ContentValues();
+            content.put(COLUMN_TRIP_ID,     trip_id);
+            content.put(COLUMN_ACCURACY,    accuracy);
+            content.put(COLUMN_ALTITUDE,    altitude);
+            content.put(COLUMN_BEARING,     bearing);
+            content.put(COLUMN_LATITUDE,    latitude);
+            content.put(COLUMN_LONGITUDE,   longitude);
+            content.put(COLUMN_PROVIDER,    provider);
+            content.put(COLUMN_SPEED,       speed);
+            content.put(COLUMN_TIME,        time);
+            return content;
+        }
 
         public JSONObject toJson() throws JSONException
         {
@@ -111,17 +126,12 @@ public class TableCoordinates
 
     static long addPosition(SQLiteDatabase mDb, Row row)
     {
-        ContentValues rowValues = new ContentValues();
-        rowValues.put(COLUMN_TRIP_ID, row.trip_id);
-        rowValues.put(COLUMN_ACCURACY, row.accuracy);
-        rowValues.put(COLUMN_ALTITUDE, row.altitude);
-        rowValues.put(COLUMN_BEARING, row.bearing);
-        rowValues.put(COLUMN_LATITUDE, row.latitude);
-        rowValues.put(COLUMN_LONGITUDE, row.longitude);
-        rowValues.put(COLUMN_PROVIDER, row.provider);
-        rowValues.put(COLUMN_SPEED, row.speed);
-        rowValues.put(COLUMN_TIME, row.time);
+        return mDb.insert(TABLE_NAME, null, row.toContentValues());
+    }
 
-        return mDb.insert(TABLE_NAME, null, rowValues);
+    static Cursor getCursor(SQLiteDatabase mDb, TableTrips.Row trip)
+    {
+        Cursor cursor = mDb.query(TABLE_NAME, null, null, null, null, null, null);
+        return cursor;
     }
 }
