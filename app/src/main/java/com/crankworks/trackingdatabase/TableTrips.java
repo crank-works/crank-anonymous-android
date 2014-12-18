@@ -131,19 +131,19 @@ public class TableTrips
         db.execSQL(sqlString);
     }
 
-    static long addRow(SQLiteDatabase mDb, Row row)
+    static long addRow(SQLiteDatabase db, Row row)
     {
-        return mDb.insert(TABLE_NAME, null, row.toContentValues());
+        return db.insert(TABLE_NAME, null, row.toContentValues());
     }
 
-    static long updateRow(SQLiteDatabase mDb, Row row)
+    static long updateRow(SQLiteDatabase db, Row row)
     {
-        return mDb.update(TABLE_NAME, row.toContentValues(), COLUMN_ID + "=" + row._id, null);
+        return db.update(TABLE_NAME, row.toContentValues(), COLUMN_ID + "=" + row._id, null);
     }
 
-    static Cursor getCursor(SQLiteDatabase mDb)
+    static Cursor getCursor(SQLiteDatabase db)
     {
-        Cursor cursor = mDb.query(TABLE_NAME, null, null, null, null, null, null);
+        Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
         return cursor;
     }
 }

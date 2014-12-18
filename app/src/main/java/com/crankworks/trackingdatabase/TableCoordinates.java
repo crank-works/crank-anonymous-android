@@ -124,14 +124,14 @@ public class TableCoordinates
         db.execSQL(sqlString);
     }
 
-    static long addPosition(SQLiteDatabase mDb, Row row)
+    static long addPosition(SQLiteDatabase db, Row row)
     {
-        return mDb.insert(TABLE_NAME, null, row.toContentValues());
+        return db.insert(TABLE_NAME, null, row.toContentValues());
     }
 
-    static Cursor getCursor(SQLiteDatabase mDb, TableTrips.Row trip)
+    static Cursor getCursor(SQLiteDatabase db, TableTrips.Row trip)
     {
-        Cursor cursor = mDb.query(TABLE_NAME, null, null, null, null, null, null);
+        Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
         return cursor;
     }
 }
