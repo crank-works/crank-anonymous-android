@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.location.LocationManager;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by marcus on 12/12/14.
  */
@@ -81,6 +84,20 @@ public class TableTrips
 
             if (fromLocation != null)
                 distance += location.distanceTo(fromLocation);
+        }
+
+        public JSONObject toJson() throws JSONException
+        {
+            JSONObject json = new JSONObject();
+            json.put(COLUMN_START_TIME,     start_time);
+            json.put(COLUMN_END_TIME,       end_time);
+            json.put(COLUMN_OBJECTIVE,      objective);
+            json.put(COLUMN_LATITUDE_HIGH,  latitude_high);
+            json.put(COLUMN_LATITUDE_LOW,   latitude_low);
+            json.put(COLUMN_LONGITUDE_HIGH, longitude_high);
+            json.put(COLUMN_LONGITUDE_LOW,  longitude_low);
+            json.put(COLUMN_DISTANCE,       distance);
+            return json;
         }
     }
 

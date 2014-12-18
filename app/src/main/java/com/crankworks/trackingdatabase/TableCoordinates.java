@@ -5,6 +5,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by marcus on 12/12/14.
  */
@@ -69,6 +72,22 @@ public class TableCoordinates
             provider    = location.getProvider();
             speed       = location.getSpeed();
             time        = location.getTime();
+        }
+
+        public JSONObject toJson() throws JSONException
+        {
+            JSONObject json = new JSONObject();
+            json.put(COLUMN_TRIP_ID,    trip_id);
+            json.put(COLUMN_SEQUENCE,   sequence);
+            json.put(COLUMN_ACCURACY,   accuracy);
+            json.put(COLUMN_ALTITUDE,   altitude);
+            json.put(COLUMN_BEARING,    bearing);
+            json.put(COLUMN_LATITUDE,   latitude);
+            json.put(COLUMN_LONGITUDE,  longitude);
+            json.put(COLUMN_PROVIDER,   provider);
+            json.put(COLUMN_SPEED,      speed);
+            json.put(COLUMN_TIME,       time);
+            return json;
         }
     }
 
