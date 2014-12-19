@@ -149,15 +149,21 @@ public class TableTrips
 
     public static int totalDistance(SQLiteDatabase db)
     {
-        final Cursor cursor = db.rawQuery("SELECT SUM(distance) as distance FROM " + TABLE_NAME + ";", null);
+        final Cursor cursor = db.rawQuery("SELECT SUM(" + COLUMN_DISTANCE + ") as " + COLUMN_DISTANCE + " FROM " + TABLE_NAME + ";", null);
         int sum = 0;
 
-        if (cursor != null) {
-            try {
-                if (cursor.moveToFirst()) {
+        if (cursor != null)
+        {
+            try
+            {
+                if (cursor.moveToFirst())
+                {
                     sum = cursor.getInt(0);
                 }
-            } finally {
+            }
+
+            finally
+            {
                 cursor.close();
             }
         }
