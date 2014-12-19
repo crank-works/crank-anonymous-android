@@ -141,4 +141,28 @@ public class Database
     {
         return TableTrips.getCursor(mDb);
     }
+
+    public int totalDistance()
+    {
+        Log.v(TAG, "totalDistance");
+        int distance = 0;
+
+        try
+        {
+            open();
+            distance = TableTrips.totalDistance(mDb);
+        }
+
+        catch (SQLException e)
+        {
+            Log.e(TAG, "totalDistance", e);
+        }
+
+        finally
+        {
+            close();
+        }
+
+        return distance;
+    }
 }

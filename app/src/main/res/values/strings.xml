@@ -16,6 +16,7 @@
     <string name="button_cancel">Cancel</string>
 
     <string name="main_number_trips_label">Number of trips</string>
+    <string name="main_total_distance_label">Total distance</string>
 
     <string name="tracking_timestamp_label">Time</string>
     <string name="tracking_latitude_label">Latitude</string>

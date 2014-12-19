@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import com.crankworks.trackingactivity.TrackingActivity;
 import com.crankworks.trackingdatabase.Database;
+import com.crankworks.trackingdatabase.TableTrips;
 
 public class MainActivity extends Activity
 {
@@ -32,6 +33,7 @@ public class MainActivity extends Activity
         Log.v(TAG, "onResume");
         super.onResume();
         setDatabaseTrips();
+        setDistance();
     }
 
     private void setDatabaseTrips()
@@ -51,6 +53,14 @@ public class MainActivity extends Activity
             if (db != null)
                 db.close();
         }
+    }
+
+    private void setDistance()
+    {
+        TextView viewDistance= (TextView) findViewById(R.id.main_total_distance);
+
+        Database db = new Database(this);
+        viewDistance.setText(String.valueOf(db.totalDistance()));
     }
 
     private void setActionBar()
