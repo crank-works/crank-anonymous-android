@@ -28,6 +28,7 @@ public class TableTrips
     public static final String COLUMN_LONGITUDE_HIGH = "longitude_high";
     public static final String COLUMN_LONGITUDE_LOW  = "longitude_low";
     public static final String COLUMN_DISTANCE       = "distance";
+    public static final String COLUMN_UPLOADED       = "uploaded";
 
     public static class Row
     {
@@ -40,6 +41,7 @@ public class TableTrips
         public double    longitude_high;
         public double    longitude_low;
         public double    distance;
+        public boolean   uploaded;
 
         Row(Cursor data)
         {
@@ -52,6 +54,7 @@ public class TableTrips
             longitude_high  = data.getDouble(   data.getColumnIndex(COLUMN_LONGITUDE_HIGH)  );
             longitude_low   = data.getDouble(   data.getColumnIndex(COLUMN_LONGITUDE_LOW)   );
             distance        = data.getDouble(   data.getColumnIndex(COLUMN_DISTANCE)        );
+            uploaded        = data.getInt(      data.getColumnIndex(COLUMN_UPLOADED)        ) != 0;
         }
 
         Row(Location location)
@@ -62,6 +65,7 @@ public class TableTrips
             latitude_low = location.getLatitude();
             longitude_high = location.getLongitude();
             longitude_low = location.getLongitude();
+            uploaded = false;
         }
 
         void update(Location location, Location fromLocation)
@@ -97,6 +101,7 @@ public class TableTrips
             content.put(COLUMN_LONGITUDE_HIGH,  longitude_high);
             content.put(COLUMN_LONGITUDE_LOW,   longitude_low);
             content.put(COLUMN_DISTANCE,        distance);
+            content.put(COLUMN_UPLOADED,        uploaded ? 1 : 0);
             return content;
         }
 
@@ -126,7 +131,8 @@ public class TableTrips
                 + COLUMN_LATITUDE_LOW   + " double, "
                 + COLUMN_LONGITUDE_HIGH + " double, "
                 + COLUMN_LONGITUDE_LOW  + " double, "
-                + COLUMN_DISTANCE       + " double)";
+                + COLUMN_DISTANCE       + " double, "
+                + COLUMN_UPLOADED       + " integer)";
 
         db.execSQL(sqlString);
     }
@@ -143,26 +149,36 @@ public class TableTrips
 
     static Cursor getCursor(SQLiteDatabase db)
     {
-        Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
-        return cursor;
+        return db.query(TABLE_NAME, null, null, null, null, null, null);
     }
 
     public static int totalDistance(SQLiteDatabase db)
     {
-        final Cursor cursor = db.rawQuery("SELECT SUM(distance) as distance FROM " + TABLE_NAME + ";", null);
+        final Cursor cursor = db.rawQuery("SELECT SUM(" + COLUMN_DISTANCE + ") as " + COLUMN_DISTANCE + " FROM " + TABLE_NAME + ";", null);
         int sum = 0;
 
-        if (cursor != null) {
-            try {
-                if (cursor.moveToFirst()) {
+        if (cursor != null)
+        {
+            try
+            {
+                if (cursor.moveToFirst())
                     sum = cursor.getInt(0);
-                }
-            } finally {
+            }
+
+            finally
+            {
                 cursor.close();
             }
         }
 
         return sum;
+    }
+
+    public static long setUploaded(SQLiteDatabase db, int row_id, boolean flag)
+    {
+        ContentValues content = new ContentValues();
+        content.put(COLUMN_UPLOADED, flag ? 1 : 0);
+        return db.update(TABLE_NAME, content, COLUMN_ID + "=" + row_id, null);
     }
 
 }
