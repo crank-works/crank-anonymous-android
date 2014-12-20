@@ -142,6 +142,30 @@ public class Database
         return TableTrips.getCursor(mDb);
     }
 
+    public int tripCount()
+    {
+        Log.v(TAG, "tripCount");
+        int count = 0;
+
+        try
+        {
+            open();
+            count = getTrips().getCount();
+        }
+
+        catch (SQLException e)
+        {
+            Log.e(TAG, "tripCount", e);
+        }
+
+        finally
+        {
+            close();
+        }
+
+        return count;
+    }
+
     public int totalDistance()
     {
         Log.v(TAG, "totalDistance");
