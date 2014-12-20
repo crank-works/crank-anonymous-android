@@ -241,6 +241,7 @@ public class TrackingActivity extends Activity implements ITrackObserver
     {
         Log.v(TAG, "trackerIdle");
         mButtonRecord.setEnabled(true);
+        mButtonRecord.setText(R.string.button_record);
         mButtonPause.setEnabled(false);
         mButtonStop.setEnabled(false);
         mButtonCancel.setEnabled(false);
@@ -260,6 +261,7 @@ public class TrackingActivity extends Activity implements ITrackObserver
     {
         Log.v(TAG, "trackerPaused");
         mButtonRecord.setEnabled(true);
+        mButtonRecord.setText(R.string.button_resume);
         mButtonPause.setEnabled(false);
         mButtonStop.setEnabled(true);
         mButtonCancel.setEnabled(true);

@@ -11,6 +11,7 @@
     <string name="action_track">Track</string>
 
     <string name="button_record">Record</string>
+    <string name="button_resume">Resume</string>
     <string name="button_pause">Pause</string>
     <string name="button_stop">Stop</string>
     <string name="button_cancel">Cancel</string>
