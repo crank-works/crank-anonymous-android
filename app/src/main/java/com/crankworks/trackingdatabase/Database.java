@@ -137,6 +137,27 @@ public class Database
         }
     }
 
+    public void setUploaded(int row_id, boolean flag)
+    {
+        Log.v(TAG, "setUploaded");
+
+        try
+        {
+            open();
+            TableTrips.setUploaded(mDb, row_id, flag);
+        }
+
+        catch (SQLException e)
+        {
+            Log.e(TAG, "setUploaded", e);
+        }
+
+        finally
+        {
+            close();
+        }
+    }
+
     public Cursor getTrips()
     {
         return TableTrips.getCursor(mDb);
