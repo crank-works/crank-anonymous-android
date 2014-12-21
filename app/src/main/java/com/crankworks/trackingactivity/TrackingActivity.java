@@ -31,6 +31,7 @@ public class TrackingActivity extends Activity implements ITrackObserver
     private TextView mFieldTimestamp;
     private TextView mFieldLatitude;
     private TextView mFieldLongitude;
+    private TextView mFieldAltitude;
     private TextView mFieldSpeed;
     private TextView mFieldAccuracy;
     private TextView mFieldBearing;
@@ -123,6 +124,7 @@ public class TrackingActivity extends Activity implements ITrackObserver
         mFieldTimestamp = (TextView) findViewById(R.id.tracking_timestamp);
         mFieldLatitude = (TextView) findViewById(R.id.tracking_latitude);
         mFieldLongitude = (TextView) findViewById(R.id.tracking_longitude);
+        mFieldAltitude = (TextView) findViewById(R.id.tracking_altitude);
         mFieldSpeed = (TextView) findViewById(R.id.tracking_speed);
         mFieldAccuracy = (TextView) findViewById(R.id.tracking_accuracy);
         mFieldBearing = (TextView) findViewById(R.id.tracking_bearing);
@@ -195,6 +197,7 @@ public class TrackingActivity extends Activity implements ITrackObserver
 
         String lat = toDms(location.getLatitude());
         String lon = toDms(location.getLongitude());
+        String alt = String.valueOf(location.getAltitude());
         String speed = toMph(location.getSpeed());
         float bearing = location.getBearing();
         float accuracy = location.getAccuracy();
@@ -203,6 +206,7 @@ public class TrackingActivity extends Activity implements ITrackObserver
         {
             Log.v(TAG, "timestamp: " + timestamp);
             Log.v(TAG, " position: " + lat + ", " + lon);
+            Log.v(TAG, " altitude: " + alt);
             Log.v(TAG, "    speed: " + speed);
             Log.v(TAG, "  bearing: " + bearing);
             Log.v(TAG, " accuracy: " + accuracy);
@@ -211,6 +215,7 @@ public class TrackingActivity extends Activity implements ITrackObserver
         mFieldTimestamp.setText(timestamp);
         mFieldLatitude.setText(lat);
         mFieldLongitude.setText(lon);
+        mFieldAltitude.setText(alt);
         mFieldSpeed.setText(speed);
         mFieldBearing.setText(String.valueOf(bearing));
         mFieldAccuracy.setText(String.valueOf(accuracy));

@@ -22,6 +22,7 @@
     <string name="tracking_timestamp_label">Time</string>
     <string name="tracking_latitude_label">Latitude</string>
     <string name="tracking_longitude_label">Longitude</string>
+    <string name="tracking_altitude_label">Altitude</string>
     <string name="tracking_speed_label">Speed</string>
     <string name="tracking_accuracy_label">Accuracy</string>
     <string name="tracking_bearing_label">Bearing</string>

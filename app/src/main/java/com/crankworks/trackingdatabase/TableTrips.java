@@ -27,7 +27,11 @@ public class TableTrips
     public static final String COLUMN_LATITUDE_LOW   = "latitude_low";
     public static final String COLUMN_LONGITUDE_HIGH = "longitude_high";
     public static final String COLUMN_LONGITUDE_LOW  = "longitude_low";
+    public static final String COLUMN_ALTITUDE_HIGH  = "altitude_high";
+    public static final String COLUMN_ALTITUDE_LOW   = "altitude_low";
+    public static final String COLUMN_TOTAL_CLIMB    = "total_climb";
     public static final String COLUMN_DISTANCE       = "distance";
+    public static final String COLUMN_TOP_SPEED      = "top_speed";
     public static final String COLUMN_UPLOADED       = "uploaded";
 
     public static class Row
@@ -40,7 +44,11 @@ public class TableTrips
         public double    latitude_low;
         public double    longitude_high;
         public double    longitude_low;
+        public double    altitude_high;
+        public double    altitude_low;
+        public double    total_climb;
         public double    distance;
+        public double    top_speed;
         public boolean   uploaded;
 
         Row(Cursor data)
@@ -53,7 +61,11 @@ public class TableTrips
             latitude_low    = data.getDouble(   data.getColumnIndex(COLUMN_LATITUDE_LOW)    );
             longitude_high  = data.getDouble(   data.getColumnIndex(COLUMN_LONGITUDE_HIGH)  );
             longitude_low   = data.getDouble(   data.getColumnIndex(COLUMN_LONGITUDE_LOW)   );
+            altitude_high   = data.getDouble(   data.getColumnIndex(COLUMN_ALTITUDE_HIGH)   );
+            altitude_low    = data.getDouble(   data.getColumnIndex(COLUMN_ALTITUDE_LOW)    );
+            total_climb     = data.getDouble(   data.getColumnIndex(COLUMN_TOTAL_CLIMB)     );
             distance        = data.getDouble(   data.getColumnIndex(COLUMN_DISTANCE)        );
+            top_speed       = data.getDouble(   data.getColumnIndex(COLUMN_TOP_SPEED)       );
             uploaded        = data.getInt(      data.getColumnIndex(COLUMN_UPLOADED)        ) != 0;
         }
 
@@ -65,6 +77,11 @@ public class TableTrips
             latitude_low = location.getLatitude();
             longitude_high = location.getLongitude();
             longitude_low = location.getLongitude();
+            altitude_high = location.getAltitude();
+            altitude_low = location.getAltitude();
+            total_climb = 0.0;
+            distance = 0.0;
+            top_speed = 0.0;
             uploaded = false;
         }
 
@@ -86,8 +103,23 @@ public class TableTrips
             else if (t > longitude_high)
                 longitude_high = t;
 
+            t = location.getAltitude();
+            if (t < altitude_low)
+                altitude_low = t;
+            else if (t > altitude_high)
+                altitude_high = t;
+
+            t = location.getSpeed();
+            if (t > top_speed)
+                top_speed = t;
+
             if (fromLocation != null)
+            {
                 distance += location.distanceTo(fromLocation);
+                double alt_diff = location.getAltitude() - fromLocation.getAltitude();
+                if (alt_diff > 0)
+                    total_climb += alt_diff;
+            }
         }
 
         public ContentValues toContentValues()
@@ -100,7 +132,11 @@ public class TableTrips
             content.put(COLUMN_LATITUDE_LOW,    latitude_low);
             content.put(COLUMN_LONGITUDE_HIGH,  longitude_high);
             content.put(COLUMN_LONGITUDE_LOW,   longitude_low);
+            content.put(COLUMN_ALTITUDE_HIGH,   altitude_high);
+            content.put(COLUMN_ALTITUDE_LOW,    altitude_low);
+            content.put(COLUMN_TOTAL_CLIMB,     total_climb);
             content.put(COLUMN_DISTANCE,        distance);
+            content.put(COLUMN_TOP_SPEED,       top_speed);
             content.put(COLUMN_UPLOADED,        uploaded ? 1 : 0);
             return content;
         }
@@ -115,7 +151,11 @@ public class TableTrips
             json.put(COLUMN_LATITUDE_LOW,   latitude_low);
             json.put(COLUMN_LONGITUDE_HIGH, longitude_high);
             json.put(COLUMN_LONGITUDE_LOW,  longitude_low);
+            json.put(COLUMN_ALTITUDE_HIGH,  altitude_high);
+            json.put(COLUMN_ALTITUDE_LOW,   altitude_low);
+            json.put(COLUMN_TOTAL_CLIMB,    total_climb);
             json.put(COLUMN_DISTANCE,       distance);
+            json.put(COLUMN_TOP_SPEED,      top_speed);
             return json;
         }
     }
@@ -131,7 +171,11 @@ public class TableTrips
                 + COLUMN_LATITUDE_LOW   + " double, "
                 + COLUMN_LONGITUDE_HIGH + " double, "
                 + COLUMN_LONGITUDE_LOW  + " double, "
+                + COLUMN_ALTITUDE_HIGH  + " double, "
+                + COLUMN_ALTITUDE_LOW   + " double, "
+                + COLUMN_TOTAL_CLIMB    + " double, "
                 + COLUMN_DISTANCE       + " double, "
+                + COLUMN_TOP_SPEED      + " double, "
                 + COLUMN_UPLOADED       + " integer)";
 
         db.execSQL(sqlString);
