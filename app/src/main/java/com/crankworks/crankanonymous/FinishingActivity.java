@@ -24,6 +24,7 @@ public class FinishingActivity extends Activity implements AdapterView.OnItemSel
     private TextView fieldDistance;
     private TextView fieldAverageSpeed;
     private TextView fieldTopSpeed;
+    private TextView fieldTotalClimb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -45,6 +46,7 @@ public class FinishingActivity extends Activity implements AdapterView.OnItemSel
         fieldDistance = (TextView) findViewById(R.id.finishing_distance);
         fieldAverageSpeed = (TextView) findViewById(R.id.finishing_average_speed);
         fieldTopSpeed = (TextView) findViewById(R.id.finishing_top_speed);
+        fieldTotalClimb = (TextView) findViewById(R.id.finishing_total_climb);
     }
 
     private void populateObjective()
@@ -67,6 +69,7 @@ public class FinishingActivity extends Activity implements AdapterView.OnItemSel
             fieldDistance.setText(String.valueOf(trip.distance));
             fieldAverageSpeed.setText(String.valueOf(getAverageSpeed(trip)));
             fieldTopSpeed.setText(String.valueOf(trip.top_speed));
+            fieldTotalClimb.setText(String.valueOf(trip.total_climb));
         }
     }
 
@@ -78,8 +81,7 @@ public class FinishingActivity extends Activity implements AdapterView.OnItemSel
     private double getAverageSpeed(TableTrips.Row trip)
     {
         double elapsedTime = (double) (trip.end_time - trip.start_time);
-        elapsedTime /= 1000;
-        return trip.distance / elapsedTime;
+        return 1000.0 * trip.distance / elapsedTime;
     }
 
 
