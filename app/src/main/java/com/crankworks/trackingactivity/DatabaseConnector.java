@@ -31,6 +31,8 @@ public class DatabaseConnector implements ITrackObserver
     {
     }
 
+    /* ITrackObserver interface */
+
     public void trackerAttach(Context context)
     {
         mContext = context;

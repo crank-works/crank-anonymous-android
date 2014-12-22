@@ -25,6 +25,8 @@
     <string name="title_activity_finishing">FinishingActivity</string>
     <string name="finishing_objective_label">Purpose of trip</string>
     <string name="finishing_objective_prompt">Select the purpose of your trip</string>
+    <string name="finishing_distance_label">Distance</string>
+    <string name="finishing_top_speed_label">Top Speed</string>
 
     <string-array name="objectives_array">
         <item>Commute to/from work</item>

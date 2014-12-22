@@ -9,6 +9,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
+
+import com.crankworks.trackingdatabase.Database;
+import com.crankworks.trackingdatabase.TableTrips;
 
 
 public class FinishingActivity extends Activity implements AdapterView.OnItemSelectedListener
@@ -16,6 +20,8 @@ public class FinishingActivity extends Activity implements AdapterView.OnItemSel
     private static final String TAG = FinishingActivity.class.getSimpleName();
 
     private Spinner fieldObjective;
+    private TextView fieldDistance;
+    private TextView fieldTopSpeed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -25,12 +31,16 @@ public class FinishingActivity extends Activity implements AdapterView.OnItemSel
         setContentView(R.layout.activity_finishing);
         findChildViews();
         populateObjective();
+        populateTripFields();
     }
 
     private void findChildViews()
     {
         fieldObjective = (Spinner) findViewById(R.id.finishing_objective);
         fieldObjective.setOnItemSelectedListener(this);
+
+        fieldDistance = (TextView) findViewById(R.id.finishing_distance);
+        fieldTopSpeed = (TextView) findViewById(R.id.finishing_top_speed);
     }
 
     private void populateObjective()
@@ -40,6 +50,14 @@ public class FinishingActivity extends Activity implements AdapterView.OnItemSel
                 android.R.layout.simple_spinner_dropdown_item);
 
         fieldObjective.setAdapter(adapter);
+    }
+
+    private void populateTripFields()
+    {
+        Database db = new Database(this);
+        TableTrips.Row trip = db.getLastTrip();
+        fieldDistance.setText(String.valueOf(trip.distance));
+        fieldTopSpeed.setText(String.valueOf(trip.top_speed));
     }
 
 

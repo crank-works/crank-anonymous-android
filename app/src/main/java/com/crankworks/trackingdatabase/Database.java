@@ -163,6 +163,32 @@ public class Database
         return TableTrips.getCursor(mDb);
     }
 
+    public TableTrips.Row getLastTrip()
+    {
+        Log.v(TAG, "getLastTrip");
+        TableTrips.Row trip = null;
+
+        try
+        {
+            open();
+            Cursor cursor = getTrips();
+            cursor.moveToLast();
+            trip = new TableTrips.Row(cursor);
+        }
+
+        catch (SQLException e)
+        {
+            Log.e(TAG, "getLastTrip", e);
+        }
+
+        finally
+        {
+            close();
+        }
+
+        return trip;
+    }
+
     public int tripCount()
     {
         Log.v(TAG, "tripCount");
