@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crankworks.crankanonymous.FinishingActivity;
 import com.crankworks.crankanonymous.R;
 import com.crankworks.trackingservice.DummyTracker;
 import com.crankworks.trackingservice.ITracker;
@@ -158,6 +159,8 @@ public class TrackingActivity extends Activity implements ITrackObserver
     {
         Log.v(TAG, "onStopClicked");
         getRecorder().finishRecording();
+        openFinisher();
+        finish();
     }
 
     public void onCancelClicked(View view)
@@ -270,5 +273,11 @@ public class TrackingActivity extends Activity implements ITrackObserver
         mButtonPause.setEnabled(false);
         mButtonStop.setEnabled(true);
         mButtonCancel.setEnabled(true);
+    }
+
+    private void openFinisher()
+    {
+        Intent intent = new Intent(this, FinishingActivity.class);
+        startActivity(intent);
     }
 }

@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Crank</string>
     <string name="tracking_name">Tracking Activity</string>
-    <string name="tracking_title">Tracking&#8230;</string>
+    <string name="tracking_title">Tracking…</string>
     <string name="tracking_service_name">Tracking Service</string>
-
     <string name="hello_world">Hello, from Crank</string>
-
     <string name="action_settings">Settings</string>
     <string name="action_track">Track</string>
-
     <string name="button_record">Record</string>
     <string name="button_resume">Resume</string>
     <string name="button_pause">Pause</string>
     <string name="button_stop">Stop</string>
     <string name="button_cancel">Cancel</string>
-
     <string name="main_number_trips_label">Number of trips</string>
     <string name="main_total_distance_label">Total distance</string>
-
     <string name="tracking_timestamp_label">Time</string>
     <string name="tracking_latitude_label">Latitude</string>
     <string name="tracking_longitude_label">Longitude</string>
@@ -26,4 +22,17 @@
     <string name="tracking_speed_label">Speed</string>
     <string name="tracking_accuracy_label">Accuracy</string>
     <string name="tracking_bearing_label">Bearing</string>
+    <string name="title_activity_finishing">FinishingActivity</string>
+    <string name="finishing_objective_label">Purpose of trip</string>
+    <string name="finishing_objective_prompt">Select the purpose of your trip</string>
+
+    <string-array name="objectives_array">
+        <item>Commute to/from work</item>
+        <item>Commute to/from school</item>
+        <item>Shopping</item>
+        <item>Pleasure</item>
+        <item>Exercise</item>
+        <item>Other</item>
+    </string-array>
+
 </resources>
