@@ -20,7 +20,9 @@ public class FinishingActivity extends Activity implements AdapterView.OnItemSel
     private static final String TAG = FinishingActivity.class.getSimpleName();
 
     private Spinner fieldObjective;
+    private TextView fieldElapsedTime;
     private TextView fieldDistance;
+    private TextView fieldAverageSpeed;
     private TextView fieldTopSpeed;
 
     @Override
@@ -39,7 +41,9 @@ public class FinishingActivity extends Activity implements AdapterView.OnItemSel
         fieldObjective = (Spinner) findViewById(R.id.finishing_objective);
         fieldObjective.setOnItemSelectedListener(this);
 
+        fieldElapsedTime = (TextView) findViewById(R.id.finishing_elapsed_time);
         fieldDistance = (TextView) findViewById(R.id.finishing_distance);
+        fieldAverageSpeed = (TextView) findViewById(R.id.finishing_average_speed);
         fieldTopSpeed = (TextView) findViewById(R.id.finishing_top_speed);
     }
 
@@ -56,8 +60,26 @@ public class FinishingActivity extends Activity implements AdapterView.OnItemSel
     {
         Database db = new Database(this);
         TableTrips.Row trip = db.getLastTrip();
-        fieldDistance.setText(String.valueOf(trip.distance));
-        fieldTopSpeed.setText(String.valueOf(trip.top_speed));
+
+        if (trip != null)
+        {
+            fieldElapsedTime.setText(String.valueOf(getElapsedTimeInSeconds(trip)));
+            fieldDistance.setText(String.valueOf(trip.distance));
+            fieldAverageSpeed.setText(String.valueOf(getAverageSpeed(trip)));
+            fieldTopSpeed.setText(String.valueOf(trip.top_speed));
+        }
+    }
+
+    private long getElapsedTimeInSeconds(TableTrips.Row trip)
+    {
+        return (trip.end_time - trip.start_time) / 1000;
+    }
+
+    private double getAverageSpeed(TableTrips.Row trip)
+    {
+        double elapsedTime = (double) (trip.end_time - trip.start_time);
+        elapsedTime /= 1000;
+        return trip.distance / elapsedTime;
     }
 
 

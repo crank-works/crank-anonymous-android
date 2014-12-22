@@ -81,7 +81,7 @@ public class TableTrips
             altitude_low = location.getAltitude();
             total_climb = 0.0;
             distance = 0.0;
-            top_speed = 0.0;
+            top_speed = location.getSpeed();
             uploaded = false;
         }
 

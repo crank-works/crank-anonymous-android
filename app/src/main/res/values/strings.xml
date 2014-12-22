@@ -27,6 +27,8 @@
     <string name="finishing_objective_prompt">Select the purpose of your trip</string>
     <string name="finishing_distance_label">Distance</string>
     <string name="finishing_top_speed_label">Top Speed</string>
+    <string name="finishing_elapsed_time_label">Elapsed Time</string>
+    <string name="finishing_average_speed_label">Average Speed</string>
 
     <string-array name="objectives_array">
         <item>Commute to/from work</item>
