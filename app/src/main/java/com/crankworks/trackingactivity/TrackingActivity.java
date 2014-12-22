@@ -57,7 +57,7 @@ public class TrackingActivity extends Activity implements ITrackObserver
             Log.v(TAG, "onServiceConnected");
             mRecorder = (ITracker) service;
             getRecorder().attachObserver(TrackingActivity.this);
-            getRecorder().attachObserver(DatabaseConnector.connectorInstance());
+            DatabaseConnector.connectorInstance(getRecorder());
         }
 
         public void onServiceDisconnected(ComponentName className) {
@@ -159,7 +159,9 @@ public class TrackingActivity extends Activity implements ITrackObserver
     {
         Log.v(TAG, "onStopClicked");
         getRecorder().finishRecording();
-        openFinisher();
+        boolean isTrip = DatabaseConnector.connectorInstance().onFinished();
+        if (isTrip)
+            openFinisher();
         finish();
     }
 
@@ -167,6 +169,7 @@ public class TrackingActivity extends Activity implements ITrackObserver
     {
         Log.v(TAG, "onCancelClicked");
         getRecorder().cancelRecording();
+        DatabaseConnector.connectorInstance().onCanceled();
         finish();
     }
 

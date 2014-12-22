@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.crankworks.trackingdatabase.Database;
 import com.crankworks.trackingservice.ITrackObserver;
+import com.crankworks.trackingservice.ITracker;
 
 /**
  * Created by marcus on 12/13/14.
@@ -16,19 +17,47 @@ public class DatabaseConnector implements ITrackObserver
 
     private static DatabaseConnector mInstance;
 
+    private ITracker mTracker;
     private Context mContext;
     private Database mDatabase;
 
     public static DatabaseConnector connectorInstance()
     {
         if (mInstance == null)
-            mInstance = new DatabaseConnector();
+            throw new RuntimeException("DatabaseConnector.connectorInstance: DatabaseConnector not instantiated.");
 
         return mInstance;
     }
 
-    private DatabaseConnector()
+    public static DatabaseConnector connectorInstance(ITracker tracker)
     {
+        if (mInstance == null)
+            mInstance = new DatabaseConnector(tracker);
+
+        return mInstance;
+    }
+
+    private DatabaseConnector(ITracker tracker)
+    {
+        mTracker = tracker;
+        mTracker.attachObserver(this);
+    }
+
+    public boolean onFinished()
+    {
+        mTracker.detachObserver(this);
+        mInstance = null;
+        return mDatabase != null;
+    }
+
+    public void onCanceled()
+    {
+        mTracker.detachObserver(this);
+        if (mDatabase != null)
+        {
+            mDatabase.deleteCurrentTrip();
+        }
+        mInstance = null;
     }
 
     /* ITrackObserver interface */
@@ -40,7 +69,6 @@ public class DatabaseConnector implements ITrackObserver
 
     public void trackerDetach()
     {
-        mDatabase = null;
     }
 
     public void trackerLocation(Location location)

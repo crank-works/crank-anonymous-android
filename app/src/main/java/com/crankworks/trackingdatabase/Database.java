@@ -137,6 +137,9 @@ public class Database
         }
     }
 
+    public void deleteCurrentTrip()
+    {}
+
     public void setUploaded(int row_id, boolean flag)
     {
         Log.v(TAG, "setUploaded");
