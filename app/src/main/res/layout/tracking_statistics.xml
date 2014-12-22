@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-        >
+              android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,58 +29,16 @@
             android:paddingLeft="8dp"
             >
             <TextView
+                android:id="@+id/tracking_timestamp_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dip"
                 android:layout_marginRight="5dip"
-                android:text="@string/finishing_objective_label"
-                android:textSize="20sp"
-                />
-            <Spinner
-                android:id="@+id/finishing_objective"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dip"
-                android:layout_marginRight="5dip"
-                android:prompt="@string/finishing_objective_prompt"
-                />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center_vertical"
-        android:paddingTop="8dp"
-        android:paddingLeft="8dp"
-        android:divider="@android:drawable/divider_horizontal_dim_dark"
-        >
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:src="@android:drawable/title_bar_tall"
-            android:paddingTop="8dp"
-            android:paddingLeft="8dp"
-            />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center_vertical"
-            android:paddingTop="8dp"
-            android:paddingLeft="8dp"
-            >
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dip"
-                android:layout_marginRight="5dip"
-                android:text="@string/finishing_elapsed_time_label"
+                android:text="@string/tracking_timestamp_label"
                 android:textSize="20sp"
                 />
             <TextView
-                android:id="@+id/finishing_elapsed_time"
+                android:id="@+id/tracking_timestamp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dip"
@@ -116,15 +72,16 @@
             android:paddingLeft="8dp"
             >
             <TextView
+                android:id="@+id/tracking_latitude_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dip"
                 android:layout_marginRight="5dip"
-                android:text="@string/finishing_distance_label"
+                android:text="@string/tracking_latitude_label"
                 android:textSize="20sp"
                 />
             <TextView
-                android:id="@+id/finishing_distance"
+                android:id="@+id/tracking_latitude"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dip"
@@ -140,7 +97,6 @@
         android:layout_gravity="center_vertical"
         android:paddingTop="8dp"
         android:paddingLeft="8dp"
-        android:divider="@android:drawable/divider_horizontal_dim_dark"
         >
         <ImageView
             android:layout_width="wrap_content"
@@ -158,15 +114,16 @@
             android:paddingLeft="8dp"
             >
             <TextView
+                android:id="@+id/tracking_longitude_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dip"
                 android:layout_marginRight="5dip"
-                android:text="@string/finishing_average_speed_label"
+                android:text="@string/tracking_longitude_label"
                 android:textSize="20sp"
                 />
             <TextView
-                android:id="@+id/finishing_average_speed"
+                android:id="@+id/tracking_longitude"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dip"
@@ -182,7 +139,6 @@
         android:layout_gravity="center_vertical"
         android:paddingTop="8dp"
         android:paddingLeft="8dp"
-        android:divider="@android:drawable/divider_horizontal_dim_dark"
         >
         <ImageView
             android:layout_width="wrap_content"
@@ -200,15 +156,142 @@
             android:paddingLeft="8dp"
             >
             <TextView
+                android:id="@+id/tracking_altitude_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dip"
                 android:layout_marginRight="5dip"
-                android:text="@string/finishing_top_speed_label"
+                android:text="@string/tracking_altitude_label"
                 android:textSize="20sp"
                 />
             <TextView
-                android:id="@+id/finishing_top_speed"
+                android:id="@+id/tracking_altitude"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="5dip"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_vertical"
+        android:paddingTop="8dp"
+        android:paddingLeft="8dp"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@android:drawable/title_bar_tall"
+            android:paddingTop="8dp"
+            android:paddingLeft="8dp"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical"
+            android:paddingTop="8dp"
+            android:paddingLeft="8dp"
+            >
+            <TextView
+                android:id="@+id/tracking_speed_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="5dip"
+                android:text="@string/tracking_speed_label"
+                android:textSize="20sp"
+                />
+            <TextView
+                android:id="@+id/tracking_speed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="5dip"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_vertical"
+        android:paddingTop="8dp"
+        android:paddingLeft="8dp"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@android:drawable/title_bar_tall"
+            android:paddingTop="8dp"
+            android:paddingLeft="8dp"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical"
+            android:paddingTop="8dp"
+            android:paddingLeft="8dp"
+            >
+            <TextView
+                android:id="@+id/tracking_bearing_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="5dip"
+                android:text="@string/tracking_bearing_label"
+                android:textSize="20sp"
+                />
+            <TextView
+                android:id="@+id/tracking_bearing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="5dip"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_vertical"
+        android:paddingTop="8dp"
+        android:paddingLeft="8dp"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@android:drawable/title_bar_tall"
+            android:paddingTop="8dp"
+            android:paddingLeft="8dp"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical"
+            android:paddingTop="8dp"
+            android:paddingLeft="8dp"
+            >
+            <TextView
+                android:id="@+id/tracking_accuracy_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="5dip"
+                android:text="@string/tracking_accuracy_label"
+                android:textSize="20sp"
+                />
+            <TextView
+                android:id="@+id/tracking_accuracy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dip"
@@ -218,15 +301,3 @@
     </LinearLayout>
 
 </LinearLayout>
-
-<!--
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                tools:context="com.crankworks.crankanonymous.FinishingActivity">
--->
