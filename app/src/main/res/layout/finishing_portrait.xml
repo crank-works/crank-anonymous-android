@@ -7,7 +7,7 @@
         >
 
     <include layout="@layout/finishing_objective" />
-    <include layout="@layout/finishing_statistics_layout" />
+    <include layout="@layout/finishing_statistics" />
 
 </LinearLayout>
 
