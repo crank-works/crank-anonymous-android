@@ -1,6 +1,7 @@
 package com.crankworks.crankanonymous;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -31,10 +32,28 @@ public class FinishingActivity extends Activity implements AdapterView.OnItemSel
     {
         super.onCreate(savedInstanceState);
         Log.v(TAG, "onCreate");
-        setContentView(R.layout.activity_finishing);
+        setContentViewFromOrientation();
         findChildViews();
         populateObjective();
         populateTripFields();
+    }
+
+    private void setContentViewFromOrientation()
+    {
+        switch (getResources().getConfiguration().orientation)
+        {
+            case Configuration.ORIENTATION_LANDSCAPE:
+                setContentView(R.layout.finishing_landscape);
+                break;
+
+            case Configuration.ORIENTATION_PORTRAIT:
+                setContentView(R.layout.finishing_portrait);
+                break;
+
+            default:
+                setContentView(R.layout.finishing_portrait);
+                break;
+        }
     }
 
     private void findChildViews()
