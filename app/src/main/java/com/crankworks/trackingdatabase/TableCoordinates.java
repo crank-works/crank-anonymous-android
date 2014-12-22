@@ -129,6 +129,11 @@ public class TableCoordinates
         return db.insert(TABLE_NAME, null, row.toContentValues());
     }
 
+    static void deleteTrip(SQLiteDatabase db, long trip_id)
+    {
+        db.delete(TABLE_NAME, COLUMN_TRIP_ID + "=" + trip_id, null);
+    }
+
     static Cursor getCursor(SQLiteDatabase db, TableTrips.Row trip)
     {
         Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);

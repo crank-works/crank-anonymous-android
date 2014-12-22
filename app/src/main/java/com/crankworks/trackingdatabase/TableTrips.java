@@ -1,11 +1,9 @@
 package com.crankworks.trackingdatabase;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
-import android.location.LocationManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -189,6 +187,11 @@ public class TableTrips
     static long updateRow(SQLiteDatabase db, Row row)
     {
         return db.update(TABLE_NAME, row.toContentValues(), COLUMN_ID + "=" + row._id, null);
+    }
+
+    static void deleteRow(SQLiteDatabase db, long row_id)
+    {
+        db.delete(TABLE_NAME, COLUMN_ID + "=" + row_id, null);
     }
 
     static Cursor getCursor(SQLiteDatabase db)

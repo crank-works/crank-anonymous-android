@@ -54,9 +54,7 @@ public class DatabaseConnector implements ITrackObserver
     {
         mTracker.detachObserver(this);
         if (mDatabase != null)
-        {
             mDatabase.deleteCurrentTrip();
-        }
         mInstance = null;
     }
 
@@ -88,7 +86,6 @@ public class DatabaseConnector implements ITrackObserver
 
     public void trackerIdle()
     {
-        mDatabase = null;
     }
 
     public void trackerRecording()

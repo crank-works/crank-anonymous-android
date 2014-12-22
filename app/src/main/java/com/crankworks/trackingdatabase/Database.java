@@ -138,7 +138,30 @@ public class Database
     }
 
     public void deleteCurrentTrip()
-    {}
+    {
+        Log.v(TAG, "deleteCurrentTrip");
+
+        if (currentTrip == null)
+            return;
+
+        try
+        {
+            open();
+
+            TableCoordinates.deleteTrip(mDb, currentTrip._id);
+            TableTrips.deleteRow(mDb, currentTrip._id);
+        }
+
+        catch (SQLException e)
+        {
+            Log.e(TAG, "deleteCurrentTrip", e);
+        }
+
+        finally
+        {
+            close();
+        }
+    }
 
     public void setUploaded(int row_id, boolean flag)
     {
