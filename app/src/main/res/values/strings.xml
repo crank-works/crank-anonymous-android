@@ -24,13 +24,15 @@
     <string name="tracking_bearing_label">Bearing</string>
     <string name="title_activity_finishing">FinishingActivity</string>
     <string name="finishing_objective_label">Purpose of trip</string>
+    <string name="finishing_objective_prompt">Select the purpose of your trip</string>
 
     <string-array name="objectives_array">
-        <item>Commute to work</item>
-        <item>Commute to school</item>
+        <item>Commute to/from work</item>
+        <item>Commute to/from school</item>
         <item>Shopping</item>
         <item>Pleasure</item>
         <item>Exercise</item>
+        <item>Other</item>
     </string-array>
 
 </resources>

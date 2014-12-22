@@ -36,8 +36,9 @@ public class FinishingActivity extends Activity implements AdapterView.OnItemSel
     private void populateObjective()
     {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.objectives_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.array.objectives_array,
+                android.R.layout.simple_spinner_dropdown_item);
+
         fieldObjective.setAdapter(adapter);
     }
 
