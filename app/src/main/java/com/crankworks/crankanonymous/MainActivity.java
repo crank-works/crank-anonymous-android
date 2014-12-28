@@ -69,22 +69,34 @@ public class MainActivity extends Activity
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
+        boolean rv = true;
+
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.action_track:
                 openTracker();
-                return true;
+                break;
+
             case R.id.action_settings:
-                //openSettings();
-                return true;
+                openSettings();
+                break;
+
             default:
-                return super.onOptionsItemSelected(item);
+                rv = super.onOptionsItemSelected(item);
         }
+
+        return rv;
     }
 
     private void openTracker()
     {
         Intent intent = new Intent(this, TrackingActivity.class);
+        startActivity(intent);
+    }
+
+    private void openSettings()
+    {
+        Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
 }
