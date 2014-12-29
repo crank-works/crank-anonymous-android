@@ -26,6 +26,7 @@ public class MainActivity extends Activity
         Log.v(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         PreferenceManager.setDefaultValues(this, R.xml.settings, false);
+        DisplayUnits.initialize(PreferenceManager.getDefaultSharedPreferences(this));
         setContentView(R.layout.main);
         setActionBar();
     }

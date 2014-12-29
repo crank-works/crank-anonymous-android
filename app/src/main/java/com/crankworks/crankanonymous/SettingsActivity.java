@@ -38,12 +38,16 @@ public class SettingsActivity extends Activity
             // Load the preferences from an XML resource
             addPreferencesFromResource(R.xml.settings);
 
-            {
-                Preference connectionPref = findPreference(KEY_PREF_DISPLAY_UNITS);
-                SharedPreferences sharedPreferences = getPreferenceManager().getSharedPreferences();
-                String prefDisplayUnit = sharedPreferences.getString(KEY_PREF_DISPLAY_UNITS, "");
-                connectionPref.setSummary(prefDisplayUnit);
-            }
+            setSummaryToCurrentValue(KEY_PREF_DISPLAY_UNITS, R.string.pref_display_units_default);
+        }
+
+        private void setSummaryToCurrentValue(String key, int defaultValue)
+        {
+            Preference connectionPref = findPreference(key);
+            SharedPreferences sharedPreferences = getPreferenceManager().getSharedPreferences();
+            String prefDisplayUnitDefault = getString(defaultValue);
+            String prefDisplayUnit = sharedPreferences.getString(key, prefDisplayUnitDefault);
+            connectionPref.setSummary(prefDisplayUnit);
         }
 
         @Override

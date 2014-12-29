@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crankworks.crankanonymous.DisplayUnits;
 import com.crankworks.crankanonymous.FinishingActivity;
 import com.crankworks.crankanonymous.R;
 import com.crankworks.trackingservice.DummyTracker;
@@ -204,7 +205,7 @@ public class TrackingActivity extends Activity implements ITrackObserver
         String lat = toDms(location.getLatitude());
         String lon = toDms(location.getLongitude());
         String alt = String.valueOf(location.getAltitude());
-        String speed = toMph(location.getSpeed());
+        String speed = DisplayUnits.displaySpeed(location.getSpeed()); //toMph(location.getSpeed());
         float bearing = location.getBearing();
         float accuracy = location.getAccuracy();
 
