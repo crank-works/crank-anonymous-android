@@ -209,7 +209,7 @@ public class TrackingActivity extends Activity implements ITrackObserver
         String alt = displayUnits.formatAltitude(location.getAltitude());
         String speed = displayUnits.formatSpeed(location.getSpeed());
         String accuracy = displayUnits.formatAccuracy(location.getAccuracy());
-        float bearing = location.getBearing();
+        String bearing = displayUnits.formatBearing(location.getBearing());
 
         //if (Log.isLoggable(TAG, Log.VERBOSE))
         {

@@ -88,24 +88,15 @@ public class FinishingActivity extends Activity implements AdapterView.OnItemSel
 
         if (trip != null)
         {
-            fieldElapsedTime.setText(getElapsedTimeInSeconds(trip));
+            fieldElapsedTime.setText(displayUnits.formatElapsedTime(trip.end_time - trip.start_time));
             fieldDistance.setText(displayUnits.formatDistance(trip.distance));
-            fieldAverageSpeed.setText(displayUnits.formatSpeed(getAverageSpeed(trip)));
+            fieldAverageSpeed.setText(displayUnits.formatSpeed(getAverageSpeedInMps(trip)));
             fieldTopSpeed.setText(displayUnits.formatSpeed(trip.top_speed));
             fieldTotalClimb.setText(displayUnits.formatAltitude(trip.total_climb));
         }
     }
 
-    private static String getElapsedTimeInSeconds(TableTrips.Row trip)
-    {
-        final long l = trip.end_time - trip.start_time;
-        final long hr = TimeUnit.MILLISECONDS.toHours(l);
-        final long min = TimeUnit.MILLISECONDS.toMinutes(l - TimeUnit.HOURS.toMillis(hr));
-        final long sec = TimeUnit.MILLISECONDS.toSeconds(l - TimeUnit.HOURS.toMillis(hr) - TimeUnit.MINUTES.toMillis(min));
-        return String.format("%02d:%02d:%02d", hr, min, sec);
-    }
-
-    private double getAverageSpeed(TableTrips.Row trip)
+    private double getAverageSpeedInMps(TableTrips.Row trip)
     {
         double elapsedTime = (double) (trip.end_time - trip.start_time);
         return 1000.0 * trip.distance / elapsedTime;

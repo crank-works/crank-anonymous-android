@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by marcus on 12/29/14.
  */
@@ -58,4 +60,23 @@ public abstract class DisplayUnits
     public abstract String formatAltitude(double meters);
     public abstract String formatDistance(double meters);
     public abstract String formatAccuracy(double meters);
+
+    public String formatBearing(double bearing)
+    {
+        String ordinals[] =
+        {
+            "north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest"
+        };
+
+        int index = (((int) (bearing + 22.5)) % 360) / 45;
+        return ordinals[index];
+    }
+
+    public String formatElapsedTime(long milliseconds)
+    {
+        final long hr = TimeUnit.MILLISECONDS.toHours(milliseconds);
+        final long min = TimeUnit.MILLISECONDS.toMinutes(milliseconds - TimeUnit.HOURS.toMillis(hr));
+        final long sec = TimeUnit.MILLISECONDS.toSeconds(milliseconds - TimeUnit.HOURS.toMillis(hr) - TimeUnit.MINUTES.toMillis(min));
+        return String.format("%02d:%02d:%02d", hr, min, sec);
+    }
 }

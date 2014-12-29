@@ -5,9 +5,6 @@ package com.crankworks.crankanonymous;
  */
 public class DisplayUnitsEnglish extends DisplayUnits
 {
-    public DisplayUnitsEnglish()
-    {}
-
     public String formatSpeed(double mps)
     {
         return String.format("%.1f MPH", toMPH(mps));
