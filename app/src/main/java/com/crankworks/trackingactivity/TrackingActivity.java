@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crankworks.crankanonymous.DisplayUnits;
 import com.crankworks.crankanonymous.FinishingActivity;
 import com.crankworks.crankanonymous.R;
 import com.crankworks.trackingservice.DummyTracker;
@@ -198,15 +199,17 @@ public class TrackingActivity extends Activity implements ITrackObserver
 
     public void trackerLocation(Location location)
     {
+        DisplayUnits displayUnits = DisplayUnits.instance(this);
+
         String timestamp = DateUtils.formatDateTime(this, location.getTime(), DateUtils.FORMAT_SHOW_DATE |
                                                                               DateUtils.FORMAT_SHOW_TIME);
 
         String lat = toDms(location.getLatitude());
         String lon = toDms(location.getLongitude());
-        String alt = String.valueOf(location.getAltitude());
-        String speed = toMph(location.getSpeed());
-        float bearing = location.getBearing();
-        float accuracy = location.getAccuracy();
+        String alt = displayUnits.formatAltitude(location.getAltitude());
+        String speed = displayUnits.formatSpeed(location.getSpeed());
+        String accuracy = displayUnits.formatAccuracy(location.getAccuracy());
+        String bearing = displayUnits.formatBearing(location.getBearing());
 
         //if (Log.isLoggable(TAG, Log.VERBOSE))
         {
@@ -224,7 +227,7 @@ public class TrackingActivity extends Activity implements ITrackObserver
         mFieldAltitude.setText(alt);
         mFieldSpeed.setText(speed);
         mFieldBearing.setText(String.valueOf(bearing));
-        mFieldAccuracy.setText(String.valueOf(accuracy));
+        mFieldAccuracy.setText(accuracy);
     }
 
     private String toMph(float mps)

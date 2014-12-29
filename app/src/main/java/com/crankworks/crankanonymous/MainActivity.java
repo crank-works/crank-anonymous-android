@@ -3,8 +3,8 @@ package com.crankworks.crankanonymous;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import com.crankworks.trackingactivity.TrackingActivity;
 import com.crankworks.trackingdatabase.Database;
-import com.crankworks.trackingdatabase.TableTrips;
 
 public class MainActivity extends Activity
 {
@@ -24,6 +23,7 @@ public class MainActivity extends Activity
     {
         Log.v(TAG, "onCreate");
         super.onCreate(savedInstanceState);
+        PreferenceManager.setDefaultValues(this, R.xml.settings, false);
         setContentView(R.layout.main);
         setActionBar();
     }
@@ -45,9 +45,10 @@ public class MainActivity extends Activity
 
     private void setDistance()
     {
+        DisplayUnits displayUnits = DisplayUnits.instance(this);
         TextView viewDistance= (TextView) findViewById(R.id.main_total_distance);
         int distance = new Database(this).totalDistance();
-        viewDistance.setText(String.valueOf(distance));
+        viewDistance.setText(displayUnits.formatDistance(distance));
     }
 
     private void setActionBar()
@@ -69,22 +70,34 @@ public class MainActivity extends Activity
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
+        boolean rv = true;
+
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.action_track:
                 openTracker();
-                return true;
+                break;
+
             case R.id.action_settings:
-                //openSettings();
-                return true;
+                openSettings();
+                break;
+
             default:
-                return super.onOptionsItemSelected(item);
+                rv = super.onOptionsItemSelected(item);
         }
+
+        return rv;
     }
 
     private void openTracker()
     {
         Intent intent = new Intent(this, TrackingActivity.class);
+        startActivity(intent);
+    }
+
+    private void openSettings()
+    {
+        Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
 }

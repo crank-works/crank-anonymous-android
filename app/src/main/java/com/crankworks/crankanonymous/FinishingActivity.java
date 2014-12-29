@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.crankworks.trackingdatabase.Database;
 import com.crankworks.trackingdatabase.TableTrips;
 
+import java.util.concurrent.TimeUnit;
+
 
 public class FinishingActivity extends Activity implements AdapterView.OnItemSelectedListener
 {
@@ -79,25 +81,22 @@ public class FinishingActivity extends Activity implements AdapterView.OnItemSel
 
     private void populateTripFields()
     {
+        DisplayUnits displayUnits = DisplayUnits.instance(this);
+
         Database db = new Database(this);
         TableTrips.Row trip = db.getLastTrip();
 
         if (trip != null)
         {
-            fieldElapsedTime.setText(String.valueOf(getElapsedTimeInSeconds(trip)));
-            fieldDistance.setText(String.valueOf(trip.distance));
-            fieldAverageSpeed.setText(String.valueOf(getAverageSpeed(trip)));
-            fieldTopSpeed.setText(String.valueOf(trip.top_speed));
-            fieldTotalClimb.setText(String.valueOf(trip.total_climb));
+            fieldElapsedTime.setText(displayUnits.formatElapsedTime(trip.end_time - trip.start_time));
+            fieldDistance.setText(displayUnits.formatDistance(trip.distance));
+            fieldAverageSpeed.setText(displayUnits.formatSpeed(getAverageSpeedInMps(trip)));
+            fieldTopSpeed.setText(displayUnits.formatSpeed(trip.top_speed));
+            fieldTotalClimb.setText(displayUnits.formatAltitude(trip.total_climb));
         }
     }
 
-    private long getElapsedTimeInSeconds(TableTrips.Row trip)
-    {
-        return (trip.end_time - trip.start_time) / 1000;
-    }
-
-    private double getAverageSpeed(TableTrips.Row trip)
+    private double getAverageSpeedInMps(TableTrips.Row trip)
     {
         double elapsedTime = (double) (trip.end_time - trip.start_time);
         return 1000.0 * trip.distance / elapsedTime;

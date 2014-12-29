@@ -30,6 +30,8 @@
     <string name="finishing_elapsed_time_label">Elapsed Time</string>
     <string name="finishing_average_speed_label">Average Speed</string>
     <string name="finishing_total_climb_label">Total Climb</string>
+    <string name="pref_display_units">Display Units</string>
+    <string name="pref_display_units_default">English</string>
 
     <string-array name="objectives_array">
         <item>Commute to/from work</item>
@@ -38,6 +40,11 @@
         <item>Pleasure</item>
         <item>Exercise</item>
         <item>Other</item>
+    </string-array>
+
+    <string-array name="pref_display_units_entries">
+        <item>English</item>
+        <item>Metric</item>
     </string-array>
 
 </resources>
