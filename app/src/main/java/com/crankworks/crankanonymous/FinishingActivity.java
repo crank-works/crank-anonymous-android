@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.crankworks.trackingdatabase.Database;
 import com.crankworks.trackingdatabase.TableTrips;
 
+import java.util.concurrent.TimeUnit;
+
 
 public class FinishingActivity extends Activity implements AdapterView.OnItemSelectedListener
 {
@@ -79,22 +81,28 @@ public class FinishingActivity extends Activity implements AdapterView.OnItemSel
 
     private void populateTripFields()
     {
+        DisplayUnits displayUnits = DisplayUnits.instance(this);
+
         Database db = new Database(this);
         TableTrips.Row trip = db.getLastTrip();
 
         if (trip != null)
         {
-            fieldElapsedTime.setText(String.valueOf(getElapsedTimeInSeconds(trip)));
-            fieldDistance.setText(String.valueOf(trip.distance));
-            fieldAverageSpeed.setText(String.valueOf(getAverageSpeed(trip)));
-            fieldTopSpeed.setText(String.valueOf(trip.top_speed));
-            fieldTotalClimb.setText(String.valueOf(trip.total_climb));
+            fieldElapsedTime.setText(getElapsedTimeInSeconds(trip));
+            fieldDistance.setText(displayUnits.formatDistance(trip.distance));
+            fieldAverageSpeed.setText(displayUnits.formatSpeed(getAverageSpeed(trip)));
+            fieldTopSpeed.setText(displayUnits.formatSpeed(trip.top_speed));
+            fieldTotalClimb.setText(displayUnits.formatAltitude(trip.total_climb));
         }
     }
 
-    private long getElapsedTimeInSeconds(TableTrips.Row trip)
+    private static String getElapsedTimeInSeconds(TableTrips.Row trip)
     {
-        return (trip.end_time - trip.start_time) / 1000;
+        final long l = trip.end_time - trip.start_time;
+        final long hr = TimeUnit.MILLISECONDS.toHours(l);
+        final long min = TimeUnit.MILLISECONDS.toMinutes(l - TimeUnit.HOURS.toMillis(hr));
+        final long sec = TimeUnit.MILLISECONDS.toSeconds(l - TimeUnit.HOURS.toMillis(hr) - TimeUnit.MINUTES.toMillis(min));
+        return String.format("%02d:%02d:%02d", hr, min, sec);
     }
 
     private double getAverageSpeed(TableTrips.Row trip)

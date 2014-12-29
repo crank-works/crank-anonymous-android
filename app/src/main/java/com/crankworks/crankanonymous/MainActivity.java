@@ -3,7 +3,6 @@ package com.crankworks.crankanonymous;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -13,7 +12,6 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import com.crankworks.trackingactivity.TrackingActivity;
 import com.crankworks.trackingdatabase.Database;
-import com.crankworks.trackingdatabase.TableTrips;
 
 public class MainActivity extends Activity
 {
@@ -26,7 +24,6 @@ public class MainActivity extends Activity
         Log.v(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         PreferenceManager.setDefaultValues(this, R.xml.settings, false);
-        DisplayUnits.initialize(PreferenceManager.getDefaultSharedPreferences(this));
         setContentView(R.layout.main);
         setActionBar();
     }
@@ -48,9 +45,10 @@ public class MainActivity extends Activity
 
     private void setDistance()
     {
+        DisplayUnits displayUnits = DisplayUnits.instance(this);
         TextView viewDistance= (TextView) findViewById(R.id.main_total_distance);
         int distance = new Database(this).totalDistance();
-        viewDistance.setText(String.valueOf(distance));
+        viewDistance.setText(displayUnits.formatDistance(distance));
     }
 
     private void setActionBar()

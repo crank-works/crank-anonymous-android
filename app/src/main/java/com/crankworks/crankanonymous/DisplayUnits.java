@@ -1,11 +1,13 @@
 package com.crankworks.crankanonymous;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 /**
  * Created by marcus on 12/29/14.
  */
-public class DisplayUnits
+public abstract class DisplayUnits
 {
     private static final String KEY_PREF_DISPLAY_UNITS = "pref_display_units";
 
@@ -15,18 +17,34 @@ public class DisplayUnits
         UNIT_METRIC
     }
 
-    private static SharedPreferences sharedPreferences;
-
-    public static void initialize(SharedPreferences sp)
+    public static DisplayUnits instance(Context context)
     {
-        sharedPreferences = sp;
+        return instance(PreferenceManager.getDefaultSharedPreferences(context));
     }
 
-    private static DISPLAY_UNITS getCurrentUnit()
+    public static DisplayUnits instance(SharedPreferences sp)
+    {
+        DisplayUnits rv = null;
+
+        switch (getCurrentUnit(sp))
+        {
+            case UNIT_ENGLISH:
+                rv = new DisplayUnitsEnglish();
+                break;
+
+            case UNIT_METRIC:
+                rv = new DisplayUnitsMetric();
+                break;
+        }
+
+        return rv;
+    }
+
+    private static DISPLAY_UNITS getCurrentUnit(SharedPreferences sp)
     {
         DISPLAY_UNITS rv = DISPLAY_UNITS.UNIT_ENGLISH;
 
-        String value = sharedPreferences.getString(KEY_PREF_DISPLAY_UNITS, "");
+        String value = sp.getString(KEY_PREF_DISPLAY_UNITS, "");
 
         if (value.equals("English"))
             rv = DISPLAY_UNITS.UNIT_ENGLISH;
@@ -36,31 +54,8 @@ public class DisplayUnits
         return rv;
     }
 
-    public static String displaySpeed(double value)
-    {
-        String rv = "";
-
-        switch (getCurrentUnit())
-        {
-            case UNIT_ENGLISH:
-                rv = String.format("%.1f MPH", toMPH(value));
-                break;
-
-            case UNIT_METRIC:
-                rv = String.format("%.0f KM/H", toKMH(value));
-                break;
-        }
-
-        return rv;
-    }
-
-    public static double toMPH(double mps)
-    {
-        return mps * 3600.0 / 1609.334;
-    }
-
-    public static double toKMH(double mps)
-    {
-        return mps * 3600.0 / 1000.0;
-    }
+    public abstract String formatSpeed(double mps);
+    public abstract String formatAltitude(double meters);
+    public abstract String formatDistance(double meters);
+    public abstract String formatAccuracy(double meters);
 }
