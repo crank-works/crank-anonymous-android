@@ -137,8 +137,129 @@ public class Database
         }
     }
 
+    public void deleteCurrentTrip()
+    {
+        Log.v(TAG, "deleteCurrentTrip");
+
+        if (currentTrip == null)
+            return;
+
+        try
+        {
+            open();
+
+            TableCoordinates.deleteTrip(mDb, currentTrip._id);
+            TableTrips.deleteRow(mDb, currentTrip._id);
+        }
+
+        catch (SQLException e)
+        {
+            Log.e(TAG, "deleteCurrentTrip", e);
+        }
+
+        finally
+        {
+            close();
+        }
+    }
+
+    public void setUploaded(int row_id, boolean flag)
+    {
+        Log.v(TAG, "setUploaded");
+
+        try
+        {
+            open();
+            TableTrips.setUploaded(mDb, row_id, flag);
+        }
+
+        catch (SQLException e)
+        {
+            Log.e(TAG, "setUploaded", e);
+        }
+
+        finally
+        {
+            close();
+        }
+    }
+
     public Cursor getTrips()
     {
         return TableTrips.getCursor(mDb);
+    }
+
+    public TableTrips.Row getLastTrip()
+    {
+        Log.v(TAG, "getLastTrip");
+        TableTrips.Row trip = null;
+
+        try
+        {
+            open();
+            Cursor cursor = getTrips();
+            cursor.moveToLast();
+            trip = new TableTrips.Row(cursor);
+        }
+
+        catch (SQLException e)
+        {
+            Log.e(TAG, "getLastTrip", e);
+        }
+
+        finally
+        {
+            close();
+        }
+
+        return trip;
+    }
+
+    public int tripCount()
+    {
+        Log.v(TAG, "tripCount");
+        int count = 0;
+
+        try
+        {
+            open();
+            count = getTrips().getCount();
+        }
+
+        catch (SQLException e)
+        {
+            Log.e(TAG, "tripCount", e);
+        }
+
+        finally
+        {
+            close();
+        }
+
+        return count;
+    }
+
+    public int totalDistance()
+    {
+        Log.v(TAG, "totalDistance");
+        int distance = 0;
+
+        try
+        {
+            open();
+            distance = TableTrips.totalDistance(mDb);
+        }
+
+        catch (SQLException e)
+        {
+            Log.e(TAG, "totalDistance", e);
+        }
+
+        finally
+        {
+            close();
+        }
+
+        return distance;
     }
 }

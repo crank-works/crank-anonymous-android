@@ -3,8 +3,8 @@ package com.crankworks.crankanonymous;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,6 +23,7 @@ public class MainActivity extends Activity
     {
         Log.v(TAG, "onCreate");
         super.onCreate(savedInstanceState);
+        PreferenceManager.setDefaultValues(this, R.xml.settings, false);
         setContentView(R.layout.main);
         setActionBar();
     }
@@ -32,25 +33,22 @@ public class MainActivity extends Activity
         Log.v(TAG, "onResume");
         super.onResume();
         setDatabaseTrips();
+        setDistance();
     }
 
     private void setDatabaseTrips()
     {
         TextView viewTrips = (TextView) findViewById(R.id.main_number_trips);
-        Database db = null;
+        int count = new Database(this).tripCount();
+        viewTrips.setText(String.valueOf(count));
+    }
 
-        try
-        {
-            db = new Database(this).open();
-            Cursor cursor = db.getTrips();
-            viewTrips.setText(String.valueOf(cursor.getCount()));
-        }
-
-        finally
-        {
-            if (db != null)
-                db.close();
-        }
+    private void setDistance()
+    {
+        DisplayUnits displayUnits = DisplayUnits.instance(this);
+        TextView viewDistance= (TextView) findViewById(R.id.main_total_distance);
+        int distance = new Database(this).totalDistance();
+        viewDistance.setText(displayUnits.formatDistance(distance));
     }
 
     private void setActionBar()
@@ -61,7 +59,8 @@ public class MainActivity extends Activity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_activity_actions, menu);
@@ -69,22 +68,36 @@ public class MainActivity extends Activity
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        boolean rv = true;
+
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.action_track:
                 openTracker();
-                return true;
+                break;
+
             case R.id.action_settings:
-                //openSettings();
-                return true;
+                openSettings();
+                break;
+
             default:
-                return super.onOptionsItemSelected(item);
+                rv = super.onOptionsItemSelected(item);
         }
+
+        return rv;
     }
 
-    private void openTracker() {
+    private void openTracker()
+    {
         Intent intent = new Intent(this, TrackingActivity.class);
+        startActivity(intent);
+    }
+
+    private void openSettings()
+    {
+        Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
 }

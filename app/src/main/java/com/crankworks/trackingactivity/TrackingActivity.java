@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crankworks.crankanonymous.DisplayUnits;
+import com.crankworks.crankanonymous.FinishingActivity;
 import com.crankworks.crankanonymous.R;
 import com.crankworks.trackingservice.DummyTracker;
 import com.crankworks.trackingservice.ITracker;
@@ -31,6 +33,7 @@ public class TrackingActivity extends Activity implements ITrackObserver
     private TextView mFieldTimestamp;
     private TextView mFieldLatitude;
     private TextView mFieldLongitude;
+    private TextView mFieldAltitude;
     private TextView mFieldSpeed;
     private TextView mFieldAccuracy;
     private TextView mFieldBearing;
@@ -55,7 +58,7 @@ public class TrackingActivity extends Activity implements ITrackObserver
             Log.v(TAG, "onServiceConnected");
             mRecorder = (ITracker) service;
             getRecorder().attachObserver(TrackingActivity.this);
-            getRecorder().attachObserver(DatabaseConnector.connectorInstance());
+            DatabaseConnector.connectorInstance(getRecorder());
         }
 
         public void onServiceDisconnected(ComponentName className) {
@@ -123,6 +126,7 @@ public class TrackingActivity extends Activity implements ITrackObserver
         mFieldTimestamp = (TextView) findViewById(R.id.tracking_timestamp);
         mFieldLatitude = (TextView) findViewById(R.id.tracking_latitude);
         mFieldLongitude = (TextView) findViewById(R.id.tracking_longitude);
+        mFieldAltitude = (TextView) findViewById(R.id.tracking_altitude);
         mFieldSpeed = (TextView) findViewById(R.id.tracking_speed);
         mFieldAccuracy = (TextView) findViewById(R.id.tracking_accuracy);
         mFieldBearing = (TextView) findViewById(R.id.tracking_bearing);
@@ -156,12 +160,17 @@ public class TrackingActivity extends Activity implements ITrackObserver
     {
         Log.v(TAG, "onStopClicked");
         getRecorder().finishRecording();
+        boolean isTrip = DatabaseConnector.connectorInstance().onFinished();
+        if (isTrip)
+            openFinisher();
+        finish();
     }
 
     public void onCancelClicked(View view)
     {
         Log.v(TAG, "onCancelClicked");
         getRecorder().cancelRecording();
+        DatabaseConnector.connectorInstance().onCanceled();
         finish();
     }
 
@@ -190,19 +199,23 @@ public class TrackingActivity extends Activity implements ITrackObserver
 
     public void trackerLocation(Location location)
     {
+        DisplayUnits displayUnits = DisplayUnits.instance(this);
+
         String timestamp = DateUtils.formatDateTime(this, location.getTime(), DateUtils.FORMAT_SHOW_DATE |
                                                                               DateUtils.FORMAT_SHOW_TIME);
 
         String lat = toDms(location.getLatitude());
         String lon = toDms(location.getLongitude());
-        String speed = toMph(location.getSpeed());
-        float bearing = location.getBearing();
-        float accuracy = location.getAccuracy();
+        String alt = displayUnits.formatAltitude(location.getAltitude());
+        String speed = displayUnits.formatSpeed(location.getSpeed());
+        String accuracy = displayUnits.formatAccuracy(location.getAccuracy());
+        String bearing = displayUnits.formatBearing(location.getBearing());
 
         //if (Log.isLoggable(TAG, Log.VERBOSE))
         {
             Log.v(TAG, "timestamp: " + timestamp);
             Log.v(TAG, " position: " + lat + ", " + lon);
+            Log.v(TAG, " altitude: " + alt);
             Log.v(TAG, "    speed: " + speed);
             Log.v(TAG, "  bearing: " + bearing);
             Log.v(TAG, " accuracy: " + accuracy);
@@ -211,9 +224,10 @@ public class TrackingActivity extends Activity implements ITrackObserver
         mFieldTimestamp.setText(timestamp);
         mFieldLatitude.setText(lat);
         mFieldLongitude.setText(lon);
+        mFieldAltitude.setText(alt);
         mFieldSpeed.setText(speed);
         mFieldBearing.setText(String.valueOf(bearing));
-        mFieldAccuracy.setText(String.valueOf(accuracy));
+        mFieldAccuracy.setText(accuracy);
     }
 
     private String toMph(float mps)
@@ -241,6 +255,7 @@ public class TrackingActivity extends Activity implements ITrackObserver
     {
         Log.v(TAG, "trackerIdle");
         mButtonRecord.setEnabled(true);
+        mButtonRecord.setText(R.string.button_record);
         mButtonPause.setEnabled(false);
         mButtonStop.setEnabled(false);
         mButtonCancel.setEnabled(false);
@@ -260,8 +275,15 @@ public class TrackingActivity extends Activity implements ITrackObserver
     {
         Log.v(TAG, "trackerPaused");
         mButtonRecord.setEnabled(true);
+        mButtonRecord.setText(R.string.button_resume);
         mButtonPause.setEnabled(false);
         mButtonStop.setEnabled(true);
         mButtonCancel.setEnabled(true);
+    }
+
+    private void openFinisher()
+    {
+        Intent intent = new Intent(this, FinishingActivity.class);
+        startActivity(intent);
     }
 }

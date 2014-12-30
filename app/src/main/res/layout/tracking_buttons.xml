@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Button
+        android:id="@+id/button_record"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/button_record"
+        android:onClick="onRecordClicked"
+        />
+
+    <Button
+        android:id="@+id/button_pause"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/button_pause"
+        android:onClick="onPauseClicked"
+        />
+
+    <Button
+        android:id="@+id/button_stop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/button_stop"
+        android:onClick="onStopClicked"
+        />
+
+    <Button
+        android:id="@+id/button_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/button_cancel"
+        android:onClick="onCancelClicked"
+        />
+
+</merge>
