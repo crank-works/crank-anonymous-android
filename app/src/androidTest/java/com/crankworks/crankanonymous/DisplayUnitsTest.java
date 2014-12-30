@@ -65,6 +65,7 @@ public class DisplayUnitsTest extends TestCase
         checkBearing(225.0, "southwest");
         checkBearing(270.0, "west");
         checkBearing(315.0, "northwest");
+        checkBearing(360.0, "north");
     }
 
     public void testFormatElapsedTime() throws Exception
@@ -73,5 +74,6 @@ public class DisplayUnitsTest extends TestCase
         assertEquals("00:00:01", displayUnits.formatElapsedTime(1000));
         assertEquals("00:01:00", displayUnits.formatElapsedTime(60000));
         assertEquals("01:00:00", displayUnits.formatElapsedTime(3600000));
+        assertEquals("99:59:59", displayUnits.formatElapsedTime(359999000));
     }
 }
