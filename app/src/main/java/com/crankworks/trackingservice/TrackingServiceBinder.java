@@ -15,7 +15,7 @@ public class TrackingServiceBinder extends Binder implements ITracker
 {
     private static final String TAG = TrackingServiceBinder.class.getSimpleName();
 
-    private TrackingService mTrackingService;
+    private Context mTrackingContext;
     private ArrayList<ITrackObserver> mObservers = new ArrayList<ITrackObserver>();
 
     RecorderStateIdle stateIdle;
@@ -24,11 +24,11 @@ public class TrackingServiceBinder extends Binder implements ITracker
 
     private RecorderState mState;
 
-    public TrackingServiceBinder(TrackingService trackingService)
+    public TrackingServiceBinder(Context trackingContext)
     {
-        mTrackingService = trackingService;
+        mTrackingContext = trackingContext;
 
-        LocationManager locationManager = (LocationManager) mTrackingService.getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) mTrackingContext.getSystemService(Context.LOCATION_SERVICE);
 
         stateIdle = new RecorderStateIdle(this);
         stateRecord = new RecorderStateRecord(this, locationManager);
@@ -52,7 +52,7 @@ public class TrackingServiceBinder extends Binder implements ITracker
         if (observer != null && !mObservers.contains(observer))
         {
             mObservers.add(observer);
-            observer.trackerAttach(mTrackingService);
+            observer.trackerAttach(mTrackingContext);
         }
 
         notifyState();
