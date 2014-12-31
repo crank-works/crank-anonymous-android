@@ -1,4 +1,4 @@
-package com.crankworks.crankanonymous;
+package com.crankworks.crankanonymous.utilities;
 
 import android.content.Context;
 import android.content.SharedPreferences;

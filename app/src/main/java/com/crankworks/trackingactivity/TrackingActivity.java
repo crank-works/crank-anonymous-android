@@ -16,8 +16,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.crankworks.crankanonymous.DisplayUnits;
-import com.crankworks.crankanonymous.FinishingActivity;
+import com.crankworks.crankanonymous.utilities.DisplayUnits;
+import com.crankworks.crankanonymous.activities.FinishingActivity;
 import com.crankworks.crankanonymous.R;
 import com.crankworks.trackingservice.DummyTracker;
 import com.crankworks.trackingservice.ITracker;

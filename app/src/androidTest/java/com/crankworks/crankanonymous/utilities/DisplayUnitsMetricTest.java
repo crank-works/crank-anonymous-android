@@ -1,4 +1,7 @@
-package com.crankworks.crankanonymous;
+package com.crankworks.crankanonymous.utilities;
+
+import com.crankworks.crankanonymous.utilities.DisplayUnits;
+import com.crankworks.crankanonymous.utilities.DisplayUnitsMetric;
 
 import junit.framework.TestCase;
 

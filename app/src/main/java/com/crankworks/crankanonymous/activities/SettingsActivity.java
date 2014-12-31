@@ -1,12 +1,13 @@
-package com.crankworks.crankanonymous;
+package com.crankworks.crankanonymous.activities;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 import android.util.Log;
+
+import com.crankworks.crankanonymous.R;
 
 /**
  * Created by marcus on 12/28/14.

@@ -1,4 +1,4 @@
-package com.crankworks.crankanonymous;
+package com.crankworks.crankanonymous.activities;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -10,6 +10,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import com.crankworks.crankanonymous.utilities.DisplayUnits;
+import com.crankworks.crankanonymous.R;
 import com.crankworks.trackingactivity.TrackingActivity;
 import com.crankworks.trackingdatabase.Database;
 
