@@ -1,4 +1,4 @@
-package com.crankworks.crankanonymous;
+package com.crankworks.crankanonymous.utilities;
 
 /**
  * Created by marcus on 12/29/14.

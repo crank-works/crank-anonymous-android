@@ -1,12 +1,11 @@
-package com.crankworks.trackingactivity;
+package com.crankworks.crankanonymous.trackingdatabase;
 
 import android.content.Context;
 import android.location.Location;
 import android.util.Log;
 
-import com.crankworks.trackingdatabase.Database;
-import com.crankworks.trackingservice.ITrackObserver;
-import com.crankworks.trackingservice.ITracker;
+import com.crankworks.crankanonymous.trackingservice.ITrackObserver;
+import com.crankworks.crankanonymous.trackingservice.ITracker;
 
 /**
  * Created by marcus on 12/13/14.

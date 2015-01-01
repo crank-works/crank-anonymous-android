@@ -1,4 +1,4 @@
-package com.crankworks.trackingdatabase;
+package com.crankworks.crankanonymous.trackingdatabase;
 
 import android.content.Context;
 import android.database.Cursor;

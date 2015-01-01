@@ -1,6 +1,9 @@
-package com.crankworks.crankanonymous;
+package com.crankworks.crankanonymous.utilities;
 
 //import android.test.InstrumentationTestCase;
+
+import com.crankworks.crankanonymous.utilities.DisplayUnits;
+import com.crankworks.crankanonymous.utilities.DisplayUnitsEnglish;
 
 import junit.framework.TestCase;
 
