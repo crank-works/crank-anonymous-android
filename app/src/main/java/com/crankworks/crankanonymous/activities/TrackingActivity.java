@@ -1,4 +1,4 @@
-package com.crankworks.trackingactivity;
+package com.crankworks.crankanonymous.activities;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -17,12 +17,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crankworks.crankanonymous.utilities.DisplayUnits;
-import com.crankworks.crankanonymous.activities.FinishingActivity;
 import com.crankworks.crankanonymous.R;
-import com.crankworks.trackingservice.DummyTracker;
-import com.crankworks.trackingservice.ITracker;
-import com.crankworks.trackingservice.ITrackObserver;
-import com.crankworks.trackingservice.TrackingService;
+import com.crankworks.crankanonymous.trackingdatabase.DatabaseConnector;
+import com.crankworks.crankanonymous.trackingservice.DummyTracker;
+import com.crankworks.crankanonymous.trackingservice.ITracker;
+import com.crankworks.crankanonymous.trackingservice.ITrackObserver;
+import com.crankworks.crankanonymous.trackingservice.TrackingService;
 
 import java.lang.Math;
 

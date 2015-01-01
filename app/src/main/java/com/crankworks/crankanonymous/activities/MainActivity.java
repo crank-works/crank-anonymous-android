@@ -13,8 +13,7 @@ import android.widget.TextView;
 
 import com.crankworks.crankanonymous.utilities.DisplayUnits;
 import com.crankworks.crankanonymous.R;
-import com.crankworks.trackingactivity.TrackingActivity;
-import com.crankworks.trackingdatabase.Database;
+import com.crankworks.crankanonymous.trackingdatabase.Database;
 
 public class MainActivity extends Activity
 {

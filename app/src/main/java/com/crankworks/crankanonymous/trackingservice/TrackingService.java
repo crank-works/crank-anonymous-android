@@ -1,4 +1,4 @@
-package com.crankworks.trackingservice;
+package com.crankworks.crankanonymous.trackingservice;
 
 import android.app.Service;
 import android.content.Intent;

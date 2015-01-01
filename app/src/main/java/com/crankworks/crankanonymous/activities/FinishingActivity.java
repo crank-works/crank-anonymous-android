@@ -14,8 +14,8 @@ import android.widget.TextView;
 
 import com.crankworks.crankanonymous.utilities.DisplayUnits;
 import com.crankworks.crankanonymous.R;
-import com.crankworks.trackingdatabase.Database;
-import com.crankworks.trackingdatabase.TableTrips;
+import com.crankworks.crankanonymous.trackingdatabase.Database;
+import com.crankworks.crankanonymous.trackingdatabase.TableTrips;
 
 
 public class FinishingActivity extends Activity implements AdapterView.OnItemSelectedListener
