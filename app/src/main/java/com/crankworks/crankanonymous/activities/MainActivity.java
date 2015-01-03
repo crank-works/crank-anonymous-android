@@ -93,7 +93,7 @@ public class MainActivity extends Activity
 
     private void openTracker()
     {
-        Intent intent = new Intent(this, TrackingActivity.class);
+        Intent intent = new Intent(this, OriginalTrackingActivity.class);
         startActivity(intent);
     }
 

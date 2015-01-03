@@ -26,9 +26,9 @@ import com.crankworks.crankanonymous.trackingservice.TrackingService;
 
 import java.lang.Math;
 
-public class TrackingActivity extends Activity implements ITrackObserver
+public class OriginalTrackingActivity extends Activity implements ITrackObserver
 {
-    private static final String TAG = TrackingActivity.class.getSimpleName();
+    private static final String TAG = OriginalTrackingActivity.class.getSimpleName();
 
     private TextView mFieldTimestamp;
     private TextView mFieldLatitude;
@@ -57,13 +57,13 @@ public class TrackingActivity extends Activity implements ITrackObserver
         public void onServiceConnected(ComponentName className, IBinder service) {
             Log.v(TAG, "onServiceConnected");
             mRecorder = (ITracker) service;
-            getRecorder().attachObserver(TrackingActivity.this);
+            getRecorder().attachObserver(OriginalTrackingActivity.this);
             DatabaseConnector.connectorInstance(getRecorder());
         }
 
         public void onServiceDisconnected(ComponentName className) {
             Log.v(TAG, "onServiceDisconnected");
-            getRecorder().detachObserver(TrackingActivity.this);
+            getRecorder().detachObserver(OriginalTrackingActivity.this);
             mRecorder = null;
         }
     };
