@@ -108,15 +108,15 @@ public class OriginalTrackingActivity extends Activity implements ITrackObserver
         switch (getResources().getConfiguration().orientation)
         {
             case Configuration.ORIENTATION_LANDSCAPE:
-                setContentView(R.layout.tracking_landscape);
+                setContentView(R.layout.original_tracking_landscape);
                 break;
 
             case Configuration.ORIENTATION_PORTRAIT:
-                setContentView(R.layout.tracking_portrait);
+                setContentView(R.layout.original_tracking_portrait);
                 break;
 
             default:
-                setContentView(R.layout.tracking_portrait);
+                setContentView(R.layout.original_tracking_portrait);
                 break;
         }
     }
