@@ -7,6 +7,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/button_record"
+        android:onClick="onRecordClicked"
         />
 
     <Button
@@ -15,6 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/button_pause"
+        android:onClick="onPauseClicked"
         />
 
     <Button
@@ -23,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/button_stop"
+        android:onClick="onStopClicked"
         />
 
     <Button
@@ -31,6 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/button_cancel"
+        android:onClick="onCancelClicked"
         />
 
 </merge>
