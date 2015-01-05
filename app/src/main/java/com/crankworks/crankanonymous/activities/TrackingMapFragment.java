@@ -1,6 +1,5 @@
 package com.crankworks.crankanonymous.activities;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
@@ -8,17 +7,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.crankworks.crankanonymous.R;
 import com.crankworks.crankanonymous.trackingservice.DummyTracker;
 import com.crankworks.crankanonymous.trackingservice.ITrackObserver;
 import com.crankworks.crankanonymous.trackingservice.ITracker;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
 
 /**
  * Created by marcus on 1/4/15.
  */
-public class TrackingMapFragment extends Fragment implements ITrackObserver
+public class TrackingMapFragment extends MapFragment implements ITrackObserver
 {
     private static final String TAG = TrackingMapFragment.class.getSimpleName();
 
@@ -32,14 +35,14 @@ public class TrackingMapFragment extends Fragment implements ITrackObserver
         return mTracker != null ? mTracker : DummyTracker.instance();
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
-        super.onCreateView(inflater, container, savedInstanceState);
-        Log.v(TAG, "onCreateView");
-        View view = inflater.inflate(R.layout.tracking_map_fragment, container, false);
-        return view;
-    }
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+//    {
+//        super.onCreateView(inflater, container, savedInstanceState);
+//        Log.v(TAG, "onCreateView");
+//        View view = inflater.inflate(R.layout.tracking_map_fragment, container, false);
+//        return view;
+//    }
 
     @Override
     public void onStart()
@@ -79,6 +82,12 @@ public class TrackingMapFragment extends Fragment implements ITrackObserver
     public void trackerLocation(Location location)
     {
         Log.v(TAG, "trackerLocation");
+        double lat = location.getLatitude();
+        double lon = location.getLongitude();
+        LatLng latlon = new LatLng(lat, lon);
+        CameraPosition cameraPosition = CameraPosition.fromLatLngZoom(latlon, 15);
+        CameraUpdate cu = CameraUpdateFactory.newCameraPosition(cameraPosition);
+        getMap().animateCamera(cu);
     }
 
     public void trackerIdle()

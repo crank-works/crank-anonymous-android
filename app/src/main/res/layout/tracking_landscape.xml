@@ -25,7 +25,17 @@
         android:id="@+id/tracking_map_fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        class="com.crankworks.crankanonymous.activities.TrackingMapFragment"/>
+
+<!--
+        class="com.google.android.gms.maps.MapFragment" />
+
+    <fragment
+        android:id="@+id/tracking_map_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         class="com.crankworks.crankanonymous.activities.TrackingMapFragment"
         tools:layout="@layout/tracking_map_fragment"/>
+-->
 
 </LinearLayout>

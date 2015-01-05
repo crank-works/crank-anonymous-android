@@ -21,6 +21,7 @@ import com.crankworks.crankanonymous.trackingservice.ITrackObserver;
 import com.crankworks.crankanonymous.trackingservice.ITracker;
 import com.crankworks.crankanonymous.trackingservice.TrackingService;
 import com.crankworks.crankanonymous.utilities.DisplayUnits;
+import com.google.android.gms.maps.MapFragment;
 
 /**
  * Created by marcus on 1/3/15.
@@ -99,6 +100,8 @@ public class TrackingActivity extends Activity
         mButtonsFragment    = (TrackingButtonsFragment) getFragmentManager().findFragmentById(R.id.tracking_buttons_fragment);
         mDetailsFragment    = (TrackingDetailsFragment) getFragmentManager().findFragmentById(R.id.tracking_details_fragment);
         mMapFragment        = (TrackingMapFragment) getFragmentManager().findFragmentById(R.id.tracking_map_fragment);
+//        mMapFragment        = ((MapFragment) getFragmentManager().findFragmentById(R.id.tracking_map_fragment));
+//        mMapFragment.getMap().;
     }
 
     private void bindTrackingService()
