@@ -7,6 +7,8 @@ import android.test.AndroidTestCase;
 
 import junit.framework.TestCase;
 
+import java.util.ArrayList;
+
 /**
  * Created by marcus on 1/1/15.
  */
@@ -122,7 +124,7 @@ public class TrackingServiceBinderTest extends AndroidTestCase
             m_bAttached = false;
         }
 
-        public void trackerLocation(Location location) {}
+        public void trackerLocation(Location location, ArrayList<Location> locationList) {}
 
         public void trackerIdle()
         {

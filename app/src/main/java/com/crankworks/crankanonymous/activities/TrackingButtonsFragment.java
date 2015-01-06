@@ -16,6 +16,8 @@ import com.crankworks.crankanonymous.trackingservice.DummyTracker;
 import com.crankworks.crankanonymous.trackingservice.ITrackObserver;
 import com.crankworks.crankanonymous.trackingservice.ITracker;
 
+import java.util.ArrayList;
+
 /**
  * Created by marcus on 1/4/15.
  */
@@ -149,7 +151,7 @@ public class TrackingButtonsFragment extends Fragment implements ITrackObserver
         Log.v(TAG, "trackerDetach");
     }
 
-    public void trackerLocation(Location location)
+    public void trackerLocation(Location location, ArrayList<Location> locationList)
     {
         Log.v(TAG, "trackerLocation");
     }

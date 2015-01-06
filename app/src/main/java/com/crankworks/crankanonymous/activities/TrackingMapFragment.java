@@ -1,14 +1,10 @@
 package com.crankworks.crankanonymous.activities;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.location.Location;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
-import com.crankworks.crankanonymous.R;
 import com.crankworks.crankanonymous.trackingservice.DummyTracker;
 import com.crankworks.crankanonymous.trackingservice.ITrackObserver;
 import com.crankworks.crankanonymous.trackingservice.ITracker;
@@ -16,7 +12,10 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+
+import java.util.ArrayList;
 
 /**
  * Created by marcus on 1/4/15.
@@ -79,7 +78,7 @@ public class TrackingMapFragment extends MapFragment implements ITrackObserver
         Log.v(TAG, "trackerDetach");
     }
 
-    public void trackerLocation(Location location)
+    public void trackerLocation(Location location, ArrayList<Location> locationList)
     {
         Log.v(TAG, "trackerLocation");
         double lat = location.getLatitude();
@@ -88,6 +87,12 @@ public class TrackingMapFragment extends MapFragment implements ITrackObserver
         CameraPosition cameraPosition = CameraPosition.fromLatLngZoom(latlon, 15);
         CameraUpdate cu = CameraUpdateFactory.newCameraPosition(cameraPosition);
         getMap().animateCamera(cu);
+
+        CircleOptions co = new CircleOptions();
+        co.center(latlon);
+        co.radius(5);
+        co.fillColor(Color.BLUE);
+        getMap().addCircle(co);
     }
 
     public void trackerIdle()

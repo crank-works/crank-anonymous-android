@@ -18,6 +18,7 @@ class RecorderStateRecord extends RecorderState implements LocationListener
 
     private LocationManager mLocationManager;
     private String mProvider;
+    private ArrayList<Location> mLocationList;
 
     public RecorderStateRecord(TrackingServiceBinder stateContext,
                                LocationManager locationManager)
@@ -45,8 +46,10 @@ class RecorderStateRecord extends RecorderState implements LocationListener
     {
         Log.v(TAG, "onLocationChanged");
 
+        mLocationList.add(location);
+
         for (ITrackObserver observer : getObservers())
-            observer.trackerLocation(location);
+            observer.trackerLocation(location, mLocationList);
     }
 
     @Override

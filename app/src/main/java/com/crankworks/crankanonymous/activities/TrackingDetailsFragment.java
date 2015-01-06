@@ -21,6 +21,8 @@ import com.crankworks.crankanonymous.trackingservice.ITracker;
 import com.crankworks.crankanonymous.trackingservice.TrackingService;
 import com.crankworks.crankanonymous.utilities.DisplayUnits;
 
+import java.util.ArrayList;
+
 /**
  * Created by marcus on 1/3/15.
  */
@@ -101,7 +103,7 @@ public class TrackingDetailsFragment extends Fragment implements ITrackObserver
         Log.v(TAG, "trackerDetach");
     }
 
-    public void trackerLocation(Location location)
+    public void trackerLocation(Location location, ArrayList<Location> locationList)
     {
         Log.v(TAG, "trackerLocation");
         DisplayUnits displayUnits = DisplayUnits.instance(getActivity());
