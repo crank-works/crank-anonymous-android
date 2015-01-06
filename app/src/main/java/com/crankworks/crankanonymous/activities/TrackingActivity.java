@@ -75,9 +75,9 @@ public class TrackingActivity extends Activity
         super.onCreate(savedInstanceState);
         Log.v(TAG, "onCreate");
 
-//        setContentViewFromOrientation();
-//        findFragments();
-//        bindTrackingService();
+        setContentViewFromOrientation();
+        findFragments();
+        bindTrackingService();
     }
 
     @Override
@@ -85,10 +85,6 @@ public class TrackingActivity extends Activity
     {
         super.onStart();
         Log.v(TAG, "onStart");
-
-        setContentViewFromOrientation();
-        findFragments();
-        bindTrackingService();
     }
 
     @Override
