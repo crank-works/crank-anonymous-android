@@ -18,7 +18,7 @@ class RecorderStateRecord extends RecorderState implements LocationListener
 
     private LocationManager mLocationManager;
     private String mProvider;
-    private ArrayList<Location> mLocationList;
+    private ArrayList<Location> mLocationList = new ArrayList<>();
 
     public RecorderStateRecord(TrackingServiceBinder stateContext,
                                LocationManager locationManager)
@@ -33,10 +33,16 @@ class RecorderStateRecord extends RecorderState implements LocationListener
     private Criteria createCriteria()
     {
         Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
-        criteria.setAltitudeRequired(false);
+        criteria.setAltitudeRequired(true);
+        criteria.setBearingRequired(true);
         criteria.setSpeedRequired(true);
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
         return criteria;
+    }
+
+    public void reset()
+    {
+        mLocationList = new ArrayList<>();
     }
 
     /* LocationListener interface */

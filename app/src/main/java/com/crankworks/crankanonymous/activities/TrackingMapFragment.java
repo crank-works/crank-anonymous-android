@@ -10,6 +10,7 @@ import com.crankworks.crankanonymous.trackingservice.ITrackObserver;
 import com.crankworks.crankanonymous.trackingservice.ITracker;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.CircleOptions;
@@ -20,11 +21,12 @@ import java.util.ArrayList;
 /**
  * Created by marcus on 1/4/15.
  */
-public class TrackingMapFragment extends MapFragment implements ITrackObserver
+public class TrackingMapFragment extends MapFragment implements ITrackObserver, LocationSource
 {
     private static final String TAG = TrackingMapFragment.class.getSimpleName();
 
     private ITracker mTracker;
+    LocationSource.OnLocationChangedListener mLocationListener;
 
     private ITracker getTracker()
     {
@@ -49,6 +51,8 @@ public class TrackingMapFragment extends MapFragment implements ITrackObserver
         Log.v(TAG, "onStart");
         super.onStart();
         getTracker().attachObserver(this);
+        getMap().setLocationSource(this);
+        getMap().setMyLocationEnabled(true);
     }
 
     @Override
@@ -66,6 +70,16 @@ public class TrackingMapFragment extends MapFragment implements ITrackObserver
         mTracker.attachObserver(this);
     }
 
+    private void setCameraPosition(Location location)
+    {
+        double lat = location.getLatitude();
+        double lon = location.getLongitude();
+        LatLng latlon = new LatLng(lat, lon);
+        CameraPosition cameraPosition = CameraPosition.fromLatLngZoom(latlon, 15);
+        CameraUpdate cu = CameraUpdateFactory.newCameraPosition(cameraPosition);
+        getMap().animateCamera(cu);
+    }
+
     /* ITrackObserver interface */
 
     public void trackerAttach(Context context)
@@ -81,18 +95,12 @@ public class TrackingMapFragment extends MapFragment implements ITrackObserver
     public void trackerLocation(Location location, ArrayList<Location> locationList)
     {
         Log.v(TAG, "trackerLocation");
-        double lat = location.getLatitude();
-        double lon = location.getLongitude();
-        LatLng latlon = new LatLng(lat, lon);
-        CameraPosition cameraPosition = CameraPosition.fromLatLngZoom(latlon, 15);
-        CameraUpdate cu = CameraUpdateFactory.newCameraPosition(cameraPosition);
-        getMap().animateCamera(cu);
 
-        CircleOptions co = new CircleOptions();
-        co.center(latlon);
-        co.radius(5);
-        co.fillColor(Color.BLUE);
-        getMap().addCircle(co);
+        if (mLocationListener != null)
+        {
+            mLocationListener.onLocationChanged(location);
+            setCameraPosition(location);
+        }
     }
 
     public void trackerIdle()
@@ -108,5 +116,23 @@ public class TrackingMapFragment extends MapFragment implements ITrackObserver
     public void trackerPaused()
     {
         Log.v(TAG, "trackerPaused");
+    }
+
+    /* LocationSource interface */
+
+    public void activate(LocationSource.OnLocationChangedListener locationListener)
+    {
+        if (locationListener == null)
+            throw new IllegalArgumentException(TAG + ": activate: locationListener is null");
+
+        if (mLocationListener != null)
+            throw new IllegalStateException(TAG + ": activate: already activated");
+
+        mLocationListener = locationListener;
+    }
+
+    public void deactivate()
+    {
+        mLocationListener = null;
     }
 }

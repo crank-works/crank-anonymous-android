@@ -75,9 +75,27 @@ public class TrackingActivity extends Activity
         super.onCreate(savedInstanceState);
         Log.v(TAG, "onCreate");
 
+//        setContentViewFromOrientation();
+//        findFragments();
+//        bindTrackingService();
+    }
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        Log.v(TAG, "onStart");
+
         setContentViewFromOrientation();
         findFragments();
         bindTrackingService();
+    }
+
+    @Override
+    protected void onStop()
+    {
+        Log.v(TAG, "onStart");
+        super.onStop();
     }
 
     private void setContentViewFromOrientation()
@@ -111,9 +129,14 @@ public class TrackingActivity extends Activity
         getApplicationContext().startService(i);
     }
 
-    private void openFinisher()
+    public void doFinish(boolean bOpenFinisher)
     {
-        Intent intent = new Intent(this, FinishingActivity.class);
-        startActivity(intent);
+        if (bOpenFinisher)
+        {
+            Intent intent = new Intent(this, FinishingActivity.class);
+            startActivity(intent);
+        }
+
+        finish();
     }
 }

@@ -49,8 +49,13 @@ public class TrackingServiceBinder extends Binder implements ITracker
     {
         Log.v(TAG, "attachObserver: is null? " + (observer == null ? "true" : "false"));
 
-        if (observer != null && !mObservers.contains(observer))
+        if (observer == null)
+            Log.v(TAG, "attachObserver: observer is null");
+        else if (mObservers.contains(observer))
+            Log.v(TAG, "attachObserver: observer is already in observers list");
+        else
         {
+            Log.v(TAG, "attachObserver: adding observer to observers list");
             mObservers.add(observer);
             observer.trackerAttach(mTrackingContext);
         }
@@ -90,12 +95,14 @@ public class TrackingServiceBinder extends Binder implements ITracker
     {
         mState = mState.finishRecording();
         notifyState();
+        stateRecord.reset();
     }
 
     public void cancelRecording()
     {
         mState = mState.cancelRecording();
         notifyState();
+        stateRecord.reset();
     }
 
     public void notifyState()
