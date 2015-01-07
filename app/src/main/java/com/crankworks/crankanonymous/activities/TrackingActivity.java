@@ -90,7 +90,7 @@ public class TrackingActivity extends Activity
     @Override
     protected void onStop()
     {
-        Log.v(TAG, "onStart");
+        Log.v(TAG, "onStop");
         super.onStop();
     }
 
