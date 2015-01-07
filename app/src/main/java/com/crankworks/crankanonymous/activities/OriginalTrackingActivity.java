@@ -25,6 +25,7 @@ import com.crankworks.crankanonymous.trackingservice.ITrackObserver;
 import com.crankworks.crankanonymous.trackingservice.TrackingService;
 
 import java.lang.Math;
+import java.util.ArrayList;
 
 public class OriginalTrackingActivity extends Activity implements ITrackObserver
 {
@@ -197,7 +198,7 @@ public class OriginalTrackingActivity extends Activity implements ITrackObserver
     {
     }
 
-    public void trackerLocation(Location location)
+    public void trackerLocation(Location location, ArrayList<Location> locationList)
     {
         DisplayUnits displayUnits = DisplayUnits.instance(this);
 

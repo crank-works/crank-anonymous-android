@@ -12,9 +12,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.crankworks.crankanonymous.R;
+import com.crankworks.crankanonymous.trackingdatabase.DatabaseConnector;
 import com.crankworks.crankanonymous.trackingservice.DummyTracker;
 import com.crankworks.crankanonymous.trackingservice.ITrackObserver;
 import com.crankworks.crankanonymous.trackingservice.ITracker;
+
+import java.util.ArrayList;
 
 /**
  * Created by marcus on 1/4/15.
@@ -124,7 +127,11 @@ public class TrackingButtonsFragment extends Fragment implements ITrackObserver
         mButtonStop = (Button) view.findViewById(R.id.button_stop);
         mButtonStop.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v)
-            { getTracker().finishRecording(); }
+            {
+                getTracker().finishRecording();
+                boolean isTrip = DatabaseConnector.connectorInstance().onFinished();
+                ((TrackingActivity) getActivity()).doFinish(isTrip);
+            }
         });
     }
 
@@ -133,7 +140,10 @@ public class TrackingButtonsFragment extends Fragment implements ITrackObserver
         mButtonCancel = (Button) view.findViewById(R.id.button_cancel);
         mButtonCancel.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v)
-            { getTracker().cancelRecording(); }
+            {
+                getTracker().cancelRecording();
+                ((TrackingActivity) getActivity()).doFinish(false);
+            }
         });
     }
 
@@ -149,7 +159,7 @@ public class TrackingButtonsFragment extends Fragment implements ITrackObserver
         Log.v(TAG, "trackerDetach");
     }
 
-    public void trackerLocation(Location location)
+    public void trackerLocation(Location location, ArrayList<Location> locationList)
     {
         Log.v(TAG, "trackerLocation");
     }

@@ -7,6 +7,8 @@ import android.util.Log;
 import com.crankworks.crankanonymous.trackingservice.ITrackObserver;
 import com.crankworks.crankanonymous.trackingservice.ITracker;
 
+import java.util.ArrayList;
+
 /**
  * Created by marcus on 12/13/14.
  */
@@ -68,7 +70,7 @@ public class DatabaseConnector implements ITrackObserver
     {
     }
 
-    public void trackerLocation(Location location)
+    public void trackerLocation(Location location, ArrayList<Location> locationList)
     {
         Log.v(TAG, "trackerLocation");
 

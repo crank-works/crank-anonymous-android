@@ -21,6 +21,7 @@ import com.crankworks.crankanonymous.trackingservice.ITrackObserver;
 import com.crankworks.crankanonymous.trackingservice.ITracker;
 import com.crankworks.crankanonymous.trackingservice.TrackingService;
 import com.crankworks.crankanonymous.utilities.DisplayUnits;
+import com.google.android.gms.maps.MapFragment;
 
 /**
  * Created by marcus on 1/3/15.
@@ -79,6 +80,20 @@ public class TrackingActivity extends Activity
         bindTrackingService();
     }
 
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        Log.v(TAG, "onStart");
+    }
+
+    @Override
+    protected void onStop()
+    {
+        Log.v(TAG, "onStop");
+        super.onStop();
+    }
+
     private void setContentViewFromOrientation()
     {
         switch (getResources().getConfiguration().orientation)
@@ -99,6 +114,8 @@ public class TrackingActivity extends Activity
         mButtonsFragment    = (TrackingButtonsFragment) getFragmentManager().findFragmentById(R.id.tracking_buttons_fragment);
         mDetailsFragment    = (TrackingDetailsFragment) getFragmentManager().findFragmentById(R.id.tracking_details_fragment);
         mMapFragment        = (TrackingMapFragment) getFragmentManager().findFragmentById(R.id.tracking_map_fragment);
+//        mMapFragment        = ((MapFragment) getFragmentManager().findFragmentById(R.id.tracking_map_fragment));
+//        mMapFragment.getMap().;
     }
 
     private void bindTrackingService()
@@ -108,9 +125,14 @@ public class TrackingActivity extends Activity
         getApplicationContext().startService(i);
     }
 
-    private void openFinisher()
+    public void doFinish(boolean bOpenFinisher)
     {
-        Intent intent = new Intent(this, FinishingActivity.class);
-        startActivity(intent);
+        if (bOpenFinisher)
+        {
+            Intent intent = new Intent(this, FinishingActivity.class);
+            startActivity(intent);
+        }
+
+        finish();
     }
 }
