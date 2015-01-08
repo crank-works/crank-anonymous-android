@@ -149,7 +149,7 @@ public class TrackingButtonsFragment extends Fragment implements ITrackObserver
 
     /* ITrackObserver interface */
 
-    public void trackerAttach(Context context)
+    public void trackerAttach(Context context, Location currentLocation, ArrayList<Location> locationList)
     {
         Log.v(TAG, "trackerAttach");
     }

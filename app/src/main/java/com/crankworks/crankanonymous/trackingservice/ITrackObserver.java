@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public interface ITrackObserver
 {
-    public void trackerAttach(Context context);
+    public void trackerAttach(Context context, Location currentLocation, ArrayList<Location> locationList);
     public void trackerDetach();
     public void trackerLocation(Location location, ArrayList<Location> locationList);
     public void trackerIdle();

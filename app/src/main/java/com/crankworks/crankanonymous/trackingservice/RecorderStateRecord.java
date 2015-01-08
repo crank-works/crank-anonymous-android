@@ -18,6 +18,7 @@ class RecorderStateRecord extends RecorderState implements LocationListener
 
     private LocationManager mLocationManager;
     private String mProvider;
+    private Location mLastLocation;
     private ArrayList<Location> mLocationList = new ArrayList<>();
 
     public RecorderStateRecord(TrackingServiceBinder stateContext,
@@ -45,6 +46,16 @@ class RecorderStateRecord extends RecorderState implements LocationListener
         mLocationList = new ArrayList<>();
     }
 
+    public Location getLastLocation()
+    {
+        return mLastLocation;
+    }
+
+    public ArrayList<Location> getLocationList()
+    {
+        return mLocationList;
+    }
+
     /* LocationListener interface */
 
     @Override
@@ -56,6 +67,8 @@ class RecorderStateRecord extends RecorderState implements LocationListener
 
         for (ITrackObserver observer : getObservers())
             observer.trackerLocation(location, mLocationList);
+
+        mLastLocation = location;
     }
 
     @Override

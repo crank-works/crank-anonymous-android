@@ -57,7 +57,7 @@ public class TrackingServiceBinder extends Binder implements ITracker
         {
             Log.v(TAG, "attachObserver: adding observer to observers list");
             mObservers.add(observer);
-            observer.trackerAttach(mTrackingContext);
+            observer.trackerAttach(mTrackingContext, stateRecord.getLastLocation(), stateRecord.getLocationList());
         }
 
         notifyState();

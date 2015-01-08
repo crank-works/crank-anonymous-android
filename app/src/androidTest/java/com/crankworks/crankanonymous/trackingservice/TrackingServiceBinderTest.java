@@ -114,7 +114,7 @@ public class TrackingServiceBinderTest extends AndroidTestCase
             return m_bAttached;
         }
 
-        public void trackerAttach(Context context)
+        public void trackerAttach(Context context, Location currentLocation, ArrayList<Location> locationList)
         {
             m_bAttached = true;
         }
