@@ -80,11 +80,22 @@ public class TrackingMapFragment extends MapFragment implements ITrackObserver, 
         getMap().animateCamera(cu);
     }
 
+    private void setCurrentMapLocation(Location location)
+    {
+        if (mLocationListener != null)
+        {
+            mLocationListener.onLocationChanged(location);
+            setCameraPosition(location);
+        }
+    }
+
     /* ITrackObserver interface */
 
-    public void trackerAttach(Context context)
+    public void trackerAttach(Context context, Location currentLocation, ArrayList<Location> locationList)
     {
         Log.v(TAG, "trackerAttach");
+        if (currentLocation != null)
+            setCurrentMapLocation(currentLocation);
     }
 
     public void trackerDetach()
@@ -95,12 +106,7 @@ public class TrackingMapFragment extends MapFragment implements ITrackObserver, 
     public void trackerLocation(Location location, ArrayList<Location> locationList)
     {
         Log.v(TAG, "trackerLocation");
-
-        if (mLocationListener != null)
-        {
-            mLocationListener.onLocationChanged(location);
-            setCameraPosition(location);
-        }
+        setCurrentMapLocation(location);
     }
 
     public void trackerIdle()

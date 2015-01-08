@@ -190,7 +190,7 @@ public class OriginalTrackingActivity extends Activity implements ITrackObserver
         mFieldAccuracy.setText("");
     }
 
-    public void trackerAttach(Context context)
+    public void trackerAttach(Context context, Location currentLocation, ArrayList<Location> locationList)
     {
     }
 

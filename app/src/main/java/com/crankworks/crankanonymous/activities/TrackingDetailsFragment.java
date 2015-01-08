@@ -92,20 +92,8 @@ public class TrackingDetailsFragment extends Fragment implements ITrackObserver
         mFieldBearing   = (TextView) view.findViewById(R.id.tracking_bearing);
     }
 
-    /* ITrackObserver interface */
-    public void trackerAttach(Context context)
+    private void setCurrentDetails(Location location)
     {
-        Log.v(TAG, "trackerAttach");
-    }
-
-    public void trackerDetach()
-    {
-        Log.v(TAG, "trackerDetach");
-    }
-
-    public void trackerLocation(Location location, ArrayList<Location> locationList)
-    {
-        Log.v(TAG, "trackerLocation");
         DisplayUnits displayUnits = DisplayUnits.instance(getActivity());
 
         String timestamp = DateUtils.formatDateTime(getActivity(),
@@ -136,6 +124,25 @@ public class TrackingDetailsFragment extends Fragment implements ITrackObserver
         mFieldSpeed.setText(speed);
         mFieldBearing.setText(String.valueOf(bearing));
         mFieldAccuracy.setText(accuracy);
+    }
+
+    /* ITrackObserver interface */
+    public void trackerAttach(Context context, Location currentLocation, ArrayList<Location> locationList)
+    {
+        Log.v(TAG, "trackerAttach");
+        if (currentLocation != null)
+            setCurrentDetails(currentLocation);
+    }
+
+    public void trackerDetach()
+    {
+        Log.v(TAG, "trackerDetach");
+    }
+
+    public void trackerLocation(Location location, ArrayList<Location> locationList)
+    {
+        Log.v(TAG, "trackerLocation");
+        setCurrentDetails(location);
     }
 
     private String toDms(double value)
