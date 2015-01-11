@@ -80,6 +80,10 @@ public class MainActivity extends Activity
                 openTracker();
                 break;
 
+            case R.id.action_view:
+                openViewer();
+                break;
+
             case R.id.action_settings:
                 openSettings();
                 break;
@@ -94,6 +98,12 @@ public class MainActivity extends Activity
     private void openTracker()
     {
         Intent intent = new Intent(this, TrackingActivity.class);
+        startActivity(intent);
+    }
+
+    private void openViewer()
+    {
+        Intent intent = new Intent(this, ViewingActivity.class);
         startActivity(intent);
     }
 
