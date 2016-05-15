@@ -43,6 +43,11 @@ public class TrackingServiceBinder extends Binder implements ITracker
         return mObservers;
     }
 
+    public Context getContext()
+    {
+        return mTrackingContext;
+    }
+
     /* ITracker interface */
 
     public void attachObserver(ITrackObserver observer)

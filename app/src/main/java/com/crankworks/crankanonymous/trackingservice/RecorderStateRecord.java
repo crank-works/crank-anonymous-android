@@ -1,9 +1,12 @@
 package com.crankworks.crankanonymous.trackingservice;
 
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.Manifest;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -91,28 +94,42 @@ class RecorderStateRecord extends RecorderState implements LocationListener
 
     /* interstate interface */
 
+    private boolean isLocationUpdatesPermitted()
+    {
+        Context context = getStateContext().getContext();
+        return context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestLocationUpdates()
+    {
+        if (isLocationUpdatesPermitted())
+            mLocationManager.requestLocationUpdates(mProvider, 5000, 10, this);
+    }
+
     void stateBeginRecording()
     {
         Log.v(TAG, "stateBeginRecording");
-        mLocationManager.requestLocationUpdates(mProvider, 5000, 10, this);
+        requestLocationUpdates();
     }
 
     void stateResumeRecording()
     {
         Log.v(TAG, "stateResumeRecording");
-        mLocationManager.requestLocationUpdates(mProvider, 5000, 10, this);
+        requestLocationUpdates();
     }
 
     void stateFinishRecording()
     {
         Log.v(TAG, "stateFinishRecording");
-        mLocationManager.removeUpdates(this);
+        if (isLocationUpdatesPermitted())
+            mLocationManager.removeUpdates(this);
     }
 
     void stateCancelRecording()
     {
         Log.v(TAG, "stateCancelRecording");
-        mLocationManager.removeUpdates(this);
+        if (isLocationUpdatesPermitted())
+            mLocationManager.removeUpdates(this);
     }
 
     /* RecorderState interface */
@@ -121,7 +138,8 @@ class RecorderStateRecord extends RecorderState implements LocationListener
     public RecorderState pauseRecording()
     {
         Log.v(TAG, "pauseRecording");
-        mLocationManager.removeUpdates(this);
+        if (isLocationUpdatesPermitted())
+            mLocationManager.removeUpdates(this);
         return getStatePause();
     }
 
