@@ -4,7 +4,7 @@ android {
     buildToolsVersion '23.0.3'
     defaultConfig {
         applicationId "com.crankworks.crankanonymous"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 23
     }
     buildTypes {
@@ -18,6 +18,9 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
     productFlavors {
+    }
+    lintOptions {
+        abortOnError false
     }
 }
 
