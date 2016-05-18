@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dip"
         android:layout_marginRight="5dip"
-        android:text="@string/view_time"
+        android:text="@string/view_date"
         android:textSize="20sp"
         />
 

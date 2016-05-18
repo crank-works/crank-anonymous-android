@@ -35,8 +35,8 @@
     <string name="viewing_name">Trips</string>
     <string name="action_view">View</string>
 
-    <string name="view_time">Time</string>
-    <string name="view_distance">Distance</string>
+    <string name="view_date">Date:</string>
+    <string name="view_distance">Distance:</string>
 
     <string-array name="objectives_array">
         <item>Commute to/from work</item>

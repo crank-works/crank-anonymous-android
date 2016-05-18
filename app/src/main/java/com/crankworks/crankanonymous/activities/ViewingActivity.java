@@ -4,12 +4,17 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.SimpleCursorAdapter;
 
 import com.crankworks.crankanonymous.R;
 import com.crankworks.crankanonymous.trackingdatabase.Database;
 import com.crankworks.crankanonymous.trackingdatabase.TableTrips;
+import com.crankworks.crankanonymous.utilities.DisplayUnits;
+
+import java.text.SimpleDateFormat;
 
 /**
  * Created by marcus on 1/10/15.
@@ -35,14 +40,13 @@ public class ViewingActivity extends Activity
 
     private void populateList()
     {
-        String[] columns = new String[]
+        String[] listTableColumns = new String[]
         {
             TableTrips.COLUMN_START_TIME,
             TableTrips.COLUMN_DISTANCE
         };
 
-        // the XML defined views which the data will be bound to
-        int[] to = new int[]
+        int[] listViewIds = new int[]
         {
             R.id.view_time_value,
             R.id.view_distance_value
@@ -51,13 +55,42 @@ public class ViewingActivity extends Activity
         Database mDb = new Database(this);
         mDb.open();
         Cursor cursor = mDb.getTrips();
-
+        
         dataAdapter = new SimpleCursorAdapter(
                 this, R.layout.viewing_trip_info,
                 cursor,
-                columns,
-                to,
+                listTableColumns,
+                listViewIds,
                 0);
+
+        dataAdapter.setViewBinder( new SimpleCursorAdapter.ViewBinder()
+        {
+            SimpleDateFormat formatDate = new SimpleDateFormat("yyyy/MM/dd");
+            DisplayUnits displayUnits = DisplayUnits.instance(ViewingActivity.this);
+
+            @Override
+            public boolean setViewValue(View view, Cursor cursor, int column)
+            {
+                if (column == cursor.getColumnIndex(TableTrips.COLUMN_START_TIME))
+                {
+                    TextView tv = (TextView) view;
+                    long date = cursor.getLong(column);
+                    String dateStr = formatDate.format(date);
+                    tv.setText(dateStr);
+                    return true;
+                }
+                else if (column == cursor.getColumnIndex(TableTrips.COLUMN_DISTANCE))
+                {
+                    TextView tv = (TextView) view;
+                    double distance = cursor.getDouble(column);
+                    String distanceStr = displayUnits.formatDistance(distance);
+                    tv.setText(distanceStr);
+                    return true;
+                }
+
+                return false;
+            }
+        });
 
         mTripList.setAdapter(dataAdapter);
     }
