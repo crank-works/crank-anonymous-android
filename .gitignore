@@ -24,3 +24,5 @@ local.properties
 build
 app/build
 
+*.iml
+.idea
